@@ -17,58 +17,44 @@ import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.co
   styleUrl: './user-detail.component.scss',
 })
 export class UserDetailComponent implements OnInit {
-  userId!: string | null;
-  @Input() currentUser!: User;
-  tempUser: User | undefined;
+  userId!: string;
+  currentUser: User | any = new User();
+  tempUser!: User | any;
 
   constructor(
     private route: ActivatedRoute,
-    private UserListService: UserListService,
+    public userService: UserListService,
     public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.userId  = this.route.snapshot.paramMap.get('id');
-    console.log('ngInit: ', this.userId);
-    this.currentUser = this.getUser(this.userId!);
-    console.log('ngInit: ', this.currentUser);
+    this.userId = this.route.snapshot.paramMap.get('id')!;
+    this.userService.subSingleUser(this.userId);
   }
 
-  getUser(id: string): User {
-    // use this.currentUser
-    this.tempUser = this.UserListService.normalUsers.find(
-      (currentUser) => currentUser.docId === id
-    );
-    console.log('tempUser: ', this.tempUser, this.tempUser?.docId);
-
-    if (this.tempUser !== undefined) {
-      this.UserListService.currentUser = this.tempUser;
-      console.log(this.tempUser);
-    } else {
-      this.currentUser;
-      console.log('no user found with id: ', this.userId);
-    }
-    return this.UserListService.currentUser;
-  }
 
   defaultUser(): User {
-    return {
-      docId: this.userId!,
-      name: 'John Doe',
-      email: 'doe@polizei.de',
-      capacity: false,
-      trails: [],
-    };
+    if (this.currentUser) {
+      return this.currentUser;
+    } else {
+      return {
+        docId: '1',
+        name: 'John Doe',
+        email: 'dfL0K@example.com',
+        capacity: true,
+        trails: [],
+      };
+    }
   }
 
   getUserId(id: string): string {
     if (id) {
       return id;
     } else {
+      console.log('getUserId: ', id);
       return 'Ermittler000';
     }
   }
-
 
   editUserDetail() {
     const dialog = this.dialog.open(DialogEditUserComponent);
@@ -76,9 +62,9 @@ export class UserDetailComponent implements OnInit {
     // // NICHT .user = this.currentUser, denn das bearbeitet auch den aktuellen User
     // // new User(this.currentUser) erstellt ein neues User-Objekt, eine Kopie des aktuellen
     console.log(this.currentUser);
-     dialog.componentInstance.user = new User(this.currentUser);
+    dialog.componentInstance.user = new User(this.userService.currentUser);
 
-    dialog.componentInstance.userId = this.getUserId(this.userId!);
+    dialog.componentInstance.userId = this.userId;
     //  dialog.componentInstance.trails = this.trails;
   }
 }

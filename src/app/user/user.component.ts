@@ -28,7 +28,7 @@ import { RouterLink } from '@angular/router';
 })
 export class UserComponent implements OnInit {
   // noteList: User[] = [];
-  @Input() currentUser!: User;
+  user: User | any = new User();
   defaultUsers: User[] = [
     {
       docId: 'Ermittler001',
@@ -52,21 +52,14 @@ export class UserComponent implements OnInit {
       trails: ['Spur 3'],
     },
   ];
-  allUsers!: User[];
+ 
 
   constructor(public dialog: MatDialog, private userService: UserListService) {}
-  async ngOnInit() {
-    //funktion
-    //Änderungen von DB anzeigen lassen
-    //valueChanges().subscribe/(data => this.allUsers = data);
-    //
- 
-  }
+  async ngOnInit() {}
 
-   getList() {
-   
-  return this.userService.normalUsers;
-}
+  getList() {
+    return this.userService.normalUsers;
+  }
 
   openDialog() {
     this.dialog.open(DialogAddUserComponent);

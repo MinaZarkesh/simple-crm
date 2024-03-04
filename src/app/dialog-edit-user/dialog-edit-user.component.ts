@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -39,23 +39,10 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class DialogEditUserComponent implements OnInit {
   loading = false;
-  user: User = {
-    docId: '',
-    name: '',
-    email: '',
-    capacity: true,
-    trails: ['Spur 1', 'Spur 2', 'Spur 3', 'Spur 4', 'Spur 5', 'Spur 6'],
-  };
-  tempUser: any = {};
+  user!: User;
 
-  userId: string = this.userService.userId!;
-  // editUser: User = {
-  //   docId: '',
-  //   name: '',
-  //   email: '',
-  //   capacity: true,
-  //   trails: ['Spur 1', 'Spur 2', 'Spur 3', 'Spur 4', 'Spur 5', 'Spur 6'],
-  // };
+
+  userId!: string;
   trails: any = new FormControl('');
 
   constructor(
@@ -64,15 +51,15 @@ export class DialogEditUserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //  this.editUser =this.user;
     console.log('ngInit edit: ', this.user);
-    // this.editUser = this.userService.getSingleUser(this.userId);
-    // this.user = this.tempUser = this.userService.getSingleUser();
   }
 
-  saveUser() {
-    this.userService.updateSingleUser(this.user);
+ async  saveEdits() {
+  this.loading = true;
+    await this.userService.updateSingleUser(this.userId, this.user);
+   
     console.log('saveUser: ', this.user);
-    this.dialogRef.close();
+    this.loading = false;
+     this.dialogRef.close();
   }
 }

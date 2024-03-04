@@ -79,7 +79,7 @@ export class DialogAddUserComponent implements OnInit {
     await this.userService.addUser(user);
     user =
       this.userService.normalUsers[this.userService.normalUsers.length - 1];
-    await this.userService.updateSingleUser(user);
+    if(user.docId)await this.userService.updateSingleUser(user.docId, user);
     // this.getList();
     this.loading = false;
 

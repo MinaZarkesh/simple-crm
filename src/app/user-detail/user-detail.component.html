@@ -8,8 +8,8 @@
         </mat-menu>
       <img src="assets/img/person.png" alt="" />
       <div class="user-info-header">
-        <h2>{{currentUser.name}}</h2>
-        <p>{{currentUser.email}}</p>
+        <h2>{{userService.currentUser.name}}</h2>
+        <p>{{userService.currentUser.email}}</p>
       </div>
     </mat-card-content>
   </mat-card>
@@ -24,7 +24,7 @@
         </mat-menu> -->
       <mat-card-title>Spuren</mat-card-title>
   
-      {{currentUser.trails}}
+      {{userService.currentUser.trails}}
     </mat-card-content>
   </mat-card>
   

@@ -1,11 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import {
   Firestore,
-  doc,
-  addDoc,
   collection,
   onSnapshot,
+  addDoc,
+  doc,
   updateDoc,
+  deleteDoc,
+  DocumentData,
+  getDoc,
 } from '@angular/fire/firestore';
 import { User } from '../../models/user.interface';
 import { ActivatedRoute } from '@angular/router';
@@ -18,7 +21,7 @@ export class UserListService {
   //Array um die Daten lokal zwischen zu speichern
   normalUsers: User[];
   userId: string | null = inject(ActivatedRoute).snapshot.paramMap.get('id');
-  currentUser!: User;
+  currentUser: User = new User();
   //Variablen um die Daten in Firestore zu speichern
   unSubUsers; //Alle
   unSubSingleUser; // Um auf einzelne Docs zu zugreifen
@@ -35,11 +38,17 @@ export class UserListService {
       //greift drauf zu auch wenn Datenbank leer ist.
       this.getSingleDocRef('users', 'PRgrM5ZikZoNXdMqG8hE'),
       (element) => {
-      this.currentUser = this.setUserObject(element.data(), element.id);
-      console.log('unSubSingleUser: ', this.currentUser);
+        this.currentUser = this.setUserObject(element.data(), element.id);
+        console.log('unSubSingleUser: ', this.currentUser);
         // console.log('unSubSingleUser: ', this.setUserObject(element.data(), element.id));
       }
     );
+  }
+
+  subSingleUser(id: string) {
+    return onSnapshot(this.getSingleDocRef('users', id), (element) => {
+      this.currentUser = new User(element.data());
+    })
   }
 
   async addUser(user: User) {
@@ -65,19 +74,22 @@ export class UserListService {
     //aktualisiert die Daten in der Sammlung
 
     this.normalUsers.forEach((element) => {
-      this.updateSingleUser(element);
+      if(element.docId)
+      this.updateSingleUser(element.docId, element);
     });
 
     console.log('updateUsersList: ', this.normalUsers);
   }
 
-
-
-  async updateSingleUser(user: User) {
-    if (user.docId != null) {
-      let docRef = this.getSingleDocRef('users', user.docId);
+  async updateSingleUser(id:string,user: User) {
+    if (user.docId) {
+      let docRef = this.getSingleDocRef('users', id);
       await updateDoc(docRef, this.getCleanJson(user)).catch((err) => {
-        console.error(err);
+        console.error('Error updating user: ', err);
+      }).then(() => {
+        this.currentUser = user;
+        console.log('User updated: ', user);
+        this.loading = false;
       });
     } else {
       console.error('docId is null');
@@ -100,11 +112,11 @@ export class UserListService {
     //Add 'implements OnDestroy' to the class.
     this.unSubUsers();
     this.unSubSingleUser();
+    this.subSingleUser(this.userId!);
   }
 
   subUsersList() {
     return onSnapshot(this.getUsersRef(), (list) => {
-
       this.normalUsers = [];
       let tempUser: any = {};
       list.forEach((element) => {
@@ -130,19 +142,23 @@ export class UserListService {
     };
   }
 
-  // //greift auf die Collection zu, alle Docs als Liste
-  getUsersRef() {
-    return collection(this.firestore, 'users');
-  }
+
 
   getUsersList() {
+    console.log('getUsersList: ', this.normalUsers);
+    
     return this.normalUsers;
   }
 
   getSingleUser(docId: string) {
-    
-    return this.currentUser;
+   return this.normalUsers.find((element) => element.docId == docId);
+    //  return await this.currentUser.toString();
   }
+
+    // //greift auf die Collection zu, alle Docs als Liste
+    getUsersRef() {
+      return collection(this.firestore, 'users');
+    }
   // //greift auf ein einzelnes Doc zu
   getSingleDocRef(colId: string, docId: string) {
     return doc(collection(this.firestore, colId), docId);
