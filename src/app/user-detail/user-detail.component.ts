@@ -8,6 +8,7 @@ import { MatIconButton } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.component';
+import { DialogDeleteUserComponent } from '../dialog-delete-user/dialog-delete-user.component';
 
 @Component({
   selector: 'app-user-detail',
@@ -20,6 +21,7 @@ export class UserDetailComponent implements OnInit {
   userId!: string;
   currentUser: User | any = new User();
   tempUser!: User | any;
+  loading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +33,6 @@ export class UserDetailComponent implements OnInit {
     this.userId = this.route.snapshot.paramMap.get('id')!;
     this.userService.subSingleUser(this.userId);
   }
-
 
   defaultUser(): User {
     if (this.currentUser) {
@@ -66,5 +67,20 @@ export class UserDetailComponent implements OnInit {
 
     dialog.componentInstance.userId = this.userId;
     //  dialog.componentInstance.trails = this.trails;
+  }
+
+  openDeleteDialog() {
+    const dialog = this.dialog.open(DialogDeleteUserComponent);
+    dialog.componentInstance.user = new User(this.userService.currentUser);
+
+    dialog.componentInstance.userId = this.userId;
+  }
+
+  async deleteUser() {
+    console.log('deleteUser: ', this.userId);
+    this.loading = true;
+    await this.userService.deleteSingleUser(this.userId);
+    this.loading = false;
+    window.location.href = '/user';
   }
 }

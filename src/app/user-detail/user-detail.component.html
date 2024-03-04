@@ -4,7 +4,8 @@
           <mat-icon class="more-vert">more_vert</mat-icon>
       </button>
       <mat-menu #userMenu="matMenu">
-          <button mat-menu-item (click)="editUserDetail()">Edit</button>
+          <button mat-menu-item (click)="editUserDetail()">edit</button>
+          <button mat-menu-item (click)="openDeleteDialog()">delete</button>
         </mat-menu>
       <img src="assets/img/person.png" alt="" />
       <div class="user-info-header">

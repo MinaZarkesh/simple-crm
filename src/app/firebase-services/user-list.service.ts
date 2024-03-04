@@ -96,6 +96,14 @@ export class UserListService {
     }
   }
 
+  async deleteSingleUser(id: string) {
+    if (id) {
+      let docRef = this.getSingleDocRef('users', id);
+      await deleteDoc(docRef).catch((err) => {
+        console.error('Error deleting user: ', err);
+      })
+    }
+  }
   getCleanJson(user: User): {} {
     return {
       docId: user.docId,

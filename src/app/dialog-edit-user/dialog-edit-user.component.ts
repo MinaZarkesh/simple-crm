@@ -13,7 +13,6 @@ import { User } from '../../models/user.interface';
 import { UserListService } from '../firebase-services/user-list.service';
 import { FirestoreModule } from '@angular/fire/firestore';
 import { NgIf } from '@angular/common';
-// import { Observable } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
