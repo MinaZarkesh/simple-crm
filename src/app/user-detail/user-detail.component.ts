@@ -7,6 +7,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.component';
 
 @Component({
   selector: 'app-user-detail',
@@ -16,10 +17,10 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './user-detail.component.scss',
 })
 export class UserDetailComponent implements OnInit {
-  userId: string | null = this.UserListService.userId;
+  userId!: string | null;
   @Input() currentUser!: User;
-
   tempUser: User | undefined;
+
   constructor(
     private route: ActivatedRoute,
     private UserListService: UserListService,
@@ -27,10 +28,10 @@ export class UserDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.paramMap.get('id');
+    this.userId  = this.route.snapshot.paramMap.get('id');
     console.log('ngInit: ', this.userId);
-
-    this.currentUser = this.getUser(this.getUserId(this.userId!));
+    this.currentUser = this.getUser(this.userId!);
+    console.log('ngInit: ', this.currentUser);
   }
 
   getUser(id: string): User {
@@ -38,15 +39,16 @@ export class UserDetailComponent implements OnInit {
     this.tempUser = this.UserListService.normalUsers.find(
       (currentUser) => currentUser.docId === id
     );
+    console.log('tempUser: ', this.tempUser, this.tempUser?.docId);
 
-    if (this.tempUser) {
-      this.currentUser = this.tempUser;
+    if (this.tempUser !== undefined) {
+      this.UserListService.currentUser = this.tempUser;
       console.log(this.tempUser);
     } else {
-      this.currentUser = this.defaultUser();
+      this.currentUser;
       console.log('no user found with id: ', this.userId);
     }
-    return this.currentUser;
+    return this.UserListService.currentUser;
   }
 
   defaultUser(): User {
@@ -66,12 +68,17 @@ export class UserDetailComponent implements OnInit {
       return 'Ermittler000';
     }
   }
-  // editUserDetail() {
-  //   const dialog = this.dialog.open(DialogEditUserComponent);
-  //   //user -> Variable aus DialogUserComponent
-  //   // NICHT .user = this.currentUser, denn das bearbeitet auch den aktuellen User
-  //   // new User(this.currentUser) erstellt ein neues User-Objekt, eine Kopie des aktuellen
-  //   dialog.componentInstance.user = new User(this.currentUser);
-  //   dialog.componentInstance.userId = this.userId;
-  // }
+
+
+  editUserDetail() {
+    const dialog = this.dialog.open(DialogEditUserComponent);
+    // //user -> Variable aus DialogUserComponent
+    // // NICHT .user = this.currentUser, denn das bearbeitet auch den aktuellen User
+    // // new User(this.currentUser) erstellt ein neues User-Objekt, eine Kopie des aktuellen
+    console.log(this.currentUser);
+     dialog.componentInstance.user = new User(this.currentUser);
+
+    dialog.componentInstance.userId = this.getUserId(this.userId!);
+    //  dialog.componentInstance.trails = this.trails;
+  }
 }

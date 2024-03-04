@@ -18,6 +18,7 @@ export class UserListService {
   //Array um die Daten lokal zwischen zu speichern
   normalUsers: User[];
   userId: string | null = inject(ActivatedRoute).snapshot.paramMap.get('id');
+  currentUser!: User;
   //Variablen um die Daten in Firestore zu speichern
   unSubUsers; //Alle
   unSubSingleUser; // Um auf einzelne Docs zu zugreifen
@@ -34,6 +35,8 @@ export class UserListService {
       //greift drauf zu auch wenn Datenbank leer ist.
       this.getSingleDocRef('users', 'PRgrM5ZikZoNXdMqG8hE'),
       (element) => {
+      this.currentUser = this.setUserObject(element.data(), element.id);
+      console.log('unSubSingleUser: ', this.currentUser);
         // console.log('unSubSingleUser: ', this.setUserObject(element.data(), element.id));
       }
     );
@@ -67,6 +70,8 @@ export class UserListService {
 
     console.log('updateUsersList: ', this.normalUsers);
   }
+
+
 
   async updateSingleUser(user: User) {
     if (user.docId != null) {
@@ -132,6 +137,11 @@ export class UserListService {
 
   getUsersList() {
     return this.normalUsers;
+  }
+
+  getSingleUser(docId: string) {
+    
+    return this.currentUser;
   }
   // //greift auf ein einzelnes Doc zu
   getSingleDocRef(colId: string, docId: string) {
