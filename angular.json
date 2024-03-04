@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -90,10 +91,28 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "simple-icm:build:production",
+              "serveTarget": "simple-icm:serve:production"
+            },
+            "development": {
+              "buildTarget": "simple-icm:build:development",
+              "serveTarget": "simple-icm:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

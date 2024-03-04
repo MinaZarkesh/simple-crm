@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "simple-icm",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "simple-icm": {
+      "hosting": {
+        "simple-icm": [
+          "simple-icm"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "simple-icm"
+  }
+}
