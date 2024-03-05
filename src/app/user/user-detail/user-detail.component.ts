@@ -1,19 +1,29 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '../../models/user.interface';
-import { UserListService } from '../firebase-services/user-list.service';
+import { User } from '../../../models/user.interface';
+import { UserListService } from '../../firebase-services/user-list.service';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.component';
-import { DialogDeleteUserComponent } from '../dialog-delete-user/dialog-delete-user.component';
+import { DialogEditUserComponent } from '../dialogs/dialog-edit-user/dialog-edit-user.component';
+import { DialogDeleteUserComponent } from '../dialogs/dialog-delete-user/dialog-delete-user.component';
+
+
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [MatCardModule, MatIcon, MatIconButton, MatMenuModule],
+  imports: [MatCardModule, MatIcon, MatIconButton, MatMenuModule,  MatExpansionModule,
+    MatInputModule,
+    MatFormFieldModule,MatButtonModule,
+    FormsModule],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss',
 })
@@ -23,6 +33,7 @@ export class UserDetailComponent implements OnInit {
   tempUser!: User | any;
   loading: boolean = false;
 
+  panelOpenState = false;
   constructor(
     private route: ActivatedRoute,
     public userService: UserListService,

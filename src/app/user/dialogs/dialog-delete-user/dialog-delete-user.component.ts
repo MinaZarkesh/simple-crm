@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { User } from '../../models/user.interface';
-import { UserListService } from '../firebase-services/user-list.service';
+import { User } from '../../../../models/user.interface';
+import { UserListService } from '../../../firebase-services/user-list.service';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { NgIf } from '@angular/common';
 import {  MatButtonModule } from '@angular/material/button';

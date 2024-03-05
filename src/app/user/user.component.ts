@@ -4,12 +4,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
+import { DialogAddUserComponent } from './dialogs/dialog-add-user/dialog-add-user.component';
 import { User } from '../../models/user.interface';
 import { UserListService } from '../firebase-services/user-list.service';
 import { MatCardModule } from '@angular/material/card';
 import { NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
+
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule} from '@angular/forms';
+import {MatMenuModule} from '@angular/material/menu';
 
 @Component({
   selector: 'app-user',
@@ -22,6 +28,11 @@ import { RouterLink } from '@angular/router';
     MatCardModule,
     NgFor,
     RouterLink,
+    MatExpansionModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatMenuModule
   ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
@@ -53,6 +64,7 @@ export class UserComponent implements OnInit {
     },
   ];
  
+   panelOpenState = false;
 
   constructor(public dialog: MatDialog, private userService: UserListService) {}
   async ngOnInit() {}
