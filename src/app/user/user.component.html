@@ -1,38 +1,43 @@
 <h1>Beteiligte</h1>
 <mat-card>
-    <mat-card-content>
-      <table class="user-table">
-        <tr>
-          <th>Name</th>
-          <th>Kontaktinformation</th>
-          <th>Rolle im Fall</th>
-          <th>Anzahl der Aussagen</th> 
-<th>Status</th> <!-- Aussage bestätigt, Aussage ausstehend -->
- </tr>
-        <tr *ngFor="let user of getList()" [routerLink]="['/users/' + user.docId]" >  
-<!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->
- <td>{{user.name}}</td>
-          <td>{{user.email}}</td> 
-          <td>Opfer</td> <!-- Rolle im Fall Opfer, Täter, Zeuge, Polizist -->
- <td>1</td> <!-- Anzahl der Aussagen / Wie viele Aussagen hat der Zeuge getätigt  -->
- <td>ausstehend</td>  <!-- Status  // Bestätigt, Ausstehend, Verweigert  -->
- </tr>
-  
-      </table>
-    </mat-card-content>
-  </mat-card>
-  
-  <button
-    class="add-user-btn"
-    mat-fab
-    matTooltipPosition="above"
-    matTooltip="Add user"
-    color="primary"
-    (click)="openDialog()"
-  >
-    <mat-icon>add</mat-icon>
-  </button>
-  
+  <mat-card-content>
+    <table class="user-table">
+      <tr>
+        <th>Name</th>
+        <th>Kontaktinformation</th>
+        <th>Rolle im Fall</th>
+        <th>Anzahl der Aussagen</th>
+        <th>Status</th>
+        <!-- Aussage bestätigt, Aussage ausstehend -->
+      </tr>
+      <tr
+        *ngFor="let user of getList()"
+        [routerLink]="['/users/' + user.docId]"
+      >
+        <!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>Opfer</td>
+        <!-- Rolle im Fall Opfer, Täter, Zeuge, Polizist -->
+        <td>1</td>
+        <!-- Anzahl der Aussagen / Wie viele Aussagen hat der Zeuge getätigt  -->
+        <td>ausstehend</td>
+        <!-- Status  // Bestätigt, Ausstehend, Verweigert  -->
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>
+
+<button
+  class="add-user-btn"
+  mat-fab
+  matTooltipPosition="above"
+  matTooltip="Add user"
+  color="primary"
+  (click)="openDialog()"
+>
+  <mat-icon>add</mat-icon>
+</button>
 
 <!-- <mat-card>
   <mat-card-content>

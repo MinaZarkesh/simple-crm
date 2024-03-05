@@ -10,7 +10,7 @@ import {
   DocumentData,
   getDoc,
 } from '@angular/fire/firestore';
-import { User } from '../../models/user.interface';
+import { User } from '../../models/user.class';
 import { ActivatedRoute } from '@angular/router';
 
 @Injectable({

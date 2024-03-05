@@ -8,7 +8,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { User } from '../../../../models/user.interface';
+import { User } from '../../../../models/user.class';
 //Firebase-Services
 import { UserListService } from '../../../firebase-services/user-list.service';
 import { FirestoreModule } from '@angular/fire/firestore';

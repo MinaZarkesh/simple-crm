@@ -1,1 +1,90 @@
-<p>event works!</p>
+<mat-tab-group animationDuration="0ms">
+  <mat-tab label="Tabelle">
+    <h1>Sachverhalte</h1>
+
+
+    <mat-card class="mt-32">
+      <mat-card-content>
+
+      
+        <table class="user-table">
+          <tr>
+            <th>Zeit</th>
+            <th>Ort</th>
+            <th>Art</th>
+            <!-- <th>Beteiligte</th> -->
+            <th>kurze Beschreibung</th>
+            <!-- Aussage bestätigt, Aussage ausstehend -->
+          </tr>
+          <tr
+            *ngFor="let user of getList()"
+            [routerLink]="['/events/' + user.docId]"
+          >
+          <!-- '/events/' + user.docId -->
+            <!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->
+            <td>01.01.2024, 22:30 Uhr</td>
+            <td>Musterstraße 2, 12345 Musterstadt</td>
+            <td>Beobachtung</td>
+            <!-- <td>{{user.docId}}</td> -->
+            <!-- Rolle im Fall Opfer, Täter, Zeuge, Polizist -->
+            <!-- <td>1</td> -->
+            <!-- Anzahl der Aussagen / Wie viele Aussagen hat der Zeuge getätigt  -->
+            <td>
+              Ich hörte laute Geräusche aus der Wohnung nebenan und sah dann
+              eine unbekannte Person (Jane Doe) das Gebäude verlassen.
+            </td>
+            <!-- Status  // Bestätigt, Ausstehend, Verweigert  -->
+          </tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+
+
+  </mat-tab  >
+
+  <mat-tab label="Timeline">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+        <mat-card-title>Shiba Inu</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Hier entsteht eine Karte</mat-card-content>
+    </mat-card>
+    <mat-card class="mt-32">
+      <mat-card-header>
+        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+        <mat-card-title>Shiba Inu</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Hier entsteht eine Karte</mat-card-content>
+    </mat-card>
+    <mat-card class="example-card mt-32">
+      <mat-card-header>
+        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+        <mat-card-title>Shiba Inu</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>This card has divider and indeterminate progress as footer</p>
+        <p>{{ longText }}</p>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+      <mat-card-footer>
+        <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+      </mat-card-footer>
+    </mat-card>
+  </mat-tab>
+  <!-- <mat-tab label="Third">Content 3</mat-tab> -->
+</mat-tab-group>
+<button
+  class="add-user-btn"
+  mat-fab
+  matTooltipPosition="above"
+  matTooltip="Add user"
+  color="primary"
+  (click)="openDialog()"
+>
+  <mat-icon>add</mat-icon>
+</button>

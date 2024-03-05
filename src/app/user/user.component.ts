@@ -1,21 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDialog } from '@angular/material/dialog';
-import { MatDialogModule } from '@angular/material/dialog';
-import { DialogAddUserComponent } from './dialogs/dialog-add-user/dialog-add-user.component';
-import { User } from '../../models/user.interface';
-import { UserListService } from '../firebase-services/user-list.service';
-import { MatCardModule } from '@angular/material/card';
+import { Component, OnInit } from '@angular/core';
+
 import { NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import {FormsModule} from '@angular/forms';
 
-import {MatExpansionModule} from '@angular/material/expansion';
+import { User } from '../../models/user.class';
+import { UserListService } from '../firebase-services/user-list.service';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatMenuModule} from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAddUserComponent } from './dialogs/dialog-add-user/dialog-add-user.component';
+
 
 @Component({
   selector: 'app-user',
