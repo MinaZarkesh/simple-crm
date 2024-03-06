@@ -1,18 +1,23 @@
-<mat-tab-group animationDuration="0ms">
-  <mat-tab label="Tabelle">
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        This is the expansion title
+      </mat-panel-title>
+      <mat-panel-description>
+        This is a summary of the content
+      </mat-panel-description>
+    </mat-expansion-panel-header>
     <h1>Sachverhalte</h1>
-
 
     <mat-card class="mt-32">
       <mat-card-content>
-
-      
         <table class="user-table">
           <tr>
             <th>Zeit</th>
             <th>Ort</th>
             <th>Art</th>
-            <!-- <th>Beteiligte</th> -->
+            <th>Beteiligte</th>
             <th>kurze Beschreibung</th>
             <!-- Aussage bestätigt, Aussage ausstehend -->
           </tr>
@@ -20,14 +25,14 @@
             *ngFor="let user of getList()"
             [routerLink]="['/events/' + user.docId]"
           >
-          <!-- '/events/' + user.docId -->
+            <!-- '/events/' + user.docId -->
             <!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->
             <td>01.01.2024, 22:30 Uhr</td>
             <td>Musterstraße 2, 12345 Musterstadt</td>
             <td>Beobachtung</td>
             <!-- <td>{{user.docId}}</td> -->
             <!-- Rolle im Fall Opfer, Täter, Zeuge, Polizist -->
-            <!-- <td>1</td> -->
+            <td>1</td>
             <!-- Anzahl der Aussagen / Wie viele Aussagen hat der Zeuge getätigt  -->
             <td>
               Ich hörte laute Geräusche aus der Wohnung nebenan und sah dann
@@ -38,46 +43,207 @@
         </table>
       </mat-card-content>
     </mat-card>
+  </mat-expansion-panel>  
+</mat-accordion>
 
+<mat-card>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          This is the expansion title
+        </mat-panel-title>
+        <mat-panel-description>
+          This is a summary of the content
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="timeline-wrapper">
+        <ul class="timeline">
+          <li data-date="Jan 7, 2022">
+            <span class="title">Mother's Birthday</span>
+            <div class="data">
+              <h3>Day you've been waiting for</h3>
+              <small>Jan 7, 2022</small>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Dignissimos, recusandae, exercitationem, quae cumque eveniet
+                voluptates voluptatem quidem officia quia voluptatum.
+              </p>
+              <span class="close">Click to close</span>
+            </div>
+          </li>
+          <li data-date="Feb 14, 2023">
+            <span class="title">Valentines Day</span>
+            <div class="data">
+              <h3>Day you've been waiting for</h3>
+              <small>Feb 14, 2023</small>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Dignissimos, recusandae, exercitationem, quae cumque eveniet
+                voluptates voluptatem quidem officia quia voluptatum.
+              </p>
+              <span class="close">Click to close</span>
+            </div>
+          </li>
+          <li data-date="Mar 7, 2023">
+            <span class="title">Nahid's Birthday</span>
+            <div class="data">
+              <h3>Day you've been waiting for</h3>
+              <small>Mar 7, 2022</small>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Dignissimos, recusandae, exercitationem, quae cumque eveniet
+                voluptates voluptatem quidem officia quia voluptatum.
+              </p>
+              <span class="close">Click to close</span>
+            </div>
+          </li>
+          <li data-date="Sep 9, 2023">
+            <span class="title">Lale's Birthday</span>
+            <div class="data">
+              <h3>Day you've been waiting for</h3>
+              <small>Sep 9, 2023</small>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Dignissimos, recusandae, exercitationem, quae cumque eveniet
+                voluptates voluptatem quidem officia quia voluptatum.
+              </p>
+              <span class="close">Click to close</span>
+            </div>
+          </li>
+          <li data-date="Jan 1, 2024">
+            <span class="title">Happy New Year 2024</span>
+            <div class="data">
+              <h3>Day you've been waiting for</h3>
+              <small>Jan 1, 2024</small>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Dignissimos, recusandae, exercitationem, quae cumque eveniet
+                voluptates voluptatem quidem officia quia voluptatum.
+              </p>
+              <span class="close">Click to close</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
 
-  </mat-tab  >
+<!-- <mat-tab-group animationDuration="0ms">
+  <mat-tab label="Tabelle">
+    <h1>Sachverhalte</h1>
 
-  <mat-tab label="Timeline">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-        <mat-card-title>Shiba Inu</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>Hier entsteht eine Karte</mat-card-content>
-    </mat-card>
     <mat-card class="mt-32">
-      <mat-card-header>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-        <mat-card-title>Shiba Inu</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>Hier entsteht eine Karte</mat-card-content>
-    </mat-card>
-    <mat-card class="example-card mt-32">
-      <mat-card-header>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-        <mat-card-title>Shiba Inu</mat-card-title>
-      </mat-card-header>
       <mat-card-content>
-        <p>This card has divider and indeterminate progress as footer</p>
-        <p>{{ longText }}</p>
-        <mat-divider></mat-divider>
+        <table class="user-table">
+          <tr>
+            <th>Zeit</th>
+            <th>Ort</th>
+            <th>Art</th>
+            <th>Beteiligte</th>
+            <th>kurze Beschreibung</th>
+            Aussage bestätigt, Aussage ausstehend
+          </tr>
+          <tr
+            *ngFor="let user of getList()"
+            [routerLink]="['/events/' + user.docId]"
+          >
+            '/events/' + user.docId
+            [[routerLink]="['/user/' +{{ user.id}}]" ]
+            <td>01.01.2024, 22:30 Uhr</td>
+            <td>Musterstraße 2, 12345 Musterstadt</td>
+            <td>Beobachtung</td>
+            <td>{{user.docId}}</td>
+            Rolle im Fall Opfer, Täter, Zeuge, Polizist
+            <td>1</td>
+            Anzahl der Aussagen / Wie viele Aussagen hat der Zeuge getätigt 
+            <td>
+              Ich hörte laute Geräusche aus der Wohnung nebenan und sah dann
+              eine unbekannte Person (Jane Doe) das Gebäude verlassen.
+            </td>
+            Status  // Bestätigt, Ausstehend, Verweigert 
+          </tr>
+        </table>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-      </mat-card-actions>
-      <mat-card-footer>
-        <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
-      </mat-card-footer>
     </mat-card>
   </mat-tab>
-  <!-- <mat-tab label="Third">Content 3</mat-tab> -->
-</mat-tab-group>
+
+  <mat-tab label="imeline">
+    <h3 class="hints">Click on given <mark>dots</mark></h3>
+    <div class="timeline-wrapper">
+      <ul class="timeline">
+        <li data-date="Jan 7, 2022">
+          <span class="title">Mother's Birthday</span>
+          <div class="data">
+            <h3>Day you've been waiting for</h3>
+            <small>Jan 7, 2022</small>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Dignissimos, recusandae, exercitationem, quae cumque eveniet
+              voluptates voluptatem quidem officia quia voluptatum.
+            </p>
+            <span class="close">Click to close</span>
+          </div>
+        </li>
+        <li data-date="Feb 14, 2023">
+          <span class="title">Valentines Day</span>
+          <div class="data">
+            <h3>Day you've been waiting for</h3>
+            <small>Feb 14, 2023</small>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Dignissimos, recusandae, exercitationem, quae cumque eveniet
+              voluptates voluptatem quidem officia quia voluptatum.
+            </p>
+            <span class="close">Click to close</span>
+          </div>
+        </li>
+        <li data-date="Mar 7, 2023">
+          <span class="title">Nahid's Birthday</span>
+          <div class="data">
+            <h3>Day you've been waiting for</h3>
+            <small>Mar 7, 2022</small>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Dignissimos, recusandae, exercitationem, quae cumque eveniet
+              voluptates voluptatem quidem officia quia voluptatum.
+            </p>
+            <span class="close">Click to close</span>
+          </div>
+        </li>
+        <li data-date="Sep 9, 2023">
+          <span class="title">Lale's Birthday</span>
+          <div class="data">
+            <h3>Day you've been waiting for</h3>
+            <small>Sep 9, 2023</small>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Dignissimos, recusandae, exercitationem, quae cumque eveniet
+              voluptates voluptatem quidem officia quia voluptatum.
+            </p>
+            <span class="close">Click to close</span>
+          </div>
+        </li>
+        <li data-date="Jan 1, 2024">
+          <span class="title">Happy New Year 2024</span>
+          <div class="data">
+            <h3>Day you've been waiting for</h3>
+            <small>Jan 1, 2024</small>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Dignissimos, recusandae, exercitationem, quae cumque eveniet
+              voluptates voluptatem quidem officia quia voluptatum.
+            </p>
+            <span class="close">Click to close</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    
+  </mat-tab>
+  <mat-tab label="Third">Content 3</mat-tab>
+</mat-tab-group> -->
 <button
   class="add-user-btn"
   mat-fab

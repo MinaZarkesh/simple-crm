@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatTabsModule } from '@angular/material/tabs';
 import { EventDetailComponent } from './event-detail.component';
 
 describe('EventDetailComponent', () => {
@@ -8,7 +8,7 @@ describe('EventDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EventDetailComponent]
+      imports: [EventDetailComponent, MatTabsModule]
     })
     .compileComponents();
     

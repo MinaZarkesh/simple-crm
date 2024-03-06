@@ -1,4 +1,4 @@
-import { Component,  NgModule,  OnInit } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 
 import { NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -18,9 +18,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
-import { MzdTimelineModule } from 'ngx-mzd-timeline/lib/timeline.module';
 
 
 
@@ -29,6 +28,7 @@ import { MzdTimelineModule } from 'ngx-mzd-timeline/lib/timeline.module';
   standalone: true,
   imports: [
     MatIconModule,
+    MatProgressBarModule,
     MatButtonModule,
     MatTooltipModule,
     MatDialogModule,
@@ -50,7 +50,7 @@ import { MzdTimelineModule } from 'ngx-mzd-timeline/lib/timeline.module';
 })
 
 
-export class EventComponent implements OnInit, MzdTimelineModule {
+export class EventComponent implements OnInit {
   // noteList: User[] = [];
   user: User | any = new User();
   defaultUsers: User[] = [
@@ -76,15 +76,48 @@ export class EventComponent implements OnInit, MzdTimelineModule {
       trails: ['Spur 3'],
     },
   ];
-
+  
   panelOpenState = false;
   longText = `The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
   from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
   originally bred for hunting.`;
-
+  
   constructor(public dialog: MatDialog, private userService: UserListService) {}
+  
+  
+  timeline(){
+    const timelineWrapper: any = document.querySelectorAll('.timeline-wrapper'),
+    timelines: any = document.querySelectorAll('.timeline li .data');
+    
+    for(const time of timelines){
+      console.log(time);
+      time.onclick = ()=>time.classList.toggle('show');
+      console.log(timelines);
+      }
+  
+      // timelineWrapper.addEventListener('mousemove', (ev: { pageX: any; })=>{
+      //   const timeline = document.querySelector('.timeline');
+      //  let scroll_width = 0;
+      //   if(timeline){
+      //      scroll_width = ev.pageX/ timelineWrapper.clientWidth * (timelineWrapper.clientWidth -timeline.clientWidth);
+      //     //  timeline.style.left = scroll_width.toFixed(1)	+ 'px';
+      //   }
+      //   console.log({
+      //     'timeline_width': scroll_width.toFixed(1)
+      
+      //   });
+      // })
+  }
 
-  async ngOnInit() {}
+  
+
+  ngOnInit(): void {
+   
+    console.log('ngOnInit: ');
+     this.timeline();
+    
+  }
+
 
   getList() {
     return this.defaultUsers;
