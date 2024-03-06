@@ -1,4 +1,4 @@
-<mat-card>
+<!-- <mat-card>
   <mat-card-content class="user-detail-header">
      
     <img src="assets/img/person.png" alt="" />
@@ -7,12 +7,37 @@
       <h2>{{userService.currentUser.name}}</h2>
       <p>{{userService.currentUser.email}}</p>
     </div>
-    <p>Hier stehen die Ereignis Details, was, wann, wo, wer war beteiligt</p>
-  </mat-card-content>
-</mat-card>
-
+    <p>Hier stehen die Ereignis Details, was, wann, wo, wer war beteiligt</p> -->
+<mat-grid-list cols="4" rowHeight="100px">
+  <mat-grid-tile class="user-info-header-one" [colspan]="3" [rowspan]="1" [attr.style]="'background-color: lightblue'">
+    <span>
+      {{textContentJSON.one}}
+    </span>
+  </mat-grid-tile>
+  <mat-grid-tile class="user-info-header-two" [colspan]="1" [rowspan]="2" [attr.style]="'background-color: lightgreen'" >
+    <ul>
+      <li *ngFor="let item of textContentJSON.two">{{item}}</li>
+    </ul>
+  </mat-grid-tile >
+  <mat-grid-tile [colspan]="1" [rowspan]="1" [attr.style]="'background-color:  lightpink'" >
+    <div class="user-info-header-three">
+      <span>Datum: 21.03.2023</span>
+      <span>Uhrzeit: 22:30 Uhr</span>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="2" [rowspan]="1" [attr.style]="'background-color: #DDBDF1 '" >
+    <div class="user-info-header-three">
+      <span>Adresse:</span>
+      <span>Musterstraße 1</span>
+      <span>1234 Musterstadt</span>
+    </div>
+  </mat-grid-tile >
+</mat-grid-list>
+<!-- </mat-card-content>
+</mat-card> -->
+<!-- 
 <mat-card class="mt-32">
   <mat-card-content>
     Hier steht ein Text, das aus der Datenbank geladen wird
   </mat-card-content>
-</mat-card>
+</mat-card> -->

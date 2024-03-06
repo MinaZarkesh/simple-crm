@@ -18,6 +18,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { DialogEditEventComponent } from '../dialogs/dialog-edit-event/dialog-edit-event.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+
+export interface Tile {
+  color: string;
+  cols: number;
+  rows: number;
+  text: any;
+}
 
 @Component({
   selector: 'app-event-detail',
@@ -30,6 +38,7 @@ import { DialogEditEventComponent } from '../dialogs/dialog-edit-event/dialog-ed
     MatProgressBarModule,
     MatTab,
     MatIcon,
+    MatGridListModule,
     MatTabGroup,
   ],
   templateUrl: './event-detail.component.html',
@@ -40,6 +49,20 @@ export class EventDetailComponent implements OnInit {
   currentUser: User | any = new User();
   tempUser!: User | any;
   loading: boolean = false;
+
+  textContentJSON: any = {
+    one: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, recusandae, exercitationem, quae cumque eveniet voluptates voluptatem quidem officia quia voluptatum. Dignissimos, recusandae, exercitationem, quae cumque eveniet voluptates voluptatem quidem officia quia voluptatum.',
+    two: ['Beteiligter 1\n', 'Beteiligter 2', 'Beteiligter 3', 'Beteiligter 4'],
+    three: 'Three',
+    four: 'Four',
+  };
+
+  tiles: Tile[] = [
+    { text: this.textContentJSON.one, cols: 3, rows: 1, color: 'lightblue' },
+    { text: this.textContentJSON.two, cols: 1, rows: 2, color: 'lightgreen' },
+    { text: this.textContentJSON.three, cols: 1, rows: 1, color: 'lightpink' },
+    { text: this.textContentJSON.four, cols: 2, rows: 1, color: '#DDBDF1' },
+  ];
 
   panelOpenState = false;
   constructor(
@@ -83,7 +106,6 @@ export class EventDetailComponent implements OnInit {
     // // // new User(this.currentUser) erstellt ein neues User-Objekt, eine Kopie des aktuellen
     // console.log(this.currentUser);
     // dialog.componentInstance.user = new User(this.userService.currentUser);
-
     // dialog.componentInstance.userId = this.userId;
     // //  dialog.componentInstance.trails = this.trails;
   }
@@ -91,7 +113,6 @@ export class EventDetailComponent implements OnInit {
   openDeleteDialog() {
     // const dialog = this.dialog.open(DialogDeleteUserComponent);
     // dialog.componentInstance.user = new User(this.userService.currentUser);
-
     // dialog.componentInstance.userId = this.userId;
   }
 

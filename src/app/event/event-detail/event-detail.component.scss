@@ -1,4 +1,4 @@
-.user-detail-header{
+.user-detail-header {
   min-height: 250px;
   background-color: orangered;
   color: white;
@@ -6,16 +6,16 @@
   flex-direction: row;
   align-items: flex-end;
 
-  img{
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 100%;
-      // border: 3px solid white;
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 100%;
+    // border: 3px solid white;
   }
 }
 
-.user-info-header{
+.user-info-header {
   height: 100px;
   margin-left: 32px;
   display: flex;
@@ -23,13 +23,35 @@
   align-items: flex-start;
   justify-content: center;
 
-  h2{
-      margin-bottom: 0;
+  h2 {
+    margin-bottom: 0;
   }
 }
 
-.pin-right-upper-corner{
+.pin-right-upper-corner {
   position: absolute;
   right: 0;
   top: 0;
+}
+mat-grid-list{
+  height: 100%;
+}
+
+.user-info-header-three {
+  display: flex;
+  flex-direction: column;
+  span {
+    margin-bottom: 8px;
+  }
+}
+
+.user-info-header-one {
+
+  padding: 16px;
+  box-sizing: border-box;
+  span{
+
+    padding: 16px;
+    box-sizing: border-box;
+  }
 }
