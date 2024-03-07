@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../models/user.class';
@@ -10,18 +10,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogEditUserComponent } from '../dialogs/dialog-edit-user/dialog-edit-user.component';
 import { DialogDeleteUserComponent } from '../dialogs/dialog-delete-user/dialog-delete-user.component';
 
-
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 
+import {ThemePalette} from '@angular/material/core';
+import {ProgressBarMode, MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatRadioModule} from '@angular/material/radio';
+
 @Component({
   selector: 'app-user-detail',
   standalone: true,
   imports: [MatCardModule, MatIcon, MatIconButton, MatMenuModule,  MatExpansionModule,
-    MatInputModule,
+    MatInputModule,MatProgressBarModule, MatSliderModule, MatRadioModule,
     MatFormFieldModule,MatButtonModule,
     FormsModule],
   templateUrl: './user-detail.component.html',
@@ -34,6 +38,12 @@ export class UserDetailComponent implements OnInit {
   loading: boolean = false;
 
   panelOpenState = false;
+
+  color: ThemePalette = 'primary';
+  mode: ProgressBarMode = 'determinate';
+  value = 50;
+  bufferValue = 75;
+  
   constructor(
     private route: ActivatedRoute,
     public userService: UserListService,

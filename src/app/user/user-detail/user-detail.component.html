@@ -11,26 +11,11 @@
       <div class="user-info-header">
         <h2>{{userService.currentUser.name}}</h2>
         <p>{{userService.currentUser.email}}</p>
+        <p>Rolle im Fall</p>
       </div>
     </mat-card-content>
   </mat-card>
   
-  <mat-card class="mt-32">
-      <mat-card-content>
-      <!-- <button mat-icon-button class="pin-right-upper-corner" [matMenuTriggerFor]="addresMenu">
-          <mat-icon class="more-vert">more_vert</mat-icon>
-      </button> -->
-      <!-- <mat-menu #addresMenu="matMenu">
-          <button mat-menu-item (click)="editAddressMenu()">Edit</button>
-        </mat-menu> -->
-      <mat-card-title>Spuren</mat-card-title>
-  
-<mat-card>
-  <mat-card-content>
-    Infos zum Zeugen <br />
-    Name, Kontakt, Rolle im Fall
-  </mat-card-content>
-</mat-card>
 
 <h2>Zeugenaussagen</h2>
 <mat-accordion>
@@ -50,7 +35,7 @@
                        (closed)="panelOpenState = false">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Datum der Aussage
+        Datum, Uhrzeit der Aussage, Ort
       </mat-panel-title>
       <mat-panel-description>
         Currently I am {{panelOpenState ? 'open' : 'closed'}}
@@ -58,11 +43,11 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-card>
-      Dies ist eine Card, Infos zum Ereignis <br>
-      Datum <br>
-      Uhrzeit <br>
-      Ort <br>
-      Beteiligte <br>
+      <div id="event-info">
+        <p>Datum Uhrzeit</p>
+        <p>Ort</p>
+        <p>Beteiligte, Aufzählung</p>
+      </div>
     </mat-card>
 
     <p>I'm visible because I am open</p>
@@ -123,11 +108,30 @@ Currently I am {{panelOpenState ? 'open' : 'closed'}}
 <p>I'm visible because I am open</p>
 </mat-expansion-panel>
 </mat-accordion>
-
-      <!-- {{userService.currentUser.trails}} -->
-    </mat-card-content>
-  </mat-card>
  
+  <section class="example-section">
+    <label class="example-margin">Color:</label>
+    <mat-radio-group [(ngModel)]="color">
+      <mat-radio-button class="example-margin" value="primary">
+        Primary
+      </mat-radio-button>
+      <mat-radio-button class="example-margin" value="accent">
+        Accent
+      </mat-radio-button>
+      <mat-radio-button class="example-margin" value="warn">
+        Warn
+      </mat-radio-button>
+    </mat-radio-group>
+  </section>
+  <section class="example-section">
+    <mat-progress-bar
+        class="example-margin"
+        [color]="color"
+        [mode]="mode"
+        [value]="value"
+        [bufferValue]="bufferValue">
+    </mat-progress-bar>
+  </section>
   <mat-card class="mt-32">
     
     <mat-card-content>

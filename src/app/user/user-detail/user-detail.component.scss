@@ -26,6 +26,9 @@
     h2{
         margin-bottom: 0;
     }
+    p{
+        margin: 4px;
+    }
 }
 
 .pin-right-upper-corner{
@@ -33,3 +36,22 @@
     right: 0;
     top: 0;
 }
+
+.example-h2 {
+    margin: 10px;
+  }
+  
+  .example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .example-margin {
+    margin: 0 10px;
+  }
+  
+  .example-card {
+    margin-bottom: 10px;
+  }

@@ -40,6 +40,7 @@ export interface Tile {
     MatIcon,
     MatGridListModule,
     MatTabGroup,
+    MatExpansionModule
   ],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss',
@@ -52,7 +53,7 @@ export class EventDetailComponent implements OnInit {
 
   textContentJSON: any = {
     one: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, recusandae, exercitationem, quae cumque eveniet voluptates voluptatem quidem officia quia voluptatum. Dignissimos, recusandae, exercitationem, quae cumque eveniet voluptates voluptatem quidem officia quia voluptatum.',
-    two: ['Beteiligter 1\n', 'Beteiligter 2', 'Beteiligter 3', 'Beteiligter 4'],
+    two: ['Beteiligter 1', 'Beteiligter 2', 'Beteiligter 3', 'Beteiligter 4', 'Beteiligter 5'],
     three: 'Three',
     four: 'Four',
   };
