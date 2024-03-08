@@ -8,8 +8,9 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { MatIcon } from '@angular/material/icon';
 
 import { ActivatedRoute } from '@angular/router';
-import { User } from '../../../models/user.class';
-import { UserListService } from '../../firebase-services/user-list.service';
+// import { User } from '../../../models/user.class';
+// import { UserListService } from '../../firebase-services/firebase.service';
+
 import { MatIconButton } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
@@ -47,8 +48,8 @@ export interface Tile {
 })
 export class EventDetailComponent implements OnInit {
   userId!: string;
-  currentUser: User | any = new User();
-  tempUser!: User | any;
+  // currentUser: User | any = new User();
+  // tempUser!: User | any;
   loading: boolean = false;
 
   textContentJSON: any = {
@@ -68,13 +69,13 @@ export class EventDetailComponent implements OnInit {
   panelOpenState = false;
   constructor(
     private route: ActivatedRoute,
-    public userService: UserListService,
+    // public userService: UserListService,
     public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id')!;
-    this.userService.subSingleUser(this.userId);
+    // this.userService.subSingleUser(this.userId);
   }
 
   // defaultUser(): User {
@@ -120,7 +121,7 @@ export class EventDetailComponent implements OnInit {
   async deleteUser() {
     console.log('deleteUser: ', this.userId);
     this.loading = true;
-    await this.userService.deleteSingleUser(this.userId);
+    // await this.userService.deleteSingleUser(this.userId);
     this.loading = false;
     window.location.href = '/user';
   }

@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-// import { User } from '../../../models/user.class';
-// import { UserListService } from '../../firebase-services/firebase.service';
-//classess
+//classes
 import { Witness } from '../../../models/witness.class';
 import { Statement } from '../../../models/statement.class';
 import { Event } from '../../../models/event.class';
 //diagolgs
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
-// import { DialogAddUserComponent } from '../dialogs/dialog-add-user/dialog-add-user.component';
-// import { DialogEditUserComponent } from '../dialogs/dialog-edit-user/dialog-edit-user.component';
-// import { DialogDeleteUserComponent } from '../dialogs/dialog-delete-user/dialog-delete-user.component';
+// import { DialogAddWitnessComponent } from '../dialogs/dialog-add-witness/dialog-add-witness.component';
+// import { DialogEditWitnessComponent } from '../dialogs/dialog-edit-witness/dialog-edit-witness.component';
+// import { DialogDeleteWitnessComponent } from '../dialogs/dialog-delete-witness/dialog-delete-witness.component';
 
 //for html/MaterialDesign
 import { MatIconModule } from '@angular/material/icon';
@@ -28,24 +26,34 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { ThemePalette } from '@angular/material/core';
-import { ProgressBarMode,MatProgressBarModule } from '@angular/material/progress-bar';
+import {
+  MatProgressBarModule,
+  ProgressBarMode,
+} from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { firebaseService } from '../../firebase-services/firebase.service';
 
 @Component({
-  selector: 'app-user-detail',
+  selector: 'app-witness-detail',
   standalone: true,
   imports: [
-    NgIf, NgFor,
+    NgIf,
+    NgFor,
     RouterLink,
-    ActivatedRoute,
     FormsModule,
     CommonModule,
     MatDialogModule,
     MatIconModule,
+    MatTooltipModule,
+    MatDividerModule,
+    MatTabsModule,
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
@@ -56,17 +64,21 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatSliderModule,
     MatRadioModule,
     MatSlideToggleModule,
-    MatCheckboxModule
+    MatCheckboxModule,
   ],
-  templateUrl: './user-detail.component.html',
-  styleUrl: './user-detail.component.scss',
+  templateUrl: './witness-detail.component.html',
+  styleUrl: './witness-detail.component.scss',
 })
-export class UserDetailComponent implements OnInit {
- 
+export class WitnessDetailComponent implements OnInit {
+  witness: Witness = new Witness();
+  event: Event = new Event();
+  statement: Statement = new Statement();
+  witnesses: Witness[] = [];
+  events: Event[] = [];
+  statements: Statement[] = [];
 
-   userId!: string;
-  // currentUser: User | any = new User();
-  // tempUser!: User | any;
+  currentWitness: Witness = new Witness();
+  userId!: string;
   loading: boolean = false;
   panelOpenState = false;
 
@@ -78,7 +90,7 @@ export class UserDetailComponent implements OnInit {
   checked = true;
   disabled = false;
 
-  dummyUsers: any[] = [
+  dummyWitnesses: Witness[] = [
     {
       docId: 'Zeuge_id1',
       name: 'John Doe',
@@ -90,6 +102,7 @@ export class UserDetailComponent implements OnInit {
         'statement_id2',
         'statement_id3',
         'statement_id4',
+        'statement_id5',
       ],
     },
     {
@@ -126,31 +139,41 @@ export class UserDetailComponent implements OnInit {
       user: 'Zeuge_id1',
       event: 'event_id1',
       date: '23.03.2022',
-      time: '15:15',
+      time: '08:15',
       place: 'Polizei Dienststelle Hannover',
-      comment: 'Hier steht ein längerer Text, das soll die Aussage selbst sein',
+      comment: 'Aussage 1: Hier steht ein längerer Text, das soll die Aussage selbst sein',
       status: 'austehend',
     },
     {
       docId: 'statement_id2',
       user: 'Zeuge_id1',
       event: 'event_id2',
-      date: '23.03.2022',
-      time: '15:15',
+      date: '23.03.2023',
+      time: '10:15',
       place: 'Polizei Dienststelle Hannover',
-      comment: 'Hier steht ein längerer Text, das soll die Aussage selbst sein',
+      comment: 'Aussage 2:Hier steht ein längerer Text, das soll die Aussage selbst sein',
       status: 'bestätigt',
     },
     {
       docId: 'statement_id3',
       user: 'Zeuge_id1',
       event: 'event_id3',
-      date: '23.03.2022',
-      time: '15:15',
+      date: '23.03.2024',
+      time: '15:40',
       place: 'Polizei Dienststelle Hannover',
-      comment: 'Hier steht ein längerer Text, das soll die Aussage selbst sein',
+      comment: 'Aussage 3: Hier steht ein längerer Text, das soll die Aussage selbst sein',
       status: 'im Prozess',
     },
+    {
+      docId: 'statement_id4',
+      user: 'Zeuge_id1',
+      event: 'event_id4',
+      date: '23.03.2025',
+      time: '10:15',
+      place: 'Polizei Dienststelle Hannover',
+      comment: 'Aussage 4: Ich verweigere die Aussage zu diesem Ereignis',
+      status: 'verweigert',
+    }
   ];
 
   dummyEvents: any[] = [
@@ -161,8 +184,8 @@ export class UserDetailComponent implements OnInit {
       place: 'Hannover',
       type: 'Unfall',
       description:
-        'Der verdächtige Mann hatte einen Unfall, während er zu fliehen versuchte.',
-      users: ['Zeuge_id1', 'Zeuge_id8', 'Zeuge_id9'],
+        'Event 1: Der verdächtige Mann hatte einen Unfall, während er zu fliehen versuchte.',
+      witnesses: ['Zeuge_id1', 'Zeuge_id8', 'Zeuge_id9'],
     },
     {
       docId: 'event_id2',
@@ -170,8 +193,8 @@ export class UserDetailComponent implements OnInit {
       time: '14:45',
       place: 'Hannover',
       type: 'Verbrechen',
-      description: 'Ein Raubüberfall fand in der Musterstraße 1 statt.',
-      users: ['Zeuge_id1', 'Zeuge_id2', 'Zeuge_id3'],
+      description: 'Event 2: Ein Raubüberfall fand in der Musterstraße 1 statt.',
+      witnesses: ['Zeuge_id1', 'Zeuge_id2', 'Zeuge_id3'],
     },
     {
       docId: 'event_id3',
@@ -180,75 +203,72 @@ export class UserDetailComponent implements OnInit {
       place: 'Hannover',
       type: 'Beobachtung',
       description:
-        'Ein verdächtiger Mann wurde in der Nähe des Tatorts gesehen.',
-      users: ['Zeuge_id4', 'Zeuge_id5', 'Zeuge_id6'],
+        'Event 3: Ein verdächtiger Mann wurde in der Nähe des Tatorts gesehen.',
+      witnesses: ['Zeuge_id4', 'Zeuge_id5', 'Zeuge_id6'],
     },
+    {
+      docId: 'event_id4',
+      date: '23.03.2022',
+      time: '15:00',
+      place: 'Hannover',
+      type: 'Beobachtung',
+      description:
+        'Event 4: Ein verdächtiger Mann wurde in der ≠he des Tatorts gesehen.',
+      witnesses: ['Zeuge_id7', 'Zeuge_id8', 'Zeuge_id9'],
+    }
   ];
 
   constructor(
     private route: ActivatedRoute,
-    // public userService: UserListService,
+    public fireService: firebaseService,
     public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id')!;
+    this.getWitnessId(this.userId);
+    this.currentWitness = this.getWitnessById(this.userId);
+    console.log('currentWitness: Init: ', this.currentWitness);
+
     // this.userService.subSingleUser(this.userId);
   }
 
-  // defaultUser(): User {
-  //   if (this.currentUser) {
-  //     return this.currentUser;
-  //   } else {
-  //     return {
-  //       docId: '1',
-  //       name: 'John Smith',
-  //       address: 'Musterstraße 10, 30657 Hannover',
-  //       phone: '01234567899',
-  //       role: 'Angeklagter',
-  //       statements: [
-  //         'statement_id37',
-  //         'statement_id38',
-  //         'statement_id39',
-  //         'statement_id40',
-  //       ],
-  //     };
-  //   }
-  // }
+  getWitnessId(id: string) {
+    console.log('getWitnessId: ', id);
+    console.log('witnesses: ', this.fireService.witnesses);
 
-  // getUserId(id: string): string {
-  //   if (id) {
-  //     return id;
-  //   } else {
-  //     console.log('getUserId: ', id);
-  //     return 'Ermittler000';
-  //   }
-  // }
+    if (id) {
+      return id;
+    } else {
+      console.log('getWitnessId: ', id);
+      if (this.fireService.witnesses.length == 0) {
+        return (this.fireService.witnesses = this.dummyWitnesses);
+      }
+      let tempID = this.fireService.witnesses.find(
+        (element) => element.docId == id
+      );
+      console.log('tempID: ', tempID);
+      if (tempID) {
+        return tempID;
+      } else {
+        return 'Zeuge_id3';
+      }
+    }
+  }
 
-  // editUserDetail() {
-  //   const dialog = this.dialog.open(DialogEditUserComponent);
-  //   // //user -> Variable aus DialogUserComponent
-  //   // // NICHT .user = this.currentUser, denn das bearbeitet auch den aktuellen User
-  //   // // new User(this.currentUser) erstellt ein neues User-Objekt, eine Kopie des aktuellen
-  //   console.log(this.currentUser);
-  //   // dialog.componentInstance.user = new User(this.userService.currentUser);
-
-  //   dialog.componentInstance.userId = this.userId;
-  //   //  dialog.componentInstance.trails = this.trails;
-  // }
-
-  // openDeleteDialog() {
-  //   const dialog = this.dialog.open(DialogDeleteUserComponent);
-  //   // dialog.componentInstance.user = new User(this.userService.currentUser);
-
-  //   dialog.componentInstance.userId = this.userId;
-  // }
-
-  // async deleteUser() {
-  //   console.log('deleteUser: ', this.userId);
-  //   this.loading = true;
-  //   // await this.userService.deleteSingleUser(this.userId);
-  //   this.loading = false;
-  //   window.location.href = '/user';
-  // }
+  getWitnessById(id: any): any {
+    let currentWitness: any = {};
+    if (this.fireService.witnesses.length == 0) {
+      this.fireService.witnesses = this.dummyWitnesses;
+    }
+    currentWitness = this.fireService.witnesses.find((element) => {
+      element.docId == id;
+      return element;
+    });
+    if (currentWitness instanceof Witness) {
+      return currentWitness;
+    } else {
+      return this.dummyWitnesses[0];
+    }
+  }
 }

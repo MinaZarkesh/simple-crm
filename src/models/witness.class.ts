@@ -1,4 +1,6 @@
-export class User {
+
+
+export class Witness {
   docId?: string;
   name: string;
   address: string;

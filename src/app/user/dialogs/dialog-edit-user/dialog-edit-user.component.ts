@@ -10,7 +10,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { User } from '../../../../models/user.class';
 //Firebase-Services
-import { UserListService } from '../../../firebase-services/user-list.service';
+import { UserListService } from '../../../firebase-services/firebase.service';
 import { FirestoreModule } from '@angular/fire/firestore';
 import { NgIf } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';

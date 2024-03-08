@@ -1,29 +1,31 @@
-<!-- <h1>Beteiligte</h1>
+<h1>Beteiligte</h1>
 <mat-card>
   <mat-card-content>
     <table class="user-table">
       <tr>
         <th>Name</th>
-        <th>Kontaktinformation</th>
         <th>Rolle im Fall</th>
         <th>Anzahl der Aussagen</th>
-        <th>Status</th>
-        Aussage bestätigt, Aussage ausstehend
+        <th>Meldeadresse</th>
+        <th>Kontakt</th>
+        <!-- Aussage bestätigt, Aussage ausstehend -->
       </tr>
       <tr
-        *ngFor="let user of getList()"
-        [routerLink]="['/users/' + user.docId]"
+        *ngFor="let witness of getWitnessesList()"
+        [routerLink]="['/witness/' + witness.docId]"
       >
-         [[routerLink]="['/user/' +{{ user.id}}]" ] -->
-        <!-- <td>{{ user.name }}</td>
-        <td>{{ user.phone }}</td> -->
-        <!-- <td>Opfer</td> -->
+        <!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->
+        <td>{{ witness.name }}</td>
+        <td>{{ witness.role }}</td>
+        <td>{{ witness.statements.length }}</td>
+        <td>{{ witness.address }}</td>
         <!-- Rolle im Fall Opfer, Täter, Zeuge, Polizist -->
-        <!-- <td>1</td> -->
+        
         <!-- Anzahl der Aussagen / Wie viele Aussagen hat der Zeuge getätigt  -->
-        <!-- <td>ausstehend</td> -->
+      
+        <td>{{ witness.phone }}</td>
         <!-- Status  // Bestätigt, Ausstehend, Verweigert  -->
-      <!-- </tr>
+      </tr>
     </table>
   </mat-card-content>
 </mat-card>
@@ -32,12 +34,12 @@
   class="add-user-btn"
   mat-fab
   matTooltipPosition="above"
-  matTooltip="Add user"
+  matTooltip="Add witness"
   color="primary"
-  (click)="openDialog()"
+  (click)="openAddWitnessDialog()"
 >
   <mat-icon>add</mat-icon>
-</button> -->
+</button>
 
 <!-- <mat-card>
   <mat-card-content>
@@ -136,4 +138,4 @@ Currently I am {{panelOpenState ? 'open' : 'closed'}}
 </mat-expansion-panel-header>
 <p>I'm visible because I am open</p>
 </mat-expansion-panel>
-</mat-accordion> --> -->
+</mat-accordion> -->
