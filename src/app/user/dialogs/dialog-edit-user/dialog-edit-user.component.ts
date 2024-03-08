@@ -44,6 +44,48 @@ export class DialogEditUserComponent implements OnInit {
   userId!: string;
   trails: any = new FormControl('');
 
+  dummyUsers: User[] = [
+    {
+      docId: '1',
+      name: 'John Doe',
+      address: 'Musterstraße 1, 30657 Hannover',
+      phone: '01234567890',
+      role: 'Opfer',
+      statements: [
+        'statement_id1',
+        'statement_id2',
+        'statement_id3',
+        'statement_id4',
+      ],
+    },
+    {
+      docId: '2',
+      name: 'Jane Doe',
+      address: 'Musterstraße 2, 30657 Hannover',
+      phone: '01234567891',
+      role: 'Beobachter',
+      statements: [
+        'statement_id5',
+        'statement_id6',
+        'statement_id7',
+        'statement_id8',
+      ],
+    },
+    {
+      docId: '3',
+      name: 'John Smith',
+      address: 'Musterstraße 10, 30657 Hannover',
+      phone: '01234567899',
+      role: 'Angeklagter',
+      statements: [
+        'statement_id37',
+        'statement_id38',
+        'statement_id39',
+        'statement_id40',
+      ],
+    },
+  ];
+
   constructor(
     public dialogRef: MatDialogRef<DialogEditUserComponent>,
     private userService: UserListService

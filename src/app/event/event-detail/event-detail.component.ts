@@ -77,19 +77,19 @@ export class EventDetailComponent implements OnInit {
     this.userService.subSingleUser(this.userId);
   }
 
-  defaultUser(): User {
-    if (this.currentUser) {
-      return this.currentUser;
-    } else {
-      return {
-        docId: '1',
-        name: 'John Doe',
-        email: 'dfL0K@example.com',
-        capacity: true,
-        trails: [],
-      };
-    }
-  }
+  // defaultUser(): User {
+  //   if (this.currentUser) {
+  //     return this.currentUser;
+  //   } else {
+  //     return {
+  //       docId: '1',
+  //       name: 'John Doe',
+  //       email: 'dfL0K@example.com',
+  //       capacity: true,
+  //       trails: [],
+  //     };
+  //   }
+  // }
 
   getUserId(id: string): string {
     if (id) {

@@ -4,17 +4,19 @@
           <mat-icon class="more-vert">more_vert</mat-icon>
       </button>
       <mat-menu #userMenu="matMenu">
-          <button mat-menu-item (click)="editUserDetail()">edit</button>
-          <button mat-menu-item (click)="openDeleteDialog()">delete</button>
+          <!-- <button mat-menu-item (click)="editUserDetail()">edit</button>
+          <button mat-menu-item (click)="openDeleteDialog()">delete</button> -->
         </mat-menu>
       <img src="assets/img/person.png" alt="" />
       <div class="user-info-header">
-        <h2>{{userService.currentUser.name}}</h2>
-        <p>{{userService.currentUser.email}}</p>
-        <p>Rolle im Fall</p>
+        <h2>{{dummyUsers[0].name}}</h2>
+        <p>{{dummyUsers[0].phone}}</p>
+        <p>{{dummyUsers[0].address}}</p>
+        <p >{{dummyUsers[0].role}}</p>
       </div>
     </mat-card-content>
   </mat-card>
+
   
 
 <h2>Zeugenaussagen</h2>
@@ -35,26 +37,45 @@
                        (closed)="panelOpenState = false">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Datum, Uhrzeit der Aussage, Ort
+        {{dummyStatements[0].date}}   {{dummyStatements[0].time}} ,   {{dummyStatements[0].place}}
       </mat-panel-title>
       <mat-panel-description>
-        Currently I am {{panelOpenState ? 'open' : 'closed'}}
-        Aussage über welches Ereignis?
+        <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+        {{dummyEvents[0].description}}
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-card>
-      <div id="event-info">
-        <p>Datum Uhrzeit</p>
-        <p>Ort</p>
-        <p>Beteiligte, Aufzählung</p>
+    <section class="example-section">
+      <mat-progress-bar
+          class="example-margin"
+          [color]="color"
+          [mode]="mode"
+          [value]="value"
+          [bufferValue]="bufferValue">
+      </mat-progress-bar>
+    </section>
+    <mat-card class="event-info">
+      <div >
+        <p>{{dummyEvents[0].date}} {{dummyEvents[0].time}}</p>
+        <p>{{dummyEvents[0].place}}</p>
+        <p>{{dummyUsers[0].name}},{{dummyEvents[0].users}}</p>
       </div>
     </mat-card>
 
-    <p>I'm visible because I am open</p>
-    <mat-form-field  class="full-width">
+    
+    <mat-form-field  class="full-width mt-32">
       <mat-label>Aussage selbst</mat-label>
-      <textarea rows="5" readonly matInput placeholder="Ich war zu Hause und hörte gegen 22:30 Uhr laute Geräusche aus der Wohnung nebenan. Ich sah aus dem Fenster und bemerkte eine Person, die ich als Jane Doe erkannte, wie sie das Gebäude verließ. Kurz darauf bemerkte ich das zerbrochene Fenster in der Wohnung von John Doe."></textarea>
+      <textarea rows="5" [disabled]="checked" matInput placeholder="Aussage selbst"> {{dummyStatements[0].comment}}</textarea>
     </mat-form-field>
+
+    <section class="example-section">
+      <mat-slide-toggle
+          class="example-margin"
+          [color]="color"
+          [checked]="checked"
+          (change)="checked = !checked">
+        Aussage von Zeugen bestätigen!
+      </mat-slide-toggle>
+    </section>
 
     <p>Querverweise</p>
     <button mat-button [matMenuTriggerFor]="aboveMenu">Above</button>

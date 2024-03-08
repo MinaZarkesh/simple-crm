@@ -108,9 +108,10 @@ export class UserListService {
     return {
       docId: user.docId,
       name: user.name,
-      email: user.email,
-      capacity: user.capacity,
-      trails: user.trails,
+      address: user.address,
+      phone: user.phone,
+      role: user.role,
+      statements: user.statements,
     };
   }
 
@@ -144,9 +145,10 @@ export class UserListService {
       //erstellt einen leeren, falls die Daten nicht vorhanden sind, um die Struktur des Objekts zu erhalten
       docId: id,
       name: obj.name || '',
-      email: obj.email || '',
-      capacity: obj.capacity || true,
-      trails: obj.trails || [],
+      address: obj.address || '',
+      phone: obj.phone || '',
+      role: obj.role || '',
+      statements: obj.statements || [],
     };
   }
 

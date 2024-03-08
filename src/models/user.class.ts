@@ -1,15 +1,19 @@
 export class User {
   docId?: string;
   name: string;
-  email: string;
-  capacity: boolean;
-  trails: string[];
+  address: string;
+  phone: string;
+  role: string;
+  statements: string[];
 
   constructor(obj?: any) {
     this.docId = obj ? obj.docId : null;
     this.name = obj ? obj.name : '';
-    this.email = obj ? obj.email : '';
-    this.capacity = obj ? obj.capacity : false;
-    this.trails = obj ? obj.trails : [];
+    this.address = obj ? obj.capacity : '';
+    this.phone = obj ? obj.phone : '';
+    this.role = obj ? obj.role : 'user';
+    this.statements = obj ? obj.statements : [];
   }
 }
+
+

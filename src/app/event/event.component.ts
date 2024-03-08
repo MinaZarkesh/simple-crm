@@ -54,27 +54,27 @@ export class EventComponent implements OnInit {
   // noteList: User[] = [];
   user: User | any = new User();
   defaultUsers: User[] = [
-    {
-      docId: 'PRgrM5ZikZoNXdMqG8hE',
-      name: 'Leeroy Jethro Gibbs',
-      email: 'ermittlerA@polizei.de',
-      capacity: true,
-      trails: ['Spur 1', 'Spur 2', 'Spur 3'],
-    },
-    {
-      docId: 'RCXV4JlhIqMcdg7mExGF',
-      name: 'Timothy McGee',
-      email: 'ermittlerB@polizei.de',
-      capacity: true,
-      trails: ['Spur 1', 'Spur 2'],
-    },
-    {
-      docId: 'JFF0K4vmvsfFrNnoVJUC',
-      name: 'Abby Scuito',
-      email: 'ermittlerC@polizei.de',
-      capacity: false,
-      trails: ['Spur 3'],
-    },
+    // {
+    //   docId: 'PRgrM5ZikZoNXdMqG8hE',
+    //   name: 'Leeroy Jethro Gibbs',
+    //   email: 'ermittlerA@polizei.de',
+    //   capacity: true,
+    //   trails: ['Spur 1', 'Spur 2', 'Spur 3'],
+    // },
+    // {
+    //   docId: 'RCXV4JlhIqMcdg7mExGF',
+    //   name: 'Timothy McGee',
+    //   email: 'ermittlerB@polizei.de',
+    //   capacity: true,
+    //   trails: ['Spur 1', 'Spur 2'],
+    // },
+    // {
+    //   docId: 'JFF0K4vmvsfFrNnoVJUC',
+    //   name: 'Abby Scuito',
+    //   email: 'ermittlerC@polizei.de',
+    //   capacity: false,
+    //   trails: ['Spur 3'],
+    // },
   ];
   
   panelOpenState = false;

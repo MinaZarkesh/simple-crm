@@ -39,14 +39,63 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class DialogAddUserComponent implements OnInit {
   @Output() userAdded: EventEmitter<boolean> = new EventEmitter();
-  @Input() currentUser!: User;
-  user: User = {
-    docId: '',
-    name: '',
-    email: '',
-    capacity: true,
-    trails: ['Spur 1', 'Spur 2', 'Spur 3', 'Spur 4', 'Spur 5', 'Spur 6'],
-  };
+   @Input() currentUser!: User;
+user = {
+  docId: '1',
+  name: 'John Doe',
+  
+  address: 'Musterstraße 1, 30657 Hannover',
+  phone: '01234567890',
+  role: 'Opfer',
+  statements: [
+    'statement_id1',
+    'statement_id2',
+    'statement_id3',
+    'statement_id4',
+  ]
+};
+
+  dummyUsers: User[] = [
+    {
+      docId: '1',
+      name: 'John Doe',
+      address: 'Musterstraße 1, 30657 Hannover',
+      phone: '01234567890',
+      role: 'Opfer',
+      statements: [
+        'statement_id1',
+        'statement_id2',
+        'statement_id3',
+        'statement_id4',
+      ],
+    },
+    {
+      docId: '2',
+      name: 'Jane Doe',
+      address: 'Musterstraße 2, 30657 Hannover',
+      phone: '01234567891',
+      role: 'Beobachter',
+      statements: [
+        'statement_id5',
+        'statement_id6',
+        'statement_id7',
+        'statement_id8',
+      ],
+    },
+    {
+      docId: '3',
+      name: 'John Smith',
+      address: 'Musterstraße 10, 30657 Hannover',
+      phone: '01234567899',
+      role: 'Angeklagter',
+      statements: [
+        'statement_id37',
+        'statement_id38',
+        'statement_id39',
+        'statement_id40',
+      ],
+    },
+  ];
 
   loading: boolean = false;
   trails: any = new FormControl('');
@@ -64,14 +113,15 @@ export class DialogAddUserComponent implements OnInit {
 
   async saveUser() {
     this.loading = true;
-    this.user.trails = this.trails.value;
+    this.user.statements = this.trails.value;
     // this.currentUser.capacity = this.capacity;
     let user: User = {
       docId: '',
       name: this.user.name,
-      email: this.user.email,
-      capacity: this.user.capacity,
-      trails: this.user.trails,
+      address: this.user.address,
+      phone: this.user.phone,
+      role: this.user.role,
+      statements: this.user.statements,
     };
 
     console.log(this.user);
@@ -79,7 +129,7 @@ export class DialogAddUserComponent implements OnInit {
     await this.userService.addUser(user);
     user =
       this.userService.normalUsers[this.userService.normalUsers.length - 1];
-    if(user.docId)await this.userService.updateSingleUser(user.docId, user);
+    if (user.docId) await this.userService.updateSingleUser(user.docId, user);
     // this.getList();
     this.loading = false;
 
