@@ -36,14 +36,16 @@ export class firebaseService {
   currentWitness: Witness = new Witness();
   currentStatement: Statement = new Statement();
   currentEvent: Event = new Event();
+  
 
   //roles:
- 
-  roles: Role[] = [
+   roles: Role[] = [
     {value: 'opfer-0', viewValue: 'Opfer'},
     {value: 'taeter-1', viewValue: 'Täter'},
     {value: 'beobachter-2', viewValue: 'Beobachter'},
   ];
+
+
   // userId: string | null = inject(ActivatedRoute).snapshot.paramMap.get('id');
   witnessId = 'PRgrM5ZikZoNXdMqG8hE';
   statementId = 'PRgrM5ZikZoNXdMqG8hE';
@@ -138,7 +140,7 @@ async addEvent(event: Event) {
 //update ObjectLists //warum hat async kein Effekt hier?
   updateWitnessList() {
     //aktualisiert die Daten in der Sammlung
-    this.witnesses.forEach((element) => {
+     this.witnesses.forEach((element) => {
       if (element.docId)  this.updateSingleWitness(element.docId, element);
     });
     console.log('updateWitnessList: ', this.witnesses);

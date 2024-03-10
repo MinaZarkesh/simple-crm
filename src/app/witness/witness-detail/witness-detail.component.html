@@ -105,7 +105,7 @@
       <button mat-menu-item>Item 2</button>
     </mat-menu>
   </mat-expansion-panel>
-  @for (statement of this.dummyStatements; track statement; let i = $index ){
+  @for (statement of filteredStatements; track statement; let i = $index ){
   <mat-expansion-panel
     (opened)="panelOpenState = true"
     (closed)="panelOpenState = false"

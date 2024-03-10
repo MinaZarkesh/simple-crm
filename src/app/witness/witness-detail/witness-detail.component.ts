@@ -70,15 +70,21 @@ import { firebaseService } from '../../firebase-services/firebase.service';
   styleUrl: './witness-detail.component.scss',
 })
 export class WitnessDetailComponent implements OnInit {
-  witness: Witness = new Witness();
-  event: Event = new Event();
-  statement: Statement = new Statement();
+  //defining variables
   witnesses: Witness[] = [];
-  events: Event[] = [];
   statements: Statement[] = [];
+  events: Event[] = [];
 
+  id!: string;
   currentWitness: Witness = new Witness();
-  userId!: string;
+  witnessId!: string;
+  filteredStatements: Statement[] = [];
+  statementId!: string;
+  currentStatement: Statement = new Statement();
+  eventId!: string;
+  currentEvent: Event = new Event();
+
+  //for html allgemein
   loading: boolean = false;
   panelOpenState = false;
 
@@ -120,7 +126,7 @@ export class WitnessDetailComponent implements OnInit {
     },
     {
       docId: 'Zeuge_id3',
-      name: 'John Smith',
+      name: 'James Smith',
       address: 'Musterstraße 10, 30657 Hannover',
       phone: '01234567899',
       role: 'Angeklagter',
@@ -136,44 +142,47 @@ export class WitnessDetailComponent implements OnInit {
   dummyStatements: any[] = [
     {
       docId: 'statement_id1',
-      user: 'Zeuge_id1',
+      witness: 'Zeuge_id1',
       event: 'event_id1',
       date: '23.03.2022',
       time: '08:15',
       place: 'Polizei Dienststelle Hannover',
-      comment: 'Aussage 1: Hier steht ein längerer Text, das soll die Aussage selbst sein',
+      comment:
+        'Aussage 1: Hier steht ein längerer Text, das soll die Aussage selbst sein',
       status: 'austehend',
     },
     {
       docId: 'statement_id2',
-      user: 'Zeuge_id1',
+      witness: 'Zeuge_id2',
       event: 'event_id2',
       date: '23.03.2023',
       time: '10:15',
       place: 'Polizei Dienststelle Hannover',
-      comment: 'Aussage 2:Hier steht ein längerer Text, das soll die Aussage selbst sein',
+      comment:
+        'Aussage 2:Hier steht ein längerer Text, das soll die Aussage selbst sein',
       status: 'bestätigt',
     },
     {
       docId: 'statement_id3',
-      user: 'Zeuge_id1',
+      witness: 'Zeuge_id2',
       event: 'event_id3',
       date: '23.03.2024',
       time: '15:40',
       place: 'Polizei Dienststelle Hannover',
-      comment: 'Aussage 3: Hier steht ein längerer Text, das soll die Aussage selbst sein',
+      comment:
+        'Aussage 3: Hier steht ein längerer Text, das soll die Aussage selbst sein',
       status: 'im Prozess',
     },
     {
       docId: 'statement_id4',
-      user: 'Zeuge_id1',
+      witness: 'Zeuge_id1',
       event: 'event_id4',
       date: '23.03.2025',
       time: '10:15',
       place: 'Polizei Dienststelle Hannover',
       comment: 'Aussage 4: Ich verweigere die Aussage zu diesem Ereignis',
       status: 'verweigert',
-    }
+    },
   ];
 
   dummyEvents: any[] = [
@@ -193,7 +202,8 @@ export class WitnessDetailComponent implements OnInit {
       time: '14:45',
       place: 'Hannover',
       type: 'Verbrechen',
-      description: 'Event 2: Ein Raubüberfall fand in der Musterstraße 1 statt.',
+      description:
+        'Event 2: Ein Raubüberfall fand in der Musterstraße 1 statt.',
       witnesses: ['Zeuge_id1', 'Zeuge_id2', 'Zeuge_id3'],
     },
     {
@@ -215,7 +225,7 @@ export class WitnessDetailComponent implements OnInit {
       description:
         'Event 4: Ein verdächtiger Mann wurde in der ≠he des Tatorts gesehen.',
       witnesses: ['Zeuge_id7', 'Zeuge_id8', 'Zeuge_id9'],
-    }
+    },
   ];
 
   constructor(
@@ -225,50 +235,135 @@ export class WitnessDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.paramMap.get('id')!;
-    this.getWitnessId(this.userId);
-    this.currentWitness = this.getWitnessById(this.userId);
-    console.log('currentWitness: Init: ', this.currentWitness);
+    this.id = this.route.snapshot.paramMap.get('id')!;
+    console.log('id: Init: ', this.id);
 
-    // this.userService.subSingleUser(this.userId);
+    //be sure arrays are not empty
+    this.fireService.witnesses = this.dummyWitnesses;
+    this.fireService.statements = this.dummyStatements;
+    this.fireService.events = this.dummyEvents;
+
+    //get Witness Data
+    this.witnessId = this.getWitnessId(this.id);
+    console.log('witnessId: Init: ', this.witnessId);
+    this.currentWitness = this.getWitnessById(this.witnessId);
+    console.log('currentWitness: Init: ', this.currentWitness);
+    if (this.currentWitness.docId) {
+      this.filterStatementsByWitnessId(this.currentWitness.docId);
+      console.log(
+        'filterStatementsByWitnessId filtered: ',
+        this.filteredStatements
+      );
+    }
+
+    //get Statement Data
+    this.currentStatement = this.getStatementById(
+      this.filteredStatements[0].docId
+    );
+    console.log('Init: currentStatement: ', this.currentStatement);
+
+    console.log('Init: currentEvent: ', this.currentEvent);
   }
 
-  getWitnessId(id: string) {
-    console.log('getWitnessId: ', id);
-    console.log('witnesses: ', this.fireService.witnesses);
-
-    if (id) {
+  getWitnessId(id: string): string { // else 'Zeuge_id1'
+    let temp!: Witness;
+    temp = this.getWitnessById(id);
+    if (id == temp.docId) {
       return id;
     } else {
-      console.log('getWitnessId: ', id);
-      if (this.fireService.witnesses.length == 0) {
-        return (this.fireService.witnesses = this.dummyWitnesses);
-      }
-      let tempID = this.fireService.witnesses.find(
-        (element) => element.docId == id
-      );
-      console.log('tempID: ', tempID);
-      if (tempID) {
-        return tempID;
-      } else {
-        return 'Zeuge_id3';
-      }
+      return 'Zeuge_id1';
     }
   }
 
-  getWitnessById(id: any): any {
-    let currentWitness: any = {};
-    if (this.fireService.witnesses.length == 0) {
-      this.fireService.witnesses = this.dummyWitnesses;
-    }
+  getWitnessById(id: string): Witness {
+    let currentWitness: Witness | undefined = undefined;
+    //temp is first undefined, var for .find
+    let temp: Witness | undefined = undefined;
+
+    //if element.docId == id, temp is element in form of Witness
+    // rewrite temp with found element, if nothing found temp is still undefined
     currentWitness = this.fireService.witnesses.find((element) => {
-      element.docId == id;
-      return element;
+      if (element.docId == id) {
+        temp = new Witness(element);
+      }
+      return temp;
     });
-    if (currentWitness instanceof Witness) {
+
+    //if currentWitness is not undefined return it, else return dummy Data
+    if (currentWitness != undefined) {
       return currentWitness;
     } else {
       return this.dummyWitnesses[0];
     }
+  }
+
+  filterStatementsByWitnessId(witnessId: string): Statement[] {
+    let filterStatement: Statement[] = [];
+
+    this.fireService.statements.forEach((element) => {
+      if (element.witness == witnessId) {
+        filterStatement.push(element);
+      }
+    });
+
+    this.filteredStatements = filterStatement;
+    return filterStatement;
+  }
+
+  getStatementById(id: any): Statement { // else dummyStatements[0]
+    let currentStatement: Statement | undefined = undefined;
+    //temp is first undefined, var for .find
+    let temp: Statement | undefined = undefined;
+
+    //search Statement by id
+    currentStatement = this.fireService.statements.find((element) => {
+      if (element.docId == id) {
+        temp = new Statement(element);
+      }
+      return temp;
+    });
+    //if you cant find it, temp is still undefined
+    if (currentStatement != undefined) {
+      return currentStatement;
+    } else {
+      return this.dummyStatements[0];
+    }
+  }
+
+  getStatementId(id: string): string {
+    {
+      let temp!: Statement;
+      temp = this.getStatementById(id);
+      if (id == temp.docId) {
+        return id;
+      } else {
+        return 'statement_id1';
+      }
+    }
+  }
+
+  getEventById(id: any): Event { //else dummyEvents[0]
+    let currentEvent: Event | undefined = undefined;
+    let temp: Event | undefined = undefined;
+    currentEvent = this.fireService.events.find((element) => {
+      if (element.docId == id) {
+        temp = new Event(element);
+      }
+      return temp;
+    });
+
+    if (currentEvent != undefined) {
+      return currentEvent;
+    } else {
+      return this.dummyEvents[0];
+    }
+  }
+
+  getEventByStatementId(statementId: string): Event {
+    let statement = this.getStatementById(statementId);
+    let eventId = statement.event;
+    let event = this.getEventById(eventId);
+    console.log('getEventByStatementId: ', event);
+    return event;
   }
 }
