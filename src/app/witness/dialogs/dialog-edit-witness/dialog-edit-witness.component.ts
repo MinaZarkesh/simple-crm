@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Witness } from '../../../../models/witness.class';
+
+
 
 @Component({
   selector: 'app-dialog-edit-witness',
@@ -8,5 +11,6 @@ import { Component } from '@angular/core';
   styleUrl: './dialog-edit-witness.component.scss'
 })
 export class DialogEditWitnessComponent {
-
+witness!: Witness;
+witnessId!: string;
 }

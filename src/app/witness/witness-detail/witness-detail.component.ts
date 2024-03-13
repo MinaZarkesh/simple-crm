@@ -12,8 +12,8 @@ import { Event } from '../../../models/event.class';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 // import { DialogAddWitnessComponent } from '../dialogs/dialog-add-witness/dialog-add-witness.component';
-// import { DialogEditWitnessComponent } from '../dialogs/dialog-edit-witness/dialog-edit-witness.component';
-// import { DialogDeleteWitnessComponent } from '../dialogs/dialog-delete-witness/dialog-delete-witness.component';
+ import { DialogEditWitnessComponent } from '../dialogs/dialog-edit-witness/dialog-edit-witness.component';
+ import { DialogDeleteWitnessComponent } from '../dialogs/dialog-delete-witness/dialog-delete-witness.component';
 
 //for html/MaterialDesign
 import { MatIconModule } from '@angular/material/icon';
@@ -366,4 +366,26 @@ export class WitnessDetailComponent implements OnInit {
     console.log('getEventByStatementId: ', event);
     return event;
   }
+
+  editWitnessDetail() {
+    const dialog = this.dialog.open(DialogEditWitnessComponent);
+    // //user -> Variable aus DialogUserComponent
+    // // NICHT .user = this.currentUser, denn das bearbeitet auch den aktuellen User
+   
+    // new User(this.currentUser) erstellt ein neues User-Objekt, eine Kopie des aktuellen
+    console.log(this.currentWitness);
+     dialog.componentInstance.witness = new Witness(this.fireService.currentWitness);
+
+    dialog.componentInstance.witnessId = this.witnessId;
+    //  dialog.componentInstance.trails = this.trails;
+ 
+  }
+
+  openDeleteDialog() {
+    const dialog = this.dialog.open(DialogDeleteWitnessComponent);
+    dialog.componentInstance.witness = new Witness(this.currentWitness);
+  }
+
+  
+
 }
