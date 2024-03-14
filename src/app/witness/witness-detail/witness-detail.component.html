@@ -4,13 +4,13 @@
     <button
       mat-icon-button
       class="pin-right-upper-corner"
-      [matMenuTriggerFor]="userMenu"
+      [matMenuTriggerFor]="witnessMenu"
     >
       <mat-icon class="more-vert">more_vert</mat-icon>
     </button>
-    <mat-menu #userMenu="matMenu">
-      <button mat-menu-item (click)="editWitnessDetail()">edit</button>
-          <button mat-menu-item (click)="openDeleteDialog()">delete</button>
+    <mat-menu #witnessMenu="matMenu">
+      <button mat-menu-item (click)="openEditWitnessDialog()">edit</button>
+      <button mat-menu-item (click)="openDeleteWitnessDialog()">delete</button>
     </mat-menu>
     <img src="assets/img/person.png" alt="" />
     <div class="user-info-header">
@@ -22,7 +22,20 @@
   </mat-card-content>
 </mat-card>
 
-<h2>Zeugenaussagen</h2>
+<div class="statement-menu">
+  <h2>Zeugenaussagen</h2>
+  <button
+    class="add-statement-btn"
+    mat-fab
+    matTooltipPosition="above"
+    matTooltip="Add statement"
+    color="primary"
+    (click)="openAddStatementDialog()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
 <mat-accordion>
   <!-- hideToggle -->
   <mat-expansion-panel
@@ -117,41 +130,67 @@
       </mat-panel-title>
       <mat-panel-description>
         <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
-        {{ dummyEvents[i].description }}
+        {{ getEventById(statement.event).description }}
       </mat-panel-description>
     </mat-expansion-panel-header>
-
+    <button 
+    mat-icon-button
+    class="pin-right-corner-t48"
+    [matMenuTriggerFor]="statementMenu"
+    (click)="panelOpenState = true"
+  >
+    <mat-icon >more_vert</mat-icon>
+  </button>
+  <mat-menu #statementMenu="matMenu">
+    <button mat-menu-item (click)="openEditStatementDialog()">Aussage bearbeiten</button>
+    <button mat-menu-item (click)="openDeleteStatementDialog()">Aussage löschen</button>
+  </mat-menu>
     <mat-card class="event-info">
+      <button 
+      mat-icon-button
+      class="pin-right-upper-corner"
+      (click)="openEditEventDialog()"
+      >
+      <!-- [matMenuTriggerFor]="eventMenu" -->
+      <mat-icon >edit</mat-icon>
+    </button>
+    <mat-menu #eventMenu="matMenu">
+      <!-- <button mat-menu-item (click)="openEditDialog()">Ereignis bearbeiten</button> -->
+      <!-- <button mat-menu-item (click)="openDeleteDialog()">Aussage löschen</button> -->
+    </mat-menu>
       <div>
-        <p>{{ dummyEvents[0].date }} {{ dummyEvents[0].time }}</p>
-        <p>{{ dummyEvents[0].place }}</p>
+        <p>
+          {{ getEventById(statement.event).date }}
+          {{ getEventById(statement.event).time }}
+        </p>
+        <p>{{ getEventById(statement.event).place }}</p>
         <!-- name of witnesses -->
-        <p>{{ dummyEvents[0].witnesses }}</p>
+        <p>{{ getEventById(statement.event).witnesses }}</p>
       </div>
     </mat-card>
 
     <mat-form-field class="full-width mt-32">
-        <mat-label>Aussage selbst</mat-label>
-        <textarea
-          rows="5"
-          [disabled]="checked"
-          matInput
-          placeholder="Aussage selbst"
-        >
+      <mat-label>Aussage selbst</mat-label>
+      <textarea
+        rows="5"
+        [disabled]="checked"
+        matInput
+        placeholder="Aussage selbst"
+      >
    {{ statement.comment }}</textarea
-        >
-      </mat-form-field>
-  
-      <section class="example-section">
-        <mat-slide-toggle
-          class="example-margin"
-          [color]="color"
-          [checked]="checked"
-          (change)="checked = !checked"
-        >
-          Aussage von Zeugen bestätigen!
-        </mat-slide-toggle>
-      </section>
+      >
+    </mat-form-field>
+
+    <section class="example-section">
+      <mat-slide-toggle
+        class="example-margin"
+        [color]="color"
+        [checked]="checked"
+        (change)="checked = !checked"
+      >
+        Aussage von Zeugen bestätigen!
+      </mat-slide-toggle>
+    </section>
 
     <p>Querverweise</p>
     <button mat-button [matMenuTriggerFor]="aboveMenu">Above</button>

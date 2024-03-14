@@ -14,7 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 // import { DialogAddWitnessComponent } from '../dialogs/dialog-add-witness/dialog-add-witness.component';
  import { DialogEditWitnessComponent } from '../dialogs/dialog-edit-witness/dialog-edit-witness.component';
  import { DialogDeleteWitnessComponent } from '../dialogs/dialog-delete-witness/dialog-delete-witness.component';
-
+import { DialogAddStatementComponent } from '../../statement/dialogs/dialog-add-statement/dialog-add-statement.component';
 //for html/MaterialDesign
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -39,6 +39,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { firebaseService } from '../../firebase-services/firebase.service';
+import { DialogDeleteStatementComponent } from '../../statement/dialogs/dialog-delete-statement/dialog-delete-statement.component';
+import { DialogEditStatementComponent } from '../../statement/dialogs/dialog-edit-statement/dialog-edit-statement.component';
+import { DialogEditEventComponent } from '../../event/dialogs/dialog-edit-event/dialog-edit-event.component';
 
 @Component({
   selector: 'app-witness-detail',
@@ -69,6 +72,8 @@ import { firebaseService } from '../../firebase-services/firebase.service';
   templateUrl: './witness-detail.component.html',
   styleUrl: './witness-detail.component.scss',
 })
+
+
 export class WitnessDetailComponent implements OnInit {
   //defining variables
   witnesses: Witness[] = [];
@@ -148,7 +153,7 @@ export class WitnessDetailComponent implements OnInit {
       time: '08:15',
       place: 'Polizei Dienststelle Hannover',
       comment:
-        'Aussage 1: Hier steht ein längerer Text, das soll die Aussage selbst sein',
+        'Aussage 1: Ich habe meinen Nachbarn erkannt.',
       status: 'austehend',
     },
     {
@@ -223,7 +228,7 @@ export class WitnessDetailComponent implements OnInit {
       place: 'Hannover',
       type: 'Beobachtung',
       description:
-        'Event 4: Ein verdächtiger Mann wurde in der ≠he des Tatorts gesehen.',
+        'Event 4: Ein verdächtiger Mann wurde in der Nähe des Tatorts gesehen.',
       witnesses: ['Zeuge_id7', 'Zeuge_id8', 'Zeuge_id9'],
     },
   ];
@@ -367,7 +372,16 @@ export class WitnessDetailComponent implements OnInit {
     return event;
   }
 
-  editWitnessDetail() {
+  getAllEvents(){
+    let allEvents: Event[] = [];
+
+    this.dummyEvents.forEach((eve)=>{
+      allEvents.push(eve);
+    });
+    return allEvents;
+  }
+
+  openEditWitnessDialog() {
     const dialog = this.dialog.open(DialogEditWitnessComponent);
     // //user -> Variable aus DialogUserComponent
     // // NICHT .user = this.currentUser, denn das bearbeitet auch den aktuellen User
@@ -381,11 +395,41 @@ export class WitnessDetailComponent implements OnInit {
  
   }
 
-  openDeleteDialog() {
+  openDeleteWitnessDialog() {
     const dialog = this.dialog.open(DialogDeleteWitnessComponent);
     dialog.componentInstance.witness = new Witness(this.currentWitness);
   }
 
+  openAddStatementDialog(){
+    const dialog = this.dialog.open(DialogAddStatementComponent);
+    dialog.componentInstance.witness = new Witness(this.currentWitness);
+    dialog.componentInstance.witnessId = this.witnessId;
+     dialog.componentInstance.allEvents = this.dummyEvents;
+     dialog.componentInstance.filteredStatements = this.filteredStatements;
+  }
   
+  openEditStatementDialog() {
+    const dialog = this.dialog.open(DialogEditStatementComponent);
+    // //user -> Variable aus DialogUserComponent
+    // // NICHT .user = this.currentUser, denn das bearbeitet auch den aktuellen User
+   
+    // new User(this.currentUser) erstellt ein neues User-Objekt, eine Kopie des aktuellen
+    console.log(this.currentWitness);
+    //  dialog.componentInstance.witness = new Witness(this.fireService.currentWitness);
+
+    // dialog.componentInstance.witnessId = this.witnessId;
+    //  dialog.componentInstance.trails = this.trails;
+ 
+  }
+
+  openDeleteStatementDialog() {
+    const dialog = this.dialog.open(DialogDeleteStatementComponent);
+    // dialog.componentInstance.witness = new Witness(this.currentWitness);
+  }
+
+  openEditEventDialog(){
+   const dialog = this.dialog.open(DialogEditEventComponent);
+  //  dialog.componentInstance
+  }
 
 }
