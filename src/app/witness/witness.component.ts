@@ -46,59 +46,61 @@ export class WitnessComponent implements OnInit {
   panelOpenState = false;
   witness: Witness = new Witness();
   witnesses: Witness[] = [];
-  dummyWitnesses: Witness[] = [
-    {
-      docId: 'Zeuge_id1',
-      name: 'John Doe',
-      address: 'Musterstraße 1, 30657 Hannover',
-      phone: '01234567890',
-      role: 'Opfer',
-      statements: [
-        'statement_id1',
-        'statement_id2',
-        'statement_id3',
-        'statement_id4',
-      ],
-    },
-    {
-      docId: 'Zeuge_id2',
-      name: 'Jane Doe',
-      address: 'Musterstraße 2, 30657 Hannover',
-      phone: '01234567891',
-      role: 'Beobachter',
-      statements: [
-        'statement_id5',
-        'statement_id6',
-        'statement_id7',
-        'statement_id8',
-      ],
-    },
-    {
-      docId: 'Zeuge_id3',
-      name: 'John Smith',
-      address: 'Musterstraße 10, 30657 Hannover',
-      phone: '01234567899',
-      role: 'Angeklagter',
-      statements: [
-        'statement_id37',
-        'statement_id38',
-        'statement_id39',
-        'statement_id40',
-      ],
-    },
-  ];
+  // dummyWitnesses: Witness[] = [
+  //   {
+  //     docId: 'Zeuge_id1',
+  //     name: 'John Doe',
+  //     address: 'Musterstraße 1, 30657 Hannover',
+  //     phone: '01234567890',
+  //     role: 'Opfer',
+  //     statements: [
+  //       'statement_id1',
+  //       'statement_id2',
+  //       'statement_id3',
+  //       'statement_id4',
+  //     ],
+  //   },
+  //   {
+  //     docId: 'Zeuge_id2',
+  //     name: 'Jane Doe',
+  //     address: 'Musterstraße 2, 30657 Hannover',
+  //     phone: '01234567891',
+  //     role: 'Beobachter',
+  //     statements: [
+  //       'statement_id5',
+  //       'statement_id6',
+  //       'statement_id7',
+  //       'statement_id8',
+  //     ],
+  //   },
+  //   {
+  //     docId: 'Zeuge_id3',
+  //     name: 'John Smith',
+  //     address: 'Musterstraße 10, 30657 Hannover',
+  //     phone: '01234567899',
+  //     role: 'Angeklagter',
+  //     statements: [
+  //       'statement_id37',
+  //       'statement_id38',
+  //       'statement_id39',
+  //       'statement_id40',
+  //     ],
+  //   },
+  // ];
 
-  constructor(public dialog: MatDialog,
-    public fireService: firebaseService) //  public fireService: firebaseService
-  {}
+  constructor(
+    public dialog: MatDialog,
+    public fireService: firebaseService //  public fireService: firebaseService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.witnesses = this.getWitnessesList();
+  }
 
   getWitnessesList(): Witness[] {
-    // console.log('getWitnessesList: ', this.fireService.witnesses);
-    // console.log('getWitnessesList: ', this.dummyWitnesses);
-    // return this.fireService.witnesses;
-    return this.fireService.witnesses;
+    // console.log("getWitnessesList, witness: ", this.witnesses);
+    this.witnesses = this.fireService.witnesses;
+    return this.fireService.getWitnessesList();
   }
 
   openAddWitnessDialog() {

@@ -1,5 +1,5 @@
 import { Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
-import {  MatDialogRef, MatDialogActions} from '@angular/material/dialog';
+import { MatDialogRef, MatDialogActions } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -167,7 +167,8 @@ export class DialogAddWitnessComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.witnessId = this.route.snapshot.paramMap.get('id')!;
+    this.witnessId = this.route.snapshot.paramMap.get('id');
+    this.getList();
   }
 
   getList() {
@@ -177,23 +178,25 @@ export class DialogAddWitnessComponent implements OnInit {
   async addWitness() {
     this.loading = true;
     this.witness.role = this.selected;
-    this.witness.statements = this.dummyWitnessses[0].statements;
-   
+    this.witness.statements = [];
+    
     let tempWitness: Witness = {
-      docId: this.fireService.witnessId,
+      docId: 'test',
       name: this.witness.name,
       address: this.witness.address,
       phone: this.witness.phone,
       role: this.witness.role,
       statements: this.witness.statements,
     };
-
-   console.log(tempWitness);
-  //  await this.fireService.addWitness(tempWitness);
-this.fireService.witnesses.push(tempWitness);
-   
-let test: any = this.getList();
-this.loading = false;
-this.dialogRef.close();
+    
+    // console.log("addWitness: getList: ",this.witnesses, tempWitness);
+    await this.fireService.addWitness(tempWitness);
+    console.log("addWitness: test", tempWitness, this.fireService.witnesses);
+    // debugger;
+    this.witnesses = this.getList();
+    // this.fireService.witnesses.push(tempWitness);
+    // let test: any = this.getList();
+    this.loading = false;
+    this.dialogRef.close();
   }
 }

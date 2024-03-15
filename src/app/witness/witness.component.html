@@ -11,7 +11,7 @@
         <!-- Aussage bestätigt, Aussage ausstehend -->
       </tr>
       <tr
-        *ngFor="let witness of getWitnessesList()"
+        *ngFor="let witness of this.fireService.witnesses"
         [routerLink]="['/witness/' + witness.docId]"
       >
         <!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->

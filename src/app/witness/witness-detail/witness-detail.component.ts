@@ -242,10 +242,13 @@ export class WitnessDetailComponent implements OnInit {
     console.log('id: Init: ', this.id);
 
     //be sure arrays are not empty
-    this.fireService.witnesses = this.dummyWitnesses;
-    this.fireService.statements = this.dummyStatements;
-    this.fireService.events = this.dummyEvents;
-
+    // this.fireService.witnesses = this.dummyWitnesses;
+    // this.fireService.statements = this.dummyStatements;
+    // this.fireService.events = this.dummyEvents;
+    this.fireService.getWitnessesList();
+    this.fireService.getStatementsList();
+    this.fireService.getEventsList();
+    
     //get Witness Data
     this.witnessId = this.getWitnessId(this.id);
     console.log('witnessId: Init: ', this.witnessId);
@@ -260,9 +263,9 @@ export class WitnessDetailComponent implements OnInit {
     }
 
     //get Statement Data
-    this.currentStatement = this.getStatementById(
-      this.filteredStatements[0].docId
-    );
+    // this.currentStatement = this.getStatementById(
+    //   this.filteredStatements[0].docId
+    // );
     console.log('Init: currentStatement: ', this.currentStatement);
 
     console.log('Init: currentEvent: ', this.currentEvent);
