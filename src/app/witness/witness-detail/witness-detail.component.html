@@ -44,7 +44,7 @@
   >
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{ dummyStatements[0].date }} {{ dummyStatements[0].time }} ,
+        {{ dummyStatements[0].date }} ,{{ dummyStatements[0].time }} ,
         {{ dummyStatements[0].place }}
       </mat-panel-title>
       <mat-panel-description>
@@ -165,7 +165,8 @@
         </p>
         <p>{{ getEventById(statement.event).place }}</p>
         <!-- name of witnesses -->
-        <p>{{ getEventById(statement.event).witnesses }}</p>
+        <p>{{ getWitnessListbyStatementId(statement.docId) }}</p>
+        <!-- getWitnessListbyEventId(eventId: string) -->
       </div>
     </mat-card>
 
@@ -175,6 +176,7 @@
         rows="5"
         [disabled]="checked"
         matInput
+        [(ngModel)]="statement.comment"
         placeholder="Aussage selbst"
       >
    {{ statement.comment }}</textarea
@@ -222,6 +224,7 @@
   }
 </mat-accordion>
 
+<button (click)="checkComment()">Testen</button>
 <!-- <section class="example-section">
   <label class="example-margin">Color:</label>
   <mat-radio-group [(ngModel)]="color">

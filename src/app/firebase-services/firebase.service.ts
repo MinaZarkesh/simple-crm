@@ -23,7 +23,6 @@ interface Role {
 @Injectable({
   providedIn: 'root',
 })
-
 export class firebaseService {
   loading: boolean = false;
   //Array um die Daten lokal zwischen zu speichern
@@ -36,28 +35,285 @@ export class firebaseService {
   currentWitness: Witness = new Witness();
   currentStatement: Statement = new Statement();
   currentEvent: Event = new Event();
-  
 
-  //roles:
-   roles: Role[] = [
-    {value: 'opfer-0', viewValue: 'Opfer'},
-    {value: 'taeter-1', viewValue: 'Täter'},
-    {value: 'beobachter-2', viewValue: 'Beobachter'},
+  dummyWitnessList: Witness[] = [
+    {
+      docId: 'zeuge_id01',
+      name: 'John Doe',
+      address: 'Beispielweg 2, 30159 Hannover',
+      phone: '0123456789',
+      statements: ['statement_id01', 'statement_id02', 'statement_id03'],
+      role: 'Tatverdächtiger',
+    },
+    {
+      docId: 'zeuge_id02',
+      name: 'Jane Doe',
+      address: 'Beispielweg 2, 30159 Hannover',
+      phone: '0987654321',
+      statements: ['statement_id04', 'statement_id05'],
+      role: 'Opfer',
+    },
+    {
+      docId: 'zeuge_id03',
+      name: 'Max Mustermann',
+      address: 'Beispielweg 2, 30159 Hannover',
+      phone: '05111234567',
+      statements: ['statement_id06'],
+      role: 'Nachbar',
+    },
+    {
+      docId: 'zeuge_id04',
+      name: 'Erika Mustermann',
+      address: 'Beispielweg 2, 30159 Hannover',
+      phone: '05117654321',
+      statements: ['statement_id07', 'statement_id08'],
+      role: 'Nachbarin',
+    },
+    {
+      docId: 'zeuge_id05',
+      name: 'Johannes Schmidt',
+      address: 'Beispielweg 3, 30159 Hannover',
+      phone: '05112345678',
+      statements: ['statement_id10'],
+      role: 'Augenzeuge',
+    },
+    {
+      docId: 'zeuge_id06',
+      name: 'Maria Musterfrau',
+      address: 'Beispielweg 4, 30159 Hannover',
+      phone: '05119876543',
+      statements: ['statement_id09'],
+      role: 'Nachbarin',
+    },
+    {
+      docId: 'zeuge_id07',
+      name: 'Lukas Beispiel',
+      address: 'Beispielparkweg 1, 30165 Hannover',
+      phone: '05112345678',
+      statements: ['statement_id12'],
+      role: 'Finder des Pakets',
+    },
+    {
+      docId: 'zeuge_id08',
+      name: 'Anna Schmitz',
+      address: 'Beispielparkweg 1, 30165 Hannover',
+      phone: '05118765432',
+      statements: ['statement_id11'],
+      role: 'Anruferin vom Fund des Pakets',
+    },
   ];
 
+  dummyStatementsList: Statement[] = [
+    {
+      docId: 'statement_id01',
+      witness: 'zeuge_id01',
+      event: 'event_id01',
+      date: '12.04.2022',
+      time: '18:30',
+      place: 'Beispielweg 2, 30159 Hannover',
+      comment:
+        'Der Streit eskalierte sehr schnell, aber es wurde niemand verletzt.',
+      status: 'abgegeben',
+    },
+    {
+      docId: 'statement_id04',
+      witness: 'zeuge_id02',
+      event: 'event_id01',
+      date: '12.04.2022',
+      time: '18:30',
+      place: 'Beispielweg 2, 30159 Hannover',
+      comment: 'Es war nicht so schlimm, es wurde ja niemand verletzt.',
+      status: 'abgegeben',
+    },
+    {
+      docId: 'statement_id06',
+      witness: 'zeuge_id03',
+      event: 'event_id01',
+      date: '12.04.2022',
+      time: '18:45',
+      place: 'Beispielweg 2, 30159 Hannover',
+      comment:
+        'Ich hörte laute Stimmen, konnte aber nicht verstehen, worum es ging.',
+      status: 'abgegeben',
+    },
+    {
+      docId: 'statement_id02',
+      witness: 'zeuge_id01',
+      event: 'event_id02',
+      date: '18.04.2022',
+      time: '13:30',
+      place: 'Beispielweg 2, 30159 Hannover',
+      comment: 'Ich habe die Waffe nur zu meiner eigenen Sicherheit gekauft.',
+      status: 'abgegeben',
+    },
+    {
+      docId: 'statement_id07',
+      witness: 'zeuge_id04',
+      event: 'event_id02',
+      date: '18.04.2022',
+      time: '11:50',
+      place: 'Beispielweg 2, 30159 Hannover',
+      comment:
+      'Ich habe meinen Nachbarn gesehen, wie er aus dem Waffenladen kam.',
+      status: 'abgegeben',
+    },
+    {
+      docId: 'statement_id08',
+      witness: 'zeuge_id04',
+      event: 'event_id03',
+      date: '17.04.2022',
+      time: '14:50',
+      place: 'Beispielparkweg 1, 30165 Hannover',
+      comment: 'Der Knall war so laut, dass ich dachte, es wäre ein Feuerwerk.',
+      status: 'abgegeben',
+    },
+    {
+      docId: 'statement_id05',
+      witness: 'zeuge_id03',
+      event: 'event_id04',
+      date: '15.04.2022',
+      time: '08:15',
+      place: 'Beispielweg 4, 30159 Hannover',
+      comment: 'Sie schien gestern Abend sehr aufgeregt und besorgt zu sein.',
+      status: 'abgegeben',
+    },
+    {
+      docId: 'statement_id10',
+      witness: 'zeuge_id05',
+      event: 'event_id04',
+      date: '17.04.2022',
+      time: '13:50',
+      place: 'Beispielweg 4, 30159 Hannover',
+      comment:
+      'Ich habe sie seit gestern Abend nicht mehr gesehen. Ich mache mir Sorgen, dass ihr was zugestoßen ist.',
+      status: 'abgegeben',
+    },
+    {
+      docId: 'statement_id03',
+      witness: 'zeuge_id01',
+      event: 'event_id05',
+      date: '19.04.2022',
+      time: '21:45',
+      place: 'Polizeidienststelle 2, 30159 Hannover',
+      comment: 'Ich verweigere die Aussage',
+      status: 'verweigert',
+    },
+    {
+      docId: 'statement_id09',
+      witness: 'zeuge_id06',
+      event: 'event_id05',
+      date: '17.04.2022',
+      time: '13:50',
+      place: 'Beispielparkweg 1, 30165 Hannover',
+      comment: 'Er schien sich zu beeilen und blickte sich nervös um, als er das Paket verlud.',
+      status: 'abgegeben',
+    },
+ 
+    {
+      docId: 'statement_id11',
+      witness: 'zeuge_id08',
+      event: 'event_id6',
+      date: '17.04.2022',
+      time: '13:50',
+      place: 'Beispielparkweg 1, 30165 Hannover',
+      comment:
+        'Das Paket war auffällig platziert, fast so, als ob es jemand finden sollte.',
+      status: 'abgegeben',
+    },
+    {
+      docId: 'statement_id12',
+      witness: 'zeuge_id07',
+      event: 'event_id6',
+      date: '17.04.2022',
+      time: '13:50',
+      place: 'Beispielparkweg 1, 30165 Hannover',
+      comment:
+        'Ich habe gleich gesehen, dass etwas nicht stimmte und habe den Fund des Pakets sofort gemeldet.',
+      status: 'abgegeben',
+    },
+  ];
+
+  dummyEventList: Event[] = [
+    {
+      docId: 'event_id01',
+      date: '12.04.2022',
+      time: '18:00',
+      place: 'Hannover',
+      description: 'Ein Streit zwischen dem Nachbarspaar wurde gemeldet.',
+      type: 'Streit',
+      witnesses: ['zeuge_id01', 'zeuge_id02', 'zeuge_id03'],
+    },
+    {
+      docId: 'event_id02',
+      date: '13.04.2022',
+      time: '19:30',
+      place: 'Hannover',
+      description:
+        'Der Nachbarsmann wurde gesehen, wie er eine Schusswaffe kaufte.',
+      type: 'Waffenkauf',
+      witnesses: ['zeuge_id01', 'zeuge_id04'],
+    },
+    {
+      docId: 'event_id03',
+      date: '14.04.2022',
+      time: '22:15',
+      place: 'Hannover',
+      description:
+        'Ein lauter Knall wurde aus der Wohnung des Nachbarspaares gehört.',
+      type: 'Lärmbelästigung',
+      witnesses: ['zeuge_id04'],
+    },
+    {
+      docId: 'event_id04',
+      date: '15.04.2022',
+      time: '08:00',
+      place: 'Hannover',
+      description:
+        'Die Nachbarsfrau wurde seit dem Vorabend nicht mehr gesehen.',
+      type: 'Vermisstenfall',
+      witnesses: ['zeuge_id05', 'zeuge_id03'],
+    },
+    {
+      docId: 'event_id05',
+      date: '16.04.2022',
+      time: '10:30',
+      place: 'Hannover',
+      description:
+        'Der Nachbarsmann wurde beobachtet, wie er ein großes Paket ins Auto brachte.',
+      type: 'Verdächtige Aktivität',
+      witnesses: ['zeuge_id01', 'zeuge_id06'],
+    },
+    {
+      docId: 'event_id06',
+      date: '17.04.2022',
+      time: '13:45',
+      place: 'Hannover',
+      description: 'Ein großes Paket wurde am Rand eines Parks gefunden.',
+      type: 'Leichenfund',
+      witnesses: ['zeuge_id07', 'zeuge_id08'],
+    },
+  ];
+
+  //roles:
+  roles: Role[] = [
+    { value: 'opfer-0', viewValue: 'Opfer' },
+    { value: 'verdaechtiger-1', viewValue: 'Verdächtiger' },
+    { value: 'beobachter-2', viewValue: 'Beobachter' },
+    { value: 'sontiges-3', viewValue: 'Sonstiges' },
+  ];
 
   // userId: string | null = inject(ActivatedRoute).snapshot.paramMap.get('id');
   witnessId = 'PRgrM5ZikZoNXdMqG8hE';
   statementId = 'PRgrM5ZikZoNXdMqG8hE';
   eventId = 'PRgrM5ZikZoNXdMqG8hE';
   //Lists
-  // unSubWitnesses; 
-  // unSubStatements; 
-  // unSubEvents; 
+  unSubWitnesses;
+  unSubStatements;
+  unSubEvents;
   // //Singles
   // unSubSingleWitness;
-  // unSubSingleStatement; 
-  // unSubSingleEvent; 
+  // unSubSingleStatement;
+  // unSubSingleEvent;
 
   // unSubUsers; //Alle
   // unSubSingleUser; // Um auf einzelne Docs zu zugreifen
@@ -69,79 +325,110 @@ export class firebaseService {
     this.witnesses = [];
     this.statements = [];
     this.events = [];
-    
+
     // this.normalUsers = [];
     //connect to firebase with onSnapshot
+    // if(this.witnesses.length == 0){
+    //  this.addWitnessList();
+    //  this.addStatementList();
+    //  this.addEventList()
+    // }
 
-    // this.unSubWitnesses = this.subWitnessesList();
-    // this.unSubStatements = this.subStatementsList();
-    // this.unSubEvents = this.subEventsList();
-    
+    this.unSubWitnesses = this.subWitnessesList();
+    this.unSubStatements = this.subStatementsList();
+    this.unSubEvents = this.subEventsList();
+
     //  this.unSubSingleWitness = this.subSingleWitness(this.witnessId);
     //  this.unSubSingleStatement = this.subSingleStatement(this.statementId);
     //  this.unSubSingleEvent = this.subSingleEvent(this.eventId);
- 
-    }
+  }
 
- //   //kappt die Verbindung zu Firebase, bzw. von den Observables ??
- ngOnDestroy(): void {
+  //   //kappt die Verbindung zu Firebase, bzw. von den Observables ??
+  ngOnDestroy(): void {
+    this.unSubWitnesses();
+    this.unSubStatements();
+     this.unSubEvents();
+    // this.unSubSingleWitness();
+    // this.unSubSingleStatement();
+    // this.unSubSingleEvent();
+  }
 
-  // this.unSubWitnesses();
-  // this.unSubStatements();
-  // this.unSubEvents();
-  // this.unSubSingleWitness();
-  // this.unSubSingleStatement();
-  // this.unSubSingleEvent();
-}
+  //add Objects
+  async addWitness(witness: Witness) {
+    witness.docId = witness.docId!;
+    await addDoc(this.getColRef('witnesses'), witness)
+      .catch((error) => {
+        console.error('Error adding witness: ', error);
+      })
+      .then((docRef) => {
+        //erstellt ein neues Doc mit ID
+        this.witnesses.push(
+          this.setWitnessObject(witness, docRef?.id as string)
+        );
+        console.log(
+          'Document written with ID: ',
+          this.witnesses[this.witnesses.length - 1].docId
+        );
+      });
+  }
 
-//add Objects
-async addWitness(witness: Witness) {
-  witness.docId = witness.docId!;
-  await addDoc(this.getColRef('witnesses'), witness)
-    .catch((error) => {
-      console.error('Error adding witness: ', error);
-    })
-    .then((docRef) => {
-      //erstellt ein neues Doc mit ID
-      this.witnesses.push(this.setWitnessObject(witness, docRef?.id as string));
-      console.log(
-        'Document written with ID: ',
-        this.witnesses[this.witnesses.length - 1].docId
-      );
+  async addWitnessList() {
+    await this.dummyWitnessList.forEach((element) => {
+      this.addWitness(element);
     });
-}
+  }
 
-async addStatement(statement: Statement) {
-  statement.docId = statement.docId!;
-  await addDoc(this.getColRef('statements'), statement)
-  .catch((error) => {
-    console.error('Error adding statement: ', error);
-  })
-  .then((docRef) => {
-    //erstellt ein neues Doc mit ID
-    this.statements.push(this.setStatementObject(statement, docRef?.id as string));
-    console.log( 'Document written with ID: ', this.statements[this.statements.length - 1].docId);
-  });
-}
+  async addStatementList() {
+    await this.dummyStatementsList.forEach((element) => {
+      this.addStatement(element);
+    });
+  }
 
-async addEvent(event: Event) {
-  event.docId = event.docId!;
-  await addDoc(this.getColRef('events'), event)
-  .catch((error) => {
-    console.error('Error adding event: ', error);
-  })
-  .then((docRef) => {
-    //erstellt ein neues Doc mit ID
-    this.events.push(this.setEventObject(event, docRef?.id as string));
-    console.log(  'Document written with ID: ', this.events[this.events.length - 1].docId);
-  });
-}
+  async addEventList(){
+    await this.dummyEventList.forEach((element) => {
+      this.addEvent(element);
+    });
+  }
 
-//update ObjectLists //warum hat async kein Effekt hier?
+  async addStatement(statement: Statement) {
+    statement.docId = statement.docId!;
+    await addDoc(this.getColRef('statements'), statement)
+      .catch((error) => {
+        console.error('Error adding statement: ', error);
+      })
+      .then((docRef) => {
+        //erstellt ein neues Doc mit ID
+        this.statements.push(
+          this.setStatementObject(statement, docRef?.id as string)
+        );
+        console.log(
+          'Document written with ID: ',
+          this.statements[this.statements.length - 1].docId
+        );
+      });
+  }
+
+  async addEvent(event: Event) {
+    event.docId = event.docId!;
+    await addDoc(this.getColRef('events'), event)
+      .catch((error) => {
+        console.error('Error adding event: ', error);
+      })
+      .then((docRef) => {
+        //erstellt ein neues Doc mit ID
+        this.events.push(this.setEventObject(event, docRef?.id as string));
+        console.log(
+          'Document written with ID: ',
+          this.events[this.events.length - 1].docId
+        );
+      });
+  }
+
+  //update ObjectLists //warum hat async kein Effekt hier?
   updateWitnessList() {
     //aktualisiert die Daten in der Sammlung
-     this.witnesses.forEach((element) => {
-      if (element.docId)  this.updateSingleWitness(element.docId, element);
+    this.witnesses.forEach((element) => {
+      if (element.docId) this.updateSingleWitness(element.docId, element);
     });
     console.log('updateWitnessList: ', this.witnesses);
   }
@@ -160,7 +447,7 @@ async addEvent(event: Event) {
     console.log('updateEventList: ', this.events);
   }
 
-//updateSingleObject
+  //updateSingleObject
   async updateSingleWitness(id: string, witness: Witness) {
     if (id) {
       let docRef = this.getSingleDocRef('witnesses', id);
@@ -188,10 +475,9 @@ async addEvent(event: Event) {
           this.currentStatement = statement;
           console.log('Statement updated: ', statement);
         });
-      } else {
-        console.error('docId is null');
-      }
-
+    } else {
+      console.error('docId is null');
+    }
   }
 
   async updateSingleEvent(id: string, event: Event) {
@@ -207,40 +493,36 @@ async addEvent(event: Event) {
         });
     } else {
       console.error('docId is null');
-    };
+    }
   }
 
   // delete Single Object
   async deleteSingleWitness(id: string) {
     if (id) {
       let docRef = this.getSingleDocRef('witnesses', id);
-      await deleteDoc(docRef)
-      .catch((err) => {
+      await deleteDoc(docRef).catch((err) => {
         console.error('Error deleting witness: ', err);
       });
     }
   }
 
-  async deleteSingleStatement(id:string){
-    if(id){
+  async deleteSingleStatement(id: string) {
+    if (id) {
       let docRef = this.getSingleDocRef('statements', id);
-      await deleteDoc(docRef)
-      .catch((err) => {
+      await deleteDoc(docRef).catch((err) => {
         console.error('Error deleting statement: ', err);
       });
     }
   }
 
-  async deleteSingleEvent(id:string){
-    if(id){
+  async deleteSingleEvent(id: string) {
+    if (id) {
       let docRef = this.getSingleDocRef('events', id);
-      await deleteDoc(docRef)
-      .catch((err) => {
+      await deleteDoc(docRef).catch((err) => {
         console.error('Error deleting event: ', err);
       });
     }
   }
-
 
   //set whole List of Witnesses from Backend
   subWitnessesList() {
@@ -307,30 +589,27 @@ async addEvent(event: Event) {
     });
   }
   subSingleWitness(id: string) {
-    return onSnapshot(
-      this.getSingleDocRef('witnesses', id), (element)=>{
-        this.currentWitness = this.setWitnessObject(element.data(), element.id); //Bei Interface
-        this.currentWitness = new Witness(element.data()); //bei Class
-      }
-    )
+    return onSnapshot(this.getSingleDocRef('witnesses', id), (element) => {
+      this.currentWitness = this.setWitnessObject(element.data(), element.id); //Bei Interface
+      this.currentWitness = new Witness(element.data()); //bei Class
+    });
   }
 
   subSingleStatement(id: string) {
-    return onSnapshot(
-      this.getSingleDocRef('statements', id), (element)=>{
-        this.currentStatement = this.setStatementObject(element.data(), element.id); //Bei Interface
-        this.currentStatement = new Statement(element.data()); //bei Class
-      }
-    )
+    return onSnapshot(this.getSingleDocRef('statements', id), (element) => {
+      this.currentStatement = this.setStatementObject(
+        element.data(),
+        element.id
+      ); //Bei Interface
+      this.currentStatement = new Statement(element.data()); //bei Class
+    });
   }
 
   subSingleEvent(id: string) {
-    return onSnapshot(
-      this.getSingleDocRef('events', id), (element)=>{
-        this.currentEvent = this.setEventObject(element.data(), element.id); //Bei Interface
-        this.currentEvent = new Event(element.data()); //bei Class
-      }
-    )
+    return onSnapshot(this.getSingleDocRef('events', id), (element) => {
+      this.currentEvent = this.setEventObject(element.data(), element.id); //Bei Interface
+      this.currentEvent = new Event(element.data()); //bei Class
+    });
   }
 
   //set New Objects
@@ -372,7 +651,7 @@ async addEvent(event: Event) {
     };
   }
 
-  //CleanJSONUser Objects 
+  //CleanJSONUser Objects
   //get single Object
   getWitnessObject(witness: Witness): {} {
     return {
@@ -382,7 +661,7 @@ async addEvent(event: Event) {
       phone: witness.phone,
       role: witness.role,
       statements: witness.statements,
-    }
+    };
   }
 
   getStatementObject(statement: Statement): {} {
@@ -395,7 +674,7 @@ async addEvent(event: Event) {
       place: statement.place,
       comment: statement.comment,
       status: statement.status,
-    }
+    };
   }
 
   getEventObject(event: Event): {} {
@@ -407,7 +686,7 @@ async addEvent(event: Event) {
       type: event.type,
       description: event.description,
       witnesses: event.witnesses,
-    }
+    };
   }
 
   //get Lists of Objects

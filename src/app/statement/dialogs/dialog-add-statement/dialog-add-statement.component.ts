@@ -13,11 +13,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormControl, Validators } from '@angular/forms';
 import { Statement } from '../../../../models/statement.class';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
-import {  MatDialogRef} from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { firebaseService } from '../../../firebase-services/firebase.service';
-
 
 @Component({
   selector: 'app-dialog-add-statement',
@@ -42,22 +41,19 @@ import { firebaseService } from '../../../firebase-services/firebase.service';
   templateUrl: './dialog-add-statement.component.html',
   styleUrl: './dialog-add-statement.component.scss',
 })
-
-
 export class DialogAddStatementComponent implements OnInit {
-
   eventControl = new FormControl<Event | null>(null, Validators.required);
   selectFormControl = new FormControl('', Validators.required);
   loading: boolean = false;
 
   allEvents: Event[] = [];
-  event!:Event;
+  event!: Event;
   statement = new Statement();
   witness!: Witness;
   witnessId!: string;
   filteredStatements!: Statement[];
-  tempDate:any;
-  tempTime:any;
+  tempDate: any;
+  tempTime: any;
   constructor(
     private route: ActivatedRoute,
     public fireService: firebaseService,
@@ -67,7 +63,7 @@ export class DialogAddStatementComponent implements OnInit {
   ngOnInit(): void {
     console.log('ngInit edit: ', this.witness.name);
     this.setDefaultWitness();
-    console.log("ngInit addStatement: ", this.allEvents);
+    console.log('ngInit addStatement: ', this.allEvents);
   }
 
   setDefaultWitness() {
@@ -76,28 +72,38 @@ export class DialogAddStatementComponent implements OnInit {
     }
   }
 
-  async addStatement(){
-   let tempEvent!:string;
-
-  //  let id:any;
-    if(this.eventControl.value?.docId != null || this.eventControl.value?.docId != undefined){
-      tempEvent = this.eventControl.value?.docId
-    }else{
+  async addStatement() {
+    let tempEvent!: string;
+    let dateString!:any;
+    //  let id:any;
+    dateString = this.tempDate?.toLocaleString('de-DE', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    console.log("dateString:" ,dateString);
+    if (
+      this.eventControl.value?.docId != null ||
+      this.eventControl.value?.docId != undefined
+    ) {
+      tempEvent = this.eventControl.value?.docId;
+      // this.statement.date = this.tempDate?.getTime().toString() || "0";
+    } else {
       // id = this.fireService.statements.length+1;
-      tempEvent = "event_id1";
+      tempEvent = 'event_id1';
     }
     let tempStatement: Statement = {
       docId: this.fireService.statementId,
       witness: this.witnessId,
       event: tempEvent,
-      date: this.statement.date,
+      date: dateString,
       time: this.statement.time,
       place: this.statement.place,
       comment: '',
-      status: ''
-    }
+      status: '',
+    };
     this.filteredStatements.push(tempStatement);
-    console.log("addStatement: ", tempStatement);
+    console.log('addStatement: ', tempStatement);
     this.dialogRef.close();
   }
 }

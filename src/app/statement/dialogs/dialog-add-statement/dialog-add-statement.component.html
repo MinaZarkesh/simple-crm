@@ -33,15 +33,13 @@
           placeholder="Polizei Dienststelle Hannover"
         />
       </mat-form-field>
-      <mat-form-field class="mr-16">
-        <mat-label>Wähle ein Datum</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="statement.date" />
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="picker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+      <mat-form-field appearance="outline" class="mr-16">
+        <mat-label>Aufnahmedatum</mat-label>
+        <input [disabled]="loading" [(ngModel)]="tempDate" matInput placeholder="Aufnahmedatum" [matDatepicker]="picker1">
+        <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+        <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Uhrzeit</mat-label>
