@@ -44,7 +44,6 @@ import { MatMenuModule } from '@angular/material/menu';
 export class WitnessComponent implements OnInit {
   //for html
   panelOpenState = false;
-  witness: Witness = new Witness();
   witnesses: Witness[] = [];
   // dummyWitnesses: Witness[] = [
   //   {
@@ -98,7 +97,7 @@ export class WitnessComponent implements OnInit {
   }
 
   getWitnessesList(): Witness[] {
-    // console.log("getWitnessesList, witness: ", this.witnesses);
+   console.log("getWitnessesList, witnesses: ", this.witnesses);
     this.witnesses = this.fireService.witnesses;
     return this.fireService.getWitnessesList();
   }

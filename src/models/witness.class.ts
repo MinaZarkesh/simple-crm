@@ -11,7 +11,7 @@ export class Witness {
   constructor(obj?: any) {
     this.docId = obj ? obj.docId : null;
     this.name = obj ? obj.name : '';
-    this.address = obj ? obj.capacity : '';
+    this.address = obj ? obj.address : '';
     this.phone = obj ? obj.phone : '';
     this.role = obj ? obj.role : 'user';
     this.statements = obj ? obj.statements : [];

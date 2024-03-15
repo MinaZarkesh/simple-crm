@@ -72,7 +72,6 @@ import { DialogEditEventComponent } from '../../event/dialogs/dialog-edit-event/
   templateUrl: './witness-detail.component.html',
   styleUrl: './witness-detail.component.scss',
 })
-
 export class WitnessDetailComponent implements OnInit {
   //defining variables
   witnesses: Witness[] = [];
@@ -87,7 +86,7 @@ export class WitnessDetailComponent implements OnInit {
   currentStatement: Statement = new Statement();
   eventId!: string;
   currentEvent: Event = new Event();
-  testEventId:string = 'event_id1';
+  testEventId: string = 'event_id1';
   //for html allgemein
   loading: boolean = false;
   panelOpenState = false;
@@ -237,7 +236,7 @@ export class WitnessDetailComponent implements OnInit {
     public dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {
+ async ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id')!;
     console.log('id: Init: ', this.id);
 
@@ -245,14 +244,16 @@ export class WitnessDetailComponent implements OnInit {
     // this.fireService.witnesses = this.dummyWitnesses;
     // this.fireService.statements = this.dummyStatements;
     // this.fireService.events = this.dummyEvents;
-    this.fireService.getWitnessesList();
-    this.fireService.getStatementsList();
-    this.fireService.getEventsList();
-    
+   await this.fireService.subWitnessesList();
+     this.witnesses = this.getWitnessesList();
+    this.statements = this.fireService.getStatementsList();
+    this.events = this.fireService.getEventsList();
     //get Witness Data
     this.witnessId = this.getWitnessId(this.id);
     console.log('witnessId: Init: ', this.witnessId);
-    this.currentWitness = this.getWitnessById(this.witnessId);
+     this.currentWitness = this.fireService.currentWitness = this.getWitnessById(
+      this.witnessId
+     );
     console.log('currentWitness: Init: ', this.currentWitness);
     if (this.currentWitness.docId) {
       this.filterStatementsByWitnessId(this.currentWitness.docId);
@@ -273,6 +274,13 @@ export class WitnessDetailComponent implements OnInit {
     // console.log("Init: currentEventWitnessList: ", this.getWitnessListbyStatementId('statement_id1'))
   }
 
+  getWitnessesList(): Witness[] {
+     console.log("getWitnessesList, witness: ", this.witnesses);
+    this.witnesses = this.fireService.witnesses;
+    return this.fireService.getWitnessesList();
+  }
+
+
   getWitnessId(id: string): string {
     // else 'Zeuge_id1'
     let temp!: Witness;
@@ -280,7 +288,7 @@ export class WitnessDetailComponent implements OnInit {
     if (id == temp.docId) {
       return id;
     } else {
-      return 'Zeuge_id1';
+      return this.id;
     }
   }
 
@@ -378,26 +386,25 @@ export class WitnessDetailComponent implements OnInit {
     return event;
   }
 
-  getWitnessListbyStatementId(statementId: string |undefined) {
+  getWitnessListbyStatementId(statementId: string | undefined) {
     let tempWitnessList: string[] = [];
     let tempEvent: Event;
-    let tempWitness:Witness;
+    let tempWitness: Witness;
     let tempName: string;
     let eventId;
-    if(statementId != undefined){
+    if (statementId != undefined) {
       eventId = this.getEventByStatementId(statementId).docId;
       tempEvent = this.getEventById(eventId);
-      tempEvent.witnesses.forEach((wit)=>{
+      tempEvent.witnesses.forEach((wit) => {
         tempWitness = this.getWitnessById(wit);
         tempName = tempWitness.name;
         tempWitnessList.push(tempName);
-      })
+      });
       // console.log('testen: ', tempWitnessList);
       return tempWitnessList;
-    }else{
-      return "verkackt";
+    } else {
+      return 'verkackt';
     }
-    
   }
 
   getAllEvents() {
@@ -415,7 +422,8 @@ export class WitnessDetailComponent implements OnInit {
     // // NICHT .user = this.currentUser, denn das bearbeitet auch den aktuellen User
 
     // new User(this.currentUser) erstellt ein neues User-Objekt, eine Kopie des aktuellen
-    console.log(this.currentWitness);
+    // this.fireService.currentWitness = this.currentWitness;
+    console.log('openEdit: currentWitness: ', this.currentWitness);
     dialog.componentInstance.witness = new Witness(
       this.fireService.currentWitness
     );
@@ -466,5 +474,4 @@ export class WitnessDetailComponent implements OnInit {
       this.filteredStatements[this.filteredStatements.length - 1].comment
     );
   }
-  
 }
