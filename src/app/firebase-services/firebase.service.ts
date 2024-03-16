@@ -296,7 +296,8 @@ export class firebaseService {
   // ];
 
   //roles:
- 
+  
+
   roles: Role[] = [
     { value: 'opfer-0', viewValue: 'Opfer' },
     { value: 'verdaechtiger-1', viewValue: 'Verdächtiger' },
