@@ -48,7 +48,7 @@ export class DialogAddStatementComponent implements OnInit {
 
   allEvents: Event[] = [];
   event!: Event;
-  statement = new Statement();
+  statement!: Statement;
   statementId!:string;
   witness!: Witness;
   witnessId!: string;
@@ -63,13 +63,7 @@ export class DialogAddStatementComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('ngInit addStatement: ', this.witness.name);
-    this.setDefaultWitness();
-  }
-
-  setDefaultWitness() {
-    if (this.witness) {
-      console.log(this.witness.statements);
-    }
+    this.statement = new Statement();
   }
 
   updatefilterStatements(witness: Witness, statementId:string){
@@ -77,25 +71,34 @@ export class DialogAddStatementComponent implements OnInit {
     this.witness.statements.push(statementId);
   }
 
+  filterStatementsByWitnessId(witnessId: string): Statement[] {
+    let filterStatement: Statement[] = [];
+
+    this.fireService.statements.forEach((element) => {
+      if (element.witness == witnessId) {
+        filterStatement.push(element);
+      }
+    });
+
+    this.filteredStatements = filterStatement;
+    return filterStatement;
+  }
+
   async addStatement() {
     let tempEvent!: string;
     let dateString!:any;
-    //  let id:any;
     dateString = this.tempDate?.toLocaleString('de-DE', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit'
     });
 
-    // console.log("dateString:" ,dateString);
     if (
       this.eventControl.value?.docId != null ||
       this.eventControl.value?.docId != undefined
     ) {
       tempEvent = this.eventControl.value?.docId;
-      // this.statement.date = this.tempDate?.getTime().toString() || "0";
     } else {
-      // id = this.fireService.statements.length+1;
       tempEvent = 'event_id1';
     }
 
@@ -111,9 +114,8 @@ export class DialogAddStatementComponent implements OnInit {
     };
 
     await this.fireService.addStatement(tempStatement);
-    
-    // this.filteredStatements.push(tempStatement);
     this.witness.statements.push(this.fireService.statementId);
+    this.fireService.filteredStatements = this.filterStatementsByWitnessId(this.witnessId);
     await this.fireService.updateSingleWitness(this.witnessId, this.witness);
     this.dialogRef.close();
   }

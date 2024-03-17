@@ -35,7 +35,7 @@ export class firebaseService {
   currentWitness: Witness = new Witness();
   currentStatement: Statement = new Statement();
   currentEvent: Event = new Event();
-
+  filteredStatements!:Statement[];
   // dummyWitnessList: Witness[] = [
   //   {
   //     docId: 'zeuge_id01',
@@ -375,6 +375,7 @@ export class firebaseService {
   // }
 
   //add Objects
+ 
   async addWitness(witness: Witness) {
      witness.docId = witness.docId!;
     await addDoc(this.getColRef('witnesses'), witness)
@@ -595,6 +596,7 @@ export class firebaseService {
       console.log('events: ', this.events);
     });
   }
+
   subSingleWitness(id: string) {
     return onSnapshot(this.getSingleDocRef('witnesses', id), (element) => {
       this.currentWitness = this.setWitnessObject(element.data(), element.id); //Bei Interface
@@ -698,6 +700,8 @@ export class firebaseService {
 
   //get Lists of Objects
   getWitnessesList(): Witness[] {
+    console.log("getWitnessesList: ", this.witnesses);
+    
     return this.witnesses;
   }
 

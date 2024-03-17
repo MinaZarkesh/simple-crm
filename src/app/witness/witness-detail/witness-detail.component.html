@@ -39,7 +39,7 @@
 <mat-accordion>
   <!-- hideToggle -->
 
-  @for (statement of filteredStatements; track statement; let i = $index ){
+  @for (statement of this.fireService.filteredStatements; track statement; let i = $index ){
   <mat-expansion-panel
     (opened)="panelOpenState = true"
     (closed)="panelOpenState = false"
@@ -109,7 +109,7 @@
         class="example-margin"
         [color]="color"
         [checked]="checked"
-        (change)="checked = !checked"
+        (change)="checkStatement(i)"
       >
         Aussage von Zeugen bestätigen!
       </mat-slide-toggle>

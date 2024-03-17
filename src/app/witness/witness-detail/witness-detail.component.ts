@@ -236,7 +236,7 @@ export class WitnessDetailComponent implements OnInit {
     public dialog: MatDialog
   ) {}
 
- async ngOnInit() {
+  async ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id')!;
     console.log('id: Init: ', this.id);
 
@@ -244,23 +244,25 @@ export class WitnessDetailComponent implements OnInit {
     // this.fireService.witnesses = this.dummyWitnesses;
     // this.fireService.statements = this.dummyStatements;
     // this.fireService.events = this.dummyEvents;
-   await this.fireService.subWitnessesList();
-     this.witnesses = this.getWitnessesList();
-    this.statements = this.fireService.getStatementsList();
-    this.events = this.fireService.getEventsList();
+
+    await this.fireService.subSingleWitness(this.id);
+    await this.fireService.subWitnessesList();
+    await this.fireService.subStatementsList();
+    await this.fireService.subEventsList();
+    //  this.witnesses = this.fireService.getWitnessesList();
+    // this.statements = this.fireService.getStatementsList();
+    // this.events = this.fireService.getEventsList();
+
     //get Witness Data
     this.witnessId = this.getWitnessId(this.id);
-    // console.log('witnessId: Init: ', this.witnessId);
-     this.currentWitness = this.fireService.currentWitness = this.getWitnessById(
-      this.witnessId
-     );
+    //  console.log('witnessId: Init: ', this.witnessId);
+    this.currentWitness = this.getWitnessById(this.witnessId);
     console.log('currentWitness: Init: ', this.currentWitness);
+
     if (this.currentWitness.docId) {
       this.filterStatementsByWitnessId(this.currentWitness.docId);
-      console.log(
-        'filterStatementsByWitnessId filtered: ',
-        this.filteredStatements
-      );
+
+      console.log('filterStatementsByWitnessId filtered: ');
     }
 
     //get Statement Data
@@ -275,11 +277,10 @@ export class WitnessDetailComponent implements OnInit {
   }
 
   getWitnessesList(): Witness[] {
-     console.log("getWitnessesList, witness: ", this.witnesses);
+    console.log('getWitnessesList, witness: ', this.witnesses);
     this.witnesses = this.fireService.witnesses;
     return this.fireService.getWitnessesList();
   }
-
 
   getWitnessId(id: string): string {
     // else 'Zeuge_id1'
@@ -315,16 +316,25 @@ export class WitnessDetailComponent implements OnInit {
   }
 
   filterStatementsByWitnessId(witnessId: string): Statement[] {
-    let filterStatement: Statement[] = [];
-
+    let filterStatements: Statement[] = [];
+    console.log(
+      'filterStatement: fireService.statements: ',
+      this.fireService.statements
+    );
+    console.log('filterStatement: witnessId: ', this.witnessId);
     this.fireService.statements.forEach((element) => {
       if (element.witness == witnessId) {
-        filterStatement.push(element);
+        filterStatements.push(element);
       }
     });
 
-    this.filteredStatements = filterStatement;
-    return filterStatement;
+    this.filteredStatements = this.fireService.filteredStatements =
+      filterStatements;
+    console.log(
+      'filterStatements: filtered: ',
+      this.fireService.filteredStatements
+    );
+    return filterStatements;
   }
 
   getStatementById(id: any): Statement {
@@ -418,31 +428,27 @@ export class WitnessDetailComponent implements OnInit {
 
   openEditWitnessDialog() {
     const dialog = this.dialog.open(DialogEditWitnessComponent);
-    // //user -> Variable aus DialogUserComponent
-    // // NICHT .user = this.currentUser, denn das bearbeitet auch den aktuellen User
-
-    // new User(this.currentUser) erstellt ein neues User-Objekt, eine Kopie des aktuellen
-    // this.fireService.currentWitness = this.currentWitness;
-    console.log('openEdit: currentWitness: ', this.currentWitness);
-    dialog.componentInstance.witness = new Witness(
-      this.fireService.currentWitness
-    );
-
+     //witness -> Variable aus DialogUserComponent
+    this.currentWitness = this.fireService.currentWitness;
+    // NICHT .witness = this.currentWitness, denn das bearbeitet auch den aktuellen Witness sofort
+    dialog.componentInstance.witness = new Witness(this.currentWitness);
     dialog.componentInstance.witnessId = this.witnessId;
-    //  dialog.componentInstance.trails = this.trails;
   }
 
   openDeleteWitnessDialog() {
     const dialog = this.dialog.open(DialogDeleteWitnessComponent);
+    this.currentWitness = this.fireService.currentWitness;
     dialog.componentInstance.witness = new Witness(this.currentWitness);
     dialog.componentInstance.witnessId = this.witnessId;
   }
 
   openAddStatementDialog() {
     const dialog = this.dialog.open(DialogAddStatementComponent);
+    this.currentWitness = this.fireService.currentWitness;
+    this.filteredStatements = this.fireService.filteredStatements;
     dialog.componentInstance.witness = new Witness(this.currentWitness);
     dialog.componentInstance.witnessId = this.witnessId;
-    dialog.componentInstance.statement = this.currentStatement;
+    dialog.componentInstance.statement = this.fireService.currentStatement;
     dialog.componentInstance.statementId = this.statementId;
     dialog.componentInstance.allEvents = this.fireService.events;
     dialog.componentInstance.filteredStatements = this.filteredStatements;
@@ -472,21 +478,36 @@ export class WitnessDetailComponent implements OnInit {
   }
 
   checkComment() {
-    console.log(
-      'Test: ',
-      this.filteredStatements
-    );
+    console.log('Test: ', this.filteredStatements);
 
     console.log('currentWitness: check: ', this.currentWitness);
     console.log('currentWitness: check: ', this.currentStatement);
   }
 
-  async updateWitness(){
-  let tempStatementsIdList:any[] = [];
-  this.filteredStatements.forEach((stmt)=>{
-    tempStatementsIdList.push(stmt.docId);
-  })
-    console.log("updateWitness Param: ", this.witnessId,this.currentWitness, this.filteredStatements, tempStatementsIdList);
+  async updateWitness() {
+    let tempStatementsIdList: any[] = [];
+    this.filteredStatements.forEach((stmt) => {
+      tempStatementsIdList.push(stmt.docId);
+    });
+    console.log(
+      'updateWitness Param: ',
+      this.currentWitness,
+      'filteredStatements: ',
+      this.fireService.filteredStatements,
+      'statements: ',
+      this.currentWitness.statements
+    );
     //await this.fireService.updateSingleWitness(this.witnessId, this.currentWitness);
+  }
+
+ async checkStatement(idx: number) {
+    console.log('checked: ', idx);
+    this.currentStatement = this.fireService.filteredStatements[idx];
+
+    if(this.currentStatement.docId){
+      this.statementId = this.getStatementId(this.currentStatement.docId);
+    }
+    await this.fireService.updateSingleStatement(this.statementId, this.currentStatement);
+    this.checked = !this.checked;
   }
 }
