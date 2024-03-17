@@ -1,1 +1,63 @@
-<p>dialog-edit-statement works!</p>
+<div class="dialog-container">
+    <h1 mat-dialog-title>Füge eine Aussage hinzu</h1>
+    <mat-dialog-content>
+      <div>
+        <mat-form-field class="mr-16 full-width" appearance="outline">
+          <mat-label>Zeuge</mat-label>
+          <input readonly [(ngModel)]="witness.name" matInput />
+        </mat-form-field>
+      </div>
+      <!-- <h4>Event</h4> -->
+      <div>
+        <mat-form-field class="full-width">
+          <mat-label>Ereignis</mat-label>
+          <mat-select [formControl]="eventControl" required>
+            <mat-option>--</mat-option>
+            @for (event of allEvents; track event) {
+            <mat-option [value]="event">{{ event.description }}</mat-option>
+            }
+          </mat-select>
+          @if (eventControl.hasError('required')) {
+          <mat-error>Please choose an event</mat-error>
+          }
+          <mat-hint>{{eventControl.value?.docId}}</mat-hint>
+        </mat-form-field>
+      </div>
+      <h4>Statement</h4>
+      <div>
+        <mat-form-field class="mr-16 full-width">
+          <mat-label>Ort</mat-label>
+          <input
+            matInput
+            [(ngModel)]="statement.place"
+            placeholder="Polizei Dienststelle Hannover"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="mr-16">
+          <mat-label>Aufnahmedatum</mat-label>
+          <input [disabled]="loading" [(ngModel)]="tempDate" matInput placeholder="Aufnahmedatum" [matDatepicker]="picker1">
+          <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Uhrzeit</mat-label>
+          <input [(ngModel)]="statement.time" matInput type="time" placeholder="hh:mm" />
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button (click)="this.dialogRef.close()">Cancel</button>
+      <button
+        [disabled]="loading"
+        id="save"
+        mat-button
+        (click)="editStatement()"
+        cdkFocusInitial
+      >
+        Save
+      </button>
+    </mat-dialog-actions>
+  </div>
+  

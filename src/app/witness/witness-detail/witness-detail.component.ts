@@ -454,16 +454,27 @@ export class WitnessDetailComponent implements OnInit {
     dialog.componentInstance.filteredStatements = this.filteredStatements;
   }
 
-  openEditStatementDialog() {
+  openEditStatementDialog(idx:number) {
     const dialog = this.dialog.open(DialogEditStatementComponent);
     // //user -> Variable aus DialogUserComponent
     // // NICHT .user = this.currentUser, denn das bearbeitet auch den aktuellen User
 
     // new User(this.currentUser) erstellt ein neues User-Objekt, eine Kopie des aktuellen
     console.log(this.currentWitness);
-    //  dialog.componentInstance.witness = new Witness(this.fireService.currentWitness);
+    this.currentStatement = this.fireService.filteredStatements[idx];
 
-    // dialog.componentInstance.witnessId = this.witnessId;
+    if(this.currentStatement.docId){
+      this.statementId = this.getStatementId(this.currentStatement.docId);
+    }
+      dialog.componentInstance.witness = new Witness(this.fireService.currentWitness);
+      dialog.componentInstance.statement = new Statement(this.currentStatement);
+      this.currentEvent = this.getEventById(this.currentStatement.event);
+      console.log("currentEvent: ", this.currentEvent);
+      dialog.componentInstance.filteredStatementIndex = idx;
+      // dialog.componentInstance.filteredStatements = this.fireService.filteredStatements;
+      dialog.componentInstance.event = this.currentEvent;
+      dialog.componentInstance.allEvents = this.fireService.events;
+      dialog.componentInstance.witnessId = this.witnessId;
     //  dialog.componentInstance.trails = this.trails;
   }
 
