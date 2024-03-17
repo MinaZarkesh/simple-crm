@@ -49,6 +49,7 @@ export class DialogAddStatementComponent implements OnInit {
   allEvents: Event[] = [];
   event!: Event;
   statement = new Statement();
+  statementId!:string;
   witness!: Witness;
   witnessId!: string;
   filteredStatements!: Statement[];
@@ -61,15 +62,19 @@ export class DialogAddStatementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('ngInit edit: ', this.witness.name);
+    console.log('ngInit addStatement: ', this.witness.name);
     this.setDefaultWitness();
-    console.log('ngInit addStatement: ', this.allEvents);
   }
 
   setDefaultWitness() {
     if (this.witness) {
-      console.log(this.witness.name);
+      console.log(this.witness.statements);
     }
+  }
+
+  updatefilterStatements(witness: Witness, statementId:string){
+    let tempId = statementId;
+    this.witness.statements.push(statementId);
   }
 
   async addStatement() {
@@ -81,7 +86,8 @@ export class DialogAddStatementComponent implements OnInit {
       month: '2-digit',
       day: '2-digit'
     });
-    console.log("dateString:" ,dateString);
+
+    // console.log("dateString:" ,dateString);
     if (
       this.eventControl.value?.docId != null ||
       this.eventControl.value?.docId != undefined
@@ -92,8 +98,9 @@ export class DialogAddStatementComponent implements OnInit {
       // id = this.fireService.statements.length+1;
       tempEvent = 'event_id1';
     }
+
     let tempStatement: Statement = {
-      docId: this.fireService.statementId,
+      docId: 'test',
       witness: this.witnessId,
       event: tempEvent,
       date: dateString,
@@ -102,8 +109,13 @@ export class DialogAddStatementComponent implements OnInit {
       comment: '',
       status: '',
     };
-    this.filteredStatements.push(tempStatement);
-    console.log('addStatement: ', tempStatement);
+
+    await this.fireService.addStatement(tempStatement);
+    
+    // this.filteredStatements.push(tempStatement);
+    this.witness.statements.push(this.fireService.statementId);
+    await this.fireService.updateSingleWitness(this.witnessId, this.witness);
     this.dialogRef.close();
   }
+
 }

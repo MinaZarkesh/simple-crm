@@ -406,8 +406,9 @@ export class firebaseService {
         // );
         console.log(
           'Document written with ID: ',
-          this.statements[this.statements.length - 1].docId
+          docRef?.id as string
         );
+        this.statementId = docRef?.id as string;
       });
   }
 
@@ -454,6 +455,8 @@ export class firebaseService {
   async updateSingleWitness(id: string, witness: Witness) {
     if (id) {
       let docRef = this.getSingleDocRef('witnesses', id);
+      console.log("updateSingleWitness.fireService: ", this.currentWitness);
+      
       await updateDoc(docRef, this.getWitnessObject(witness))
         .catch((err) => {
           console.error('Error updating witness: ', err);
@@ -536,11 +539,11 @@ export class firebaseService {
         tempObj = this.setWitnessObject(element.data(), element.id);
         if (element.id != element.data()['docId']) {
           tempObj.docId = element.id;
-          console.log(
-            'changed docID of Witness: ',
-            element.data()['docId'],
-            element.id
-          );
+          // console.log(
+          //   'changed docID of Witness: ',
+          //   element.data()['docId'],
+          //   element.id
+          // );
         }
         this.witnesses.push(this.setWitnessObject(tempObj, element.id));
       });
@@ -561,6 +564,7 @@ export class firebaseService {
             element.data()['docId'],
             element.id
           );
+          this.statementId = element.id;
         }
         this.statements.push(this.setStatementObject(tempObj, element.id));
       });
@@ -579,11 +583,11 @@ export class firebaseService {
         //wenn die ID der Datenbank nicht die ID des Objekts ist, wird diese geändert
         if (element.id != element.data()['docId']) {
           tempObj.docId = element.id;
-          console.log(
-            'changed docID of Event: ',
-            element.data()['docId'],
-            element.id
-          );
+          // console.log(
+          //   'changed docID of Event: ',
+          //   element.data()['docId'],
+          //   element.id
+          // );
         }
         //füge das Objekt zum Array hinzu
         this.events.push(this.setEventObject(tempObj, element.id));

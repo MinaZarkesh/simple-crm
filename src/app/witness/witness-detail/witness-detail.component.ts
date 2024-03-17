@@ -250,7 +250,7 @@ export class WitnessDetailComponent implements OnInit {
     this.events = this.fireService.getEventsList();
     //get Witness Data
     this.witnessId = this.getWitnessId(this.id);
-    console.log('witnessId: Init: ', this.witnessId);
+    // console.log('witnessId: Init: ', this.witnessId);
      this.currentWitness = this.fireService.currentWitness = this.getWitnessById(
       this.witnessId
      );
@@ -436,14 +436,15 @@ export class WitnessDetailComponent implements OnInit {
     const dialog = this.dialog.open(DialogDeleteWitnessComponent);
     dialog.componentInstance.witness = new Witness(this.currentWitness);
     dialog.componentInstance.witnessId = this.witnessId;
-  
   }
 
   openAddStatementDialog() {
     const dialog = this.dialog.open(DialogAddStatementComponent);
     dialog.componentInstance.witness = new Witness(this.currentWitness);
     dialog.componentInstance.witnessId = this.witnessId;
-    dialog.componentInstance.allEvents = this.dummyEvents;
+    dialog.componentInstance.statement = this.currentStatement;
+    dialog.componentInstance.statementId = this.statementId;
+    dialog.componentInstance.allEvents = this.fireService.events;
     dialog.componentInstance.filteredStatements = this.filteredStatements;
   }
 
@@ -473,7 +474,19 @@ export class WitnessDetailComponent implements OnInit {
   checkComment() {
     console.log(
       'Test: ',
-      this.filteredStatements[this.filteredStatements.length - 1].comment
+      this.filteredStatements
     );
+
+    console.log('currentWitness: check: ', this.currentWitness);
+    console.log('currentWitness: check: ', this.currentStatement);
+  }
+
+  async updateWitness(){
+  let tempStatementsIdList:any[] = [];
+  this.filteredStatements.forEach((stmt)=>{
+    tempStatementsIdList.push(stmt.docId);
+  })
+    console.log("updateWitness Param: ", this.witnessId,this.currentWitness, this.filteredStatements, tempStatementsIdList);
+    //await this.fireService.updateSingleWitness(this.witnessId, this.currentWitness);
   }
 }
