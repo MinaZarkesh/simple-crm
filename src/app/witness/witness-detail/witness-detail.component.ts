@@ -435,6 +435,8 @@ export class WitnessDetailComponent implements OnInit {
   openDeleteWitnessDialog() {
     const dialog = this.dialog.open(DialogDeleteWitnessComponent);
     dialog.componentInstance.witness = new Witness(this.currentWitness);
+    dialog.componentInstance.witnessId = this.witnessId;
+  
   }
 
   openAddStatementDialog() {

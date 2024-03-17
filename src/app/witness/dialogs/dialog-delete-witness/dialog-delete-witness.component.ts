@@ -23,7 +23,7 @@ constructor(public dialogRef: MatDialogRef<DialogDeleteWitnessComponent>, privat
 
 async deleteWitness() {
   this.loading = true;
-  // await this.fireService.deleteSingleWitness(this.witnessId);
+  await this.fireService.deleteSingleWitness(this.witnessId);
   this.loading = false;
   this.dialogRef.close();
   window.location.href = '/witnesses';

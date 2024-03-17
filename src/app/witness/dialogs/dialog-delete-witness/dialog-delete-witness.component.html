@@ -1,1 +1,11 @@
-<p>dialog-delete-witness works!</p>
+<div *ngIf="witness">
+    <h1 mat-dialog-title>Zeugen löschen</h1>
+    <div mat-dialog-content>
+      Möchtest du wirklich den Zeugen
+      <b>{{witness.name}}</b> löschen?
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close cdkFocusInitial>No</button>
+      <button mat-button mat-dialog-close (click)="deleteWitness()">Yes</button>
+    </div>
+  </div>
