@@ -428,7 +428,7 @@ export class WitnessDetailComponent implements OnInit {
 
   openEditWitnessDialog() {
     const dialog = this.dialog.open(DialogEditWitnessComponent);
-     //witness -> Variable aus DialogUserComponent
+    //witness -> Variable aus DialogUserComponent
     this.currentWitness = this.fireService.currentWitness;
     // NICHT .witness = this.currentWitness, denn das bearbeitet auch den aktuellen Witness sofort
     dialog.componentInstance.witness = new Witness(this.currentWitness);
@@ -454,7 +454,7 @@ export class WitnessDetailComponent implements OnInit {
     dialog.componentInstance.filteredStatements = this.filteredStatements;
   }
 
-  openEditStatementDialog(idx:number) {
+  openEditStatementDialog(idx: number) {
     const dialog = this.dialog.open(DialogEditStatementComponent);
     // //user -> Variable aus DialogUserComponent
     // // NICHT .user = this.currentUser, denn das bearbeitet auch den aktuellen User
@@ -463,29 +463,43 @@ export class WitnessDetailComponent implements OnInit {
     console.log(this.currentWitness);
     this.currentStatement = this.fireService.filteredStatements[idx];
 
-    if(this.currentStatement.docId){
+    if (this.currentStatement.docId) {
       this.statementId = this.getStatementId(this.currentStatement.docId);
     }
-      dialog.componentInstance.witness = new Witness(this.fireService.currentWitness);
-      dialog.componentInstance.statement = new Statement(this.currentStatement);
-      this.currentEvent = this.getEventById(this.currentStatement.event);
-      console.log("currentEvent: ", this.currentEvent);
-      dialog.componentInstance.filteredStatementIndex = idx;
-      // dialog.componentInstance.filteredStatements = this.fireService.filteredStatements;
-      dialog.componentInstance.event = this.currentEvent;
-      dialog.componentInstance.allEvents = this.fireService.events;
-      dialog.componentInstance.witnessId = this.witnessId;
-    //  dialog.componentInstance.trails = this.trails;
+    dialog.componentInstance.witness = new Witness(
+      this.fireService.currentWitness
+    );
+    dialog.componentInstance.statement = new Statement(this.currentStatement);
+    this.currentEvent = this.getEventById(this.currentStatement.event);
+    console.log('currentEvent: ', this.currentEvent);
+    dialog.componentInstance.filteredStatementIndex = idx;
+
+    dialog.componentInstance.event = this.currentEvent;
+    dialog.componentInstance.allEvents = this.fireService.events;
+    dialog.componentInstance.witnessId = this.witnessId;
   }
 
-  openDeleteStatementDialog() {
+  openDeleteStatementDialog(idx: number) {
     const dialog = this.dialog.open(DialogDeleteStatementComponent);
-    // dialog.componentInstance.witness = new Witness(this.currentWitness);
+    this.currentStatement = this.fireService.filteredStatements[idx];
+
+    if (this.currentStatement.docId) {
+      this.statementId = this.getStatementId(this.currentStatement.docId);
+    }
+
+    console.log( 'openDelete:Statement: ', this.currentStatement, this.statementId, idx);
+    console.log('openDelete:Witness: ', this.currentWitness, this.fireService.filteredStatements);
+
+    dialog.componentInstance.filteredStatementIndex = idx;
+    dialog.componentInstance.statement = this.currentStatement;
+    dialog.componentInstance.statementId = this.statementId;
+    dialog.componentInstance.witness = this.currentWitness;
+    dialog.componentInstance.witnessId = this.witnessId;
+    dialog.componentInstance.filteredStatements = this.fireService.filteredStatements;
   }
 
   openEditEventDialog() {
     const dialog = this.dialog.open(DialogEditEventComponent);
-    //  dialog.componentInstance
   }
 
   checkComment() {
@@ -511,14 +525,17 @@ export class WitnessDetailComponent implements OnInit {
     //await this.fireService.updateSingleWitness(this.witnessId, this.currentWitness);
   }
 
- async checkStatement(idx: number) {
+  async checkStatement(idx: number) {
     console.log('checked: ', idx);
     this.currentStatement = this.fireService.filteredStatements[idx];
 
-    if(this.currentStatement.docId){
+    if (this.currentStatement.docId) {
       this.statementId = this.getStatementId(this.currentStatement.docId);
     }
-    await this.fireService.updateSingleStatement(this.statementId, this.currentStatement);
+    await this.fireService.updateSingleStatement(
+      this.statementId,
+      this.currentStatement
+    );
     this.checked = !this.checked;
   }
 }
