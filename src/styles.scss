@@ -34,3 +34,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   display: flex;
   flex-direction: column;
 }
+
+app-witness{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  // margin-bottom: 56px;
+  // height: calc(100% + 56px);
+}

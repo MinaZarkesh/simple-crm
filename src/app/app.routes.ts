@@ -10,7 +10,7 @@ export const routes: Routes = [
      {  path: '', component: DashboardComponent },
     {  path: 'dashboard', component: DashboardComponent },
      {  path: 'witnesses', component: WitnessComponent },
-    {  path: 'witness/:id', component: WitnessDetailComponent },
+    {  path: 'witnesses/:id', component: WitnessDetailComponent },
     {path: 'events', component: EventComponent},
     {path: 'events/:id', component: EventDetailComponent}
     // {  path: 'user/detail', component: UserDetailComponent },

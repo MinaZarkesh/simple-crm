@@ -1,45 +1,46 @@
-<h1>Beteiligte</h1>
-<mat-card>
-  <mat-card-content>
-    <table class="user-table">
-      <tr>
-        <th>Name</th>
-        <th>Rolle im Fall</th>
-        <th>Anzahl der Aussagen</th>
-        <th>Meldeadresse</th>
-        <th>Kontakt</th>
-        <!-- Aussage bestätigt, Aussage ausstehend -->
-      </tr>
-      <tr
-        *ngFor="let witness of this.fireService.witnesses"
-        [routerLink]="['/witness/' + witness.docId]"
-      >
-        <!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->
-        <td>{{ witness.name }}</td>
-        <td>{{ witness.role }}</td>
-        <td>{{ witness.statements.length }}</td>
-        <td>{{ witness.address }}</td>
-        <!-- Rolle im Fall Opfer, Täter, Zeuge, Polizist -->
+  <h1>Zeugenliste</h1>
+  <mat-card>
+    <mat-card-content>
+      <table class="user-table">
+        <tr>
+          <th>Name</th>
+          <th>Rolle im Fall</th>
+          <!-- <th>Anzahl der Aussagen</th>
+          <th>Meldeadresse</th> -->
+          <th>Kontakt</th>
+          <!-- Aussage bestätigt, Aussage ausstehend -->
+        </tr>
+        <tr
+          *ngFor="let witness of this.fireService.witnesses"
+          [routerLink]="['/witnesses/' + witness.docId]"
+        >
+          <!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->
+          <td>{{ witness.name }}</td>
+          <td>{{ witness.role }}</td>
+          <!-- <td>{{ witness.statements.length }}</td>
+          <td>{{ witness.address }}</td> -->
+          <!-- Rolle im Fall Opfer, Täter, Zeuge, Polizist -->
+          
+          <!-- Anzahl der Aussagen / Wie viele Aussagen hat der Zeuge getätigt  -->
         
-        <!-- Anzahl der Aussagen / Wie viele Aussagen hat der Zeuge getätigt  -->
-      
-        <td>{{ witness.phone }}</td>
-        <!-- Status  // Bestätigt, Ausstehend, Verweigert  -->
-      </tr>
-    </table>
-  </mat-card-content>
-</mat-card>
-
-<button
-  class="add-user-btn"
-  mat-fab
-  matTooltipPosition="above"
-  matTooltip="Add witness"
-  color="primary"
-  (click)="openAddWitnessDialog()"
->
-  <mat-icon>add</mat-icon>
-</button>
+          <!-- <td>{{ witness.phone }}</td> -->
+          <td>...</td>
+          <!-- Status  // Bestätigt, Ausstehend, Verweigert  -->
+        </tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  
+  <button
+    class="add-witness-btn"
+    mat-fab
+    matTooltipPosition="above"
+    matTooltip="Zeuge hinzufügen"
+    color="primary"
+    (click)="openAddWitnessDialog()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
 
 <!-- <mat-card>
   <mat-card-content>

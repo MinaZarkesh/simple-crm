@@ -1,14 +1,28 @@
-.add-user-btn {
-    position: absolute;
-    bottom: 56px;
-    right: 56px;
+
+h1{
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  @media screen and (max-width: 767px) {
+    font-size: 1.5em;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+  }
+}
+
+.add-witness-btn {
+    position: sticky;
+    margin: 16px;
+    // top: 56px;
+    bottom: 0px;
+    left: 100%;
   }
   
   mat-card-content {
     padding-left: 0;
     padding-right: 0;
   }
-  
+
   .user-table {
     width: 100%;
     border-collapse: collapse;
