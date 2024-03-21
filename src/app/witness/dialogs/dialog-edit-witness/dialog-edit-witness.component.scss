@@ -1,21 +1,29 @@
-
-
-.dialog-container{
+.dialog-container {
     position: relative;
     margin: 24px;
-    // padding: 16px;
-    mat-progress-bar{
-        position: absolute;
-        top: -24px;
-        left: -24px;
-        right: -24px;
-        width: calc(100% + 48px);
+    max-height: 90svh;
+    overflow: auto;
+  
+    mat-progress-bar {
+      position: absolute;
+      top: -24px;
+      left: -24px;
+      right: -24px;
+      width: calc(100% + 48px);
     }
-}
-
-h1{
+    @media (max-width: 767px) {
+      margin: 8px;
+    }
+  }
+  
+  h1 {
     padding: var(--mat-dialog-with-actions-content-padding, 20px 24px);
-}
+    @media (max-width: 767px) {
+      font-size: 1em;
+      margin-block-start: 0.5em;
+      margin-block-end: 0.5em;
+    }
+  }
 
 mat-dialog-actions{
     --mat-toolbar-container-background-color: #673ab7;

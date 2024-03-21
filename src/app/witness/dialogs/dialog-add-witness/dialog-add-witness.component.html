@@ -25,18 +25,15 @@
       </mat-form-field>
     </div>
     <div>
-        <h4>Basic mat-select</h4>
         <mat-form-field>
-            <mat-label>Select an option</mat-label>
+            <mat-label>Rolle im Fall</mat-label>
             <mat-select [(value)]="selected">
                 @for (role of roles; track role) {
                 <mat-option [value]="role.value">{{ role.viewValue }}</mat-option>
                 }
             </mat-select>
           </mat-form-field>
-          
-          <p>You selected: {{selected}}</p>
-    </div>
+      </div>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-button (click)="this.dialogRef.close()">Cancel</button>

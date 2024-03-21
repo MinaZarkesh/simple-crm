@@ -1,5 +1,4 @@
-
-h1{
+h1 {
   font-size: 2em;
   margin-block-start: 0.67em;
   margin-block-end: 0.67em;
@@ -10,54 +9,104 @@ h1{
   }
 }
 
+mat-card-content {
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  overflow: auto;
+}
+
 .add-witness-btn {
-    position: sticky;
-    margin: 16px;
-    // top: 56px;
-    bottom: 0px;
-    left: 100%;
-  }
-  
-  mat-card-content {
-    padding-left: 0;
-    padding-right: 0;
+  position: sticky;
+  margin: 16px;
+  // top: 56px;
+  bottom: 0px;
+  left: 100%;
+  z-index: 2;
+}
+
+.user-table {
+  width: 100%;
+  z-index: 1;
+  border-collapse: collapse;
+  tr {
+    position: relative;
+    border-bottom: 1px solid rgba($color: #000000, $alpha: 0.4);
+    &:first-child {
+      cursor: unset;
+      &:hover {
+        background-color: unset;
+      }
+    }
+    &:last-child {
+      border-bottom: 0;
+      padding-right: 16px;
+      width: fit-content;
+    }
+    cursor: pointer;
+
+    td,
+    th {
+      height: 48px;
+      max-width: 120px;
+      padding-right: 8px;
+      &:first-child {
+        padding-left: 16px;
+        @media screen and (max-width: 767px) {
+          padding-left: 8px;
+           min-height: 48px;
+          max-width: 80px;
+        }
+      }
+      @media screen and (max-width: 767px) {
+        padding-left: 8px;
+        max-width: 72px;
+      }
+    }
+
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 2;
+    }
+
+    &:hover {
+      background-color: rgba($color: #000000, $alpha: 0.04);
+    }
   }
 
-  .user-table {
-    width: 100%;
-    border-collapse: collapse;
-    tr {
-      border-bottom: 1px solid rgba($color: #000000, $alpha: 0.4);
-      &:first-child {
-        cursor: unset;
-        &:hover {
-          background-color: unset;
-        }
-      }
-      &:last-child {
-        border-bottom: 0;
-      }
-  
-      cursor: pointer;
-  
-      td,
-      th {
-        height: 48px;
-        &:first-child {
-          padding-left: 16px;
-        }
-      }
-  
-      &:hover {
-        background-color: rgba($color: #000000, $alpha: 0.04);
-      }
-    }
-  
-    th {
-      background-color: rgba($color: #000000, $alpha: 0.2);
-      text-align: start;
-      font-size: 14px;
-      font-weight: 500;
-    }
+  th {
+    background-color: rgba($color: #000000, $alpha: 0.2);
+    text-align: start;
+    font-size: 14px;
+    font-weight: 500;
   }
-  
+}
+
+.table-phone {
+  display: table-cell;
+  width: fit-content;
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.table-address {
+  display: table-cell;
+  width: fit-content;
+  @media (max-width: 599px) {
+    display: none;
+  }
+}
+
+.table-button {
+  display: none;
+  @media (max-width: 767px) {
+    display: table-cell;
+
+    width: fit-content;
+  }
+}
+
+

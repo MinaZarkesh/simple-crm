@@ -41,7 +41,9 @@ import { MatMenuModule } from '@angular/material/menu';
   templateUrl: './witness.component.html',
   styleUrl: './witness.component.scss',
 })
-export class WitnessComponent implements OnInit {
+export class WitnessComponent 
+// implements OnInit
+ {
   //for html
   panelOpenState = false;
   witnesses: Witness[] = [];
@@ -92,14 +94,19 @@ export class WitnessComponent implements OnInit {
     public fireService: firebaseService //  public fireService: firebaseService
   ) {}
 
-  ngOnInit(): void {
-    this.witnesses = this.getWitnessesList();
-  }
+  // ngOnInit(): void {
+  //   this.witnesses = this.getWitnessesList();
+  // }
 
   getWitnessesList(): Witness[] {
    console.log("getWitnessesList, witnesses: ", this.witnesses);
     this.witnesses = this.fireService.witnesses;
     return this.fireService.getWitnessesList();
+  }
+
+  stopEvent(e: { stopPropagation: () => void; preventDefault: () => void }) {
+    e.stopPropagation();
+    e.preventDefault();
   }
 
   openAddWitnessDialog() {

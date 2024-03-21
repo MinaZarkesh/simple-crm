@@ -5,9 +5,10 @@
         <tr>
           <th>Name</th>
           <th>Rolle im Fall</th>
-          <!-- <th>Anzahl der Aussagen</th>
-          <th>Meldeadresse</th> -->
-          <th>Kontakt</th>
+          <!-- <th>Anzahl der Aussagen</th> -->
+          <th class="table-address">Meldeadresse</th>
+          <th >Kontakt</th>
+          <th class="table-phone"></th>
           <!-- Aussage bestätigt, Aussage ausstehend -->
         </tr>
         <tr
@@ -17,14 +18,25 @@
           <!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->
           <td>{{ witness.name }}</td>
           <td>{{ witness.role }}</td>
-          <!-- <td>{{ witness.statements.length }}</td>
-          <td>{{ witness.address }}</td> -->
+          <!-- <td>{{ witness.statements.length }}</td> -->
+          <td class="table-address">{{ witness.address }}</td>
+         
           <!-- Rolle im Fall Opfer, Täter, Zeuge, Polizist -->
           
           <!-- Anzahl der Aussagen / Wie viele Aussagen hat der Zeuge getätigt  -->
         
-          <!-- <td>{{ witness.phone }}</td> -->
-          <td>...</td>
+          <td class="table-phone">{{ witness.phone }}</td>
+          <td class="table-button">
+            <button (click)="stopEvent($event)" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <a mat-menu-item href="tel:{{ witness.phone }}">call</a>
+              <button mat-menu-item>
+                <span  [routerLink]="['/witnesses/' + witness.docId]" >more Details</span>
+              </button>
+            </mat-menu>
+          </td>
           <!-- Status  // Bestätigt, Ausstehend, Verweigert  -->
         </tr>
       </table>
