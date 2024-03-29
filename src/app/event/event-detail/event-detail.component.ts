@@ -6,11 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { MatIcon } from '@angular/material/icon';
-
 import { ActivatedRoute } from '@angular/router';
-// import { User } from '../../../models/user.class';
-// import { UserListService } from '../../firebase-services/firebase.service';
-
 import { MatIconButton } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
