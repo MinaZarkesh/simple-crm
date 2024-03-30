@@ -1,7 +1,9 @@
-.add-user-btn {
-  position: absolute;
-  bottom: 56px;
-  right: 56px;
+.add-event-btn {
+  position: sticky;
+  margin: 16px;
+  bottom: 0px;
+  left: 100%;
+  z-index: 2;
 }
 
 mat-card-content {
@@ -174,7 +176,7 @@ mark {
   width: 1.3rem;
   height: 1.3rem;
   background-color: #888;
-  color: white;
+  color: #888;
   border-radius: 50%;
   overflow: hidden;
 
@@ -186,6 +188,7 @@ mark {
 
 .timeline li:hover .data {
   background-color: #673ab7; //lila wie header
+  color: #673ab7;
   --scale: 1.2;
   cursor: pointer;
   z-index: 200;
@@ -197,10 +200,13 @@ mark {
   border-radius: 1rem;
   padding: 1rem;
   background-image: linear-gradient(45deg, #673ab7, magenta);
-
+  color: white;
   box-shadow: 0 0.1rem 0.4rem #0004;
 
   z-index: 100;
+}
+.timeline li:hover .data.show {
+  color: white;
 }
 
 .data h3 {
@@ -227,4 +233,8 @@ mark {
   border-radius: 2rem;
 
   font-size: 1rem;
+}
+
+mat-icon {
+  font-family: "Material Icons";
 }

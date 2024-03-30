@@ -1,9 +1,8 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { firebaseService } from '../firebase-services/firebase.service';
 import { NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
 //classes
 import { Witness } from '../../models/witness.class';
@@ -12,7 +11,6 @@ import { Event } from '../../models/event.class';
 
 //dialogs
 import { MatDialog } from '@angular/material/dialog';
-import { MatDialogModule } from '@angular/material/dialog';
 import { DialogAddEventComponent } from './dialogs/dialog-add-event/dialog-add-event.component';
 import { DialogEditEventComponent } from './dialogs/dialog-edit-event/dialog-edit-event.component';
 import { DialogDeleteEventComponent } from './dialogs/dialog-delete-event/dialog-delete-event.component';
@@ -30,133 +28,127 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 
-
-
 @Component({
   selector: 'app-event',
   standalone: true,
   imports: [
-    MatIconModule,
-    MatProgressBarModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatDialogModule,
-    MatCardModule,
     NgFor,
     RouterLink,
-    MatExpansionModule,
+    FormsModule,
+    MatIconModule,
+    MatTooltipModule,
     MatInputModule,
     MatFormFieldModule,
-    FormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatExpansionModule,
     MatMenuModule,
+    MatProgressBarModule,
     MatTabsModule,
     MatDividerModule,
-    CommonModule
   ],
 
   templateUrl: './event.component.html',
   styleUrl: './event.component.scss',
 })
-
-
 export class EventComponent implements OnInit {
-  // noteList: User[] = [];
-  // user: User | any = new User();
-  // event: Event = new Event();
-  // defaultEvents: Event[] = [];
-  // statements: Statement[] = [];
-   witness: Witness = new Witness();
-
-  defaultWitnesses: Witness[] = [
-    {
-      docId: '1',
-      name: 'John Doe',
-      address: 'Musterstraße 1, 30657 Hannover',
-      phone: '01234567890',
-      role: 'Opfer',
-      statements: [
-        'statement_id1',
-        'statement_id2',
-        'statement_id3',
-        'statement_id4',
-      ],
-    },
-    {
-      docId: '2',
-      name: 'Jane Doe',
-      address: 'Musterstraße 2, 30657 Hannover',
-      phone: '01234567891',
-      role: 'Beobachter',
-      statements: [
-        'statement_id5',
-        'statement_id6',
-        'statement_id7',
-        'statement_id8',
-      ],
-    },
-    {
-      docId: '3',
-      name: 'John Smith',
-      address: 'Musterstraße 10, 30657 Hannover',
-      phone: '01234567899',
-      role: 'Angeklagter',
-      statements: [
-        'statement_id37',
-        'statement_id38',
-        'statement_id39',
-        'statement_id40',
-      ],
-    },
-  ];
-  
+  // TShzkalm0x2MII9j2b7A
+  witnessId = '';
+  witness: Witness = new Witness();
+  witnesses: Witness[] = [];
+  // EyKrTJv0aUKAA4fERqcP
+  eventId = '';
+  event: Event = new Event();
+  events: Event[] = [];
   panelOpenState = false;
-  longText = `The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
-  from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
-  originally bred for hunting.`;
-  
-  constructor(public dialog: MatDialog, private fireService: firebaseService) {}
-  
-  
-  timeline(){
+
+  constructor(public dialog: MatDialog, public fireService: firebaseService) {}
+
+  timeline() {
     const timelineWrapper: any = document.querySelectorAll('.timeline-wrapper'),
-    timelines: any = document.querySelectorAll('.timeline li .data');
-    
-    for(const time of timelines){
+      timelines: any = document.querySelectorAll('.timeline li .data');
+
+    for (const time of timelines) {
       console.log(time);
-      time.onclick = ()=>time.classList.toggle('show');
+      time.onclick = () => time.classList.toggle('show');
       console.log(timelines);
-      }
-  
-      // timelineWrapper.addEventListener('mousemove', (ev: { pageX: any; })=>{
-      //   const timeline = document.querySelector('.timeline');
-      //  let scroll_width = 0;
-      //   if(timeline){
-      //      scroll_width = ev.pageX/ timelineWrapper.clientWidth * (timelineWrapper.clientWidth -timeline.clientWidth);
-      //     //  timeline.style.left = scroll_width.toFixed(1)	+ 'px';
-      //   }
-      //   console.log({
-      //     'timeline_width': scroll_width.toFixed(1)
-      
-      //   });
-      // })
+    }
+
+    // timelineWrapper.addEventListener('mousemove', (ev: { pageX: any; })=>{
+    //   const timeline = document.querySelector('.timeline');
+    //  let scroll_width = 0;
+    //   if(timeline){
+    //      scroll_width = ev.pageX/ timelineWrapper.clientWidth * (timelineWrapper.clientWidth -timeline.clientWidth);
+    //     //  timeline.style.left = scroll_width.toFixed(1)	+ 'px';
+    //   }
+    //   console.log({
+    //     'timeline_width': scroll_width.toFixed(1)
+
+    //   });
+    // })
   }
 
-  
-
-  ngOnInit(): void {
+  async ngOnInit() {
    
-    console.log('ngOnInit: ');
-     this.timeline();
+    this.timeline();
     
+    }
+
+ async  getEventsList() {
+    this.events = await this.fireService.events;
+    return  this.fireService.getEventsList();
   }
 
-
-  getList() {
-    return this.defaultWitnesses;
-    // return this.userService.normalUsers;
+ async getEventId(id: string) {
+    let temp!: Event;
+    temp = await this.getEventById(id);
+    if (id == temp.docId) {
+      return id;
+    } else {
+      return this.eventId;
+    }
   }
 
-  openDialog() {
+ async getEventById(id: string) {
+    let currentEvent: Event | undefined = undefined;
+    let temp: Event | undefined;
+    currentEvent = await this.fireService.events.find((element) => {
+      if (element.docId == id) {
+        temp = new Event(element);
+      }
+      return temp;
+    });
+
+    if (currentEvent != undefined) {
+      return currentEvent;
+    } else {
+      return this.event;
+    }
+  }
+
+  getWitnessNamebyWitnessId(id: string): string {
+    let currentWitness: Witness | undefined = undefined;
+    //temp is first undefined, var for .find
+    let temp: Witness | undefined = undefined;
+
+    //if element.docId == id, temp is element in form of Witness
+    // rewrite temp with found element, if nothing found temp is still undefined
+    currentWitness = this.fireService.witnesses.find((element) => {
+      if (element.docId == id) {
+        temp = new Witness(element);
+      }
+      return temp;
+    });
+
+    //if currentWitness is not undefined return it, else return dummy Data
+    if (currentWitness != undefined) {
+      return currentWitness.name;
+    } else {
+      return this.witness.name;
+    }
+  }
+
+  openAddEventDialog() {
     this.dialog.open(DialogAddEventComponent);
   }
 }

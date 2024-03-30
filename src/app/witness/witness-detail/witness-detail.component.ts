@@ -293,6 +293,7 @@ export class WitnessDetailComponent implements OnInit {
     }
   }
 
+  
   getWitnessById(id: string): Witness {
     let currentWitness: Witness | undefined = undefined;
     //temp is first undefined, var for .find
