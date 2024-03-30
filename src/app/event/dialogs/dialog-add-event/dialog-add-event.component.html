@@ -1,1 +1,69 @@
-<p>dialog-add-event works!</p>
+<div class="dialog-container">
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+  <h1 mat-dialog-title>Füge ein neues Ereignis hinzu</h1>
+  <mat-dialog-content>
+    <div>
+      <mat-form-field class="mr-16 full-width" appearance="outline">
+        <mat-label>Ort</mat-label>
+        <input
+          [disabled]="loading"
+          [(ngModel)]="event.place"
+          matInput
+          placeholder="Ort des Ereignisses"
+        />
+      </mat-form-field>
+      <mat-form-field class="mr-16 full-width" appearance="outline">
+        <mat-label>Typ</mat-label>
+        <input
+          [disabled]="loading"
+          [(ngModel)]="event.type"
+          matInput
+          placeholder="Typ z.B. Unfall"
+        />
+      </mat-form-field>
+    
+      <mat-form-field appearance="outline" class="mr-16">
+        <mat-label>Aufnahmedatum</mat-label>
+        <input [disabled]="loading" [(ngModel)]="tempDate" matInput placeholder="Aufnahmedatum" [matDatepicker]="picker1">
+        <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+        <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="mr-16" appearance="outline">
+        <mat-label>Uhrzeit</mat-label>
+        <input [(ngModel)]="event.time" matInput type="time" placeholder="hh:mm" />
+      </mat-form-field>
+      <mat-form-field class="mr-16 full-width" appearance="outline">
+        <mat-label>Beteiligte</mat-label>
+        <mat-select [formControl]="witnessesControl" multiple>
+          @for (witness of fireService.witnesses; track witness) {
+            <mat-option [value]="witness">{{witness.name}}</mat-option>
+          }
+        </mat-select>
+        @if (witnessesControl.hasError('required')) {
+            <mat-error>Bitte wähle min. 1 Beteiligten aus</mat-error>
+            }
+      </mat-form-field>
+      <mat-form-field class="mr-16 full-width" appearance="outline">
+        <mat-label>Beschreibung</mat-label>
+        <textarea [disabled]="loading"
+        [(ngModel)]="event.description"
+        matInput maxlength="100"
+        placeholder="kurze Beschreibung max. 100 Zeichen"></textarea>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="this.dialogRef.close()">Cancel</button>
+    <button
+      [disabled]="loading"
+      id="save"
+      mat-button
+      (click)="addEvent()"
+      cdkFocusInitial
+    >
+      Save
+    </button>
+  </mat-dialog-actions>
+</div>
