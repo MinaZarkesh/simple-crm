@@ -17,6 +17,7 @@
             <th>Art</th>
             <th>Beteiligte</th>
             <th>kurze Beschreibung</th>
+            <th></th>
             <!-- Aussage bestätigt, Aussage ausstehend -->
           </tr>
           <tr
@@ -30,12 +31,31 @@
             <td>{{ ev.place }}</td>
             <!-- <td>{{user.docId}}</td> -->
             <td>
-         
-                <ul *ngFor="let item of ev.witnesses">{{ getWitnessNamebyWitnessId(item)}}</ul>
-           
+              <ul *ngFor="let item of ev.witnesses">
+                {{
+                  getWitnessNamebyWitnessId(item)
+                }}
+              </ul>
             </td>
             <td>
               {{ ev.description }}
+            </td>
+            <td class="table-button">
+              <button
+                (click)="stopEvent($event)"
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a menu"
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openEditEventDialog()"> edit </button>
+                <button mat-menu-item (click)="openDeleteEventDialog(ev)"> delete </button>
+                <button mat-menu-item>
+                  <span [routerLink]="['/events/' + event.docId]"> more Details</span>
+                </button>
+              </mat-menu>
             </td>
           </tr>
         </table>

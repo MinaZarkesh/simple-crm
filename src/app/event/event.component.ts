@@ -63,6 +63,10 @@ export class EventComponent implements OnInit {
   panelOpenState = false;
 
   constructor(public dialog: MatDialog, public fireService: firebaseService) {}
+  stopEvent(e: { stopPropagation: () => void; preventDefault: () => void }) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
 
   timeline() {
     const timelineWrapper: any = document.querySelectorAll('.timeline-wrapper'),
@@ -89,17 +93,15 @@ export class EventComponent implements OnInit {
   }
 
   async ngOnInit() {
-   
     this.timeline();
-    
-    }
-
- async  getEventsList() {
-    this.events = await this.fireService.events;
-    return  this.fireService.getEventsList();
   }
 
- async getEventId(id: string) {
+  async getEventsList() {
+    this.events = await this.fireService.events;
+    return this.fireService.getEventsList();
+  }
+
+  async getEventId(id: string) {
     let temp!: Event;
     temp = await this.getEventById(id);
     if (id == temp.docId) {
@@ -109,7 +111,7 @@ export class EventComponent implements OnInit {
     }
   }
 
- async getEventById(id: string) {
+  async getEventById(id: string) {
     let currentEvent: Event | undefined = undefined;
     let temp: Event | undefined;
     currentEvent = await this.fireService.events.find((element) => {
@@ -150,5 +152,18 @@ export class EventComponent implements OnInit {
 
   openAddEventDialog() {
     this.dialog.open(DialogAddEventComponent);
+  }
+
+  openEditEventDialog() {
+    const dialog = this.dialog.open(DialogEditEventComponent);
+  }
+
+  openDeleteEventDialog(event: Event) {
+    const dialog = this.dialog.open(DialogDeleteEventComponent);
+    // this.event = this.fireService.currentEvent;
+    dialog.componentInstance.event = new Event(event);
+    if (this.event.docId) {
+      dialog.componentInstance.eventId = this.event.docId;
+    }
   }
 }
