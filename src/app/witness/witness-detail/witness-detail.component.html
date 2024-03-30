@@ -70,7 +70,7 @@
       <button 
       mat-icon-button
       class="pin-right-upper-corner"
-      (click)="openEditEventDialog()"
+      (click)="openEditEventDialog(getEventById(statement.event))"
       >
       <!-- [matMenuTriggerFor]="eventMenu" -->
       <mat-icon >edit</mat-icon>

@@ -499,8 +499,14 @@ export class WitnessDetailComponent implements OnInit {
     dialog.componentInstance.filteredStatements = this.fireService.filteredStatements;
   }
 
-  openEditEventDialog() {
+ 
+  openEditEventDialog(event: Event) {
     const dialog = this.dialog.open(DialogEditEventComponent);
+    dialog.componentInstance.event = new Event(event);
+    if (event.docId != undefined) {
+      dialog.componentInstance.eventId = event.docId;
+      dialog.componentInstance.eventWitnessesIdList = event.witnesses;
+    }
   }
 
   checkComment() {

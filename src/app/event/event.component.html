@@ -50,7 +50,7 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="openEditEventDialog()"> edit </button>
+                <button mat-menu-item (click)="openEditEventDialog(ev)"> edit </button>
                 <button mat-menu-item (click)="openDeleteEventDialog(ev)"> delete </button>
                 <button mat-menu-item>
                   <span [routerLink]="['/events/' + event.docId]"> more Details</span>

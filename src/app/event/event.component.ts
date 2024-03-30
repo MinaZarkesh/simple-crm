@@ -154,8 +154,13 @@ export class EventComponent implements OnInit {
     this.dialog.open(DialogAddEventComponent);
   }
 
-  openEditEventDialog() {
+  openEditEventDialog(event: Event) {
     const dialog = this.dialog.open(DialogEditEventComponent);
+    dialog.componentInstance.event = new Event(event);
+    if (this.event.docId != undefined) {
+      dialog.componentInstance.eventId = this.event.docId;
+      dialog.componentInstance.eventWitnessesIdList = this.event.witnesses;
+    }
   }
 
   openDeleteEventDialog(event: Event) {
