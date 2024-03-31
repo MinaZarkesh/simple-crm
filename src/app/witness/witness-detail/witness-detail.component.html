@@ -39,7 +39,7 @@
 <mat-accordion>
   <!-- hideToggle -->
 
-  @for (statement of this.fireService.filteredStatements; track statement; let i = $index ){
+  @for (statement of this.filterStatementsByWitnessId(this.fireService.id); track statement; let i = $index ){
   <mat-expansion-panel
     (opened)="panelOpenState = true"
     (closed)="panelOpenState = false"
@@ -144,3 +144,5 @@
   <li>There are no items.</li>
   }
 </mat-accordion>
+
+<!-- <button >Testing</button> -->

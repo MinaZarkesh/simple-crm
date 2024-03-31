@@ -29,6 +29,7 @@ export class firebaseService {
   // normalUsers: User[];
   // currentUser: User = new User();
   //Variablen um die Daten in Firestore zu speichern
+  id!:string;
   witnesses: Witness[] = []; //Zeugen
   statements: Statement[] = []; // Zeugenaussagen
   events: Event[] = []; // Ereignisse

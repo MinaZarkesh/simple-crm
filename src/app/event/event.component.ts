@@ -57,7 +57,7 @@ export class EventComponent implements OnInit {
   witness: Witness = new Witness();
   witnesses: Witness[] = [];
   // EyKrTJv0aUKAA4fERqcP
-  eventId = '';
+  eventId = 'EyKrTJv0aUKAA4fERqcP';
   event: Event = new Event();
   events: Event[] = [];
   panelOpenState = false;

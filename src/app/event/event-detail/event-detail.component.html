@@ -2,37 +2,35 @@
 <mat-grid-list cols="4" rowHeight="100px">
   <mat-grid-tile class="user-info-header-one" [colspan]="3" [rowspan]="1" [attr.style]="'background-color: lightblue'">
     <span>
-      {{textContentJSON.one}}
+      {{this.getEventById(this.eventId).description}}
     </span>
   </mat-grid-tile>
   <mat-grid-tile class="user-info-header-two" [colspan]="1" [rowspan]="2" [attr.style]="'background-color: lightgreen'" >
     <ul>
-      <li *ngFor="let item of textContentJSON.two">{{item}}</li>
+      <li *ngFor="let item of this.getEventById(this.eventId).witnesses">{{this.getWitnessById(item).name}}</li>
     </ul>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="1" [rowspan]="1" [attr.style]="'background-color:  lightpink'" >
     <div class="user-info-header-three">
-      <span>Datum: 21.03.2023</span>
-      <span>Uhrzeit: 22:30 Uhr</span>
+      <span>Datum: {{this.getEventById(this.eventId).date}}</span>
+      <span>Uhrzeit: {{this.getEventById(this.eventId).time}} Uhr</span>
     </div>
   </mat-grid-tile>
   <mat-grid-tile [colspan]="2" [rowspan]="1" [attr.style]="'background-color: #DDBDF1 '" >
     <div class="user-info-header-three">
-      <span>Adresse:</span>
-      <span>Musterstraße 1</span>
-      <span>1234 Musterstadt</span>
+      <span>{{this.getEventById(this.eventId).place}}</span>
     </div>
   </mat-grid-tile>
 </mat-grid-list>
 
 <mat-tab-group class="mt-32" animationDuration="0ms">
-  <mat-tab *ngFor="let item of textContentJSON.two" label="{{item}}">
-    <h2>{{item}}</h2>
+  <mat-tab *ngFor="let item of this.getEventById(this.eventId).witnesses" label="{{this.getWitnessById(item).name}}">
+    <h2>{{this.getWitnessById(item).name}}</h2>
     <mat-card class="example-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Fakten zum {{item}}</mat-card-title>
-        <mat-card-subtitle>Rolle von {{item}}</mat-card-subtitle>
+        <mat-card-title>Fakten zu {{this.getWitnessById(item).name}}</mat-card-title>
+        <mat-card-subtitle>{{this.getWitnessById(item).role}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <p>
@@ -42,34 +40,114 @@
         </p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button>Link zum {{item}}</button>
+        <a mat-button [routerLink]="['/witnesses/' + item]">Link zum {{this.getWitnessById(item).name}}</a>
         <!-- <button mat-button>SHARE</button> -->
       </mat-card-actions>
     </mat-card>
-    <p>Aussagen von {{item}}</p>
+    <p>Aussagen von {{this.getWitnessById(item).name}}</p>
     <mat-accordion>
-      <mat-expansion-panel>
+        
+    
+      @for (statement of this.filterStatementsByWitnessId(this.fireService.id); track statement; let i = $index ){
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
         <mat-expansion-panel-header>
           <mat-panel-title>
-            This is the expansion title
+            {{ statement.date }} {{ statement.time }} ,
+            {{ statement.place }}
           </mat-panel-title>
           <mat-panel-description>
-            This is a summary of the content
+            Currently I am {{panelOpenState ? 'open' : 'closed'}} 
+            {{ getEventById(statement.event).description }}
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <p>This is the primary content of the panel.</p>
+        <button 
+        mat-icon-button
+        class="pin-right-corner-t48"
+        [matMenuTriggerFor]="statementMenu"
+        (click)="panelOpenState = true"
+      >
+        <mat-icon >more_vert</mat-icon>
+      </button>
+      <mat-menu #statementMenu="matMenu">
+        <button mat-menu-item (click)="openEditStatementDialog(i)">Aussage bearbeiten</button>
+        <button mat-menu-item (click)="openDeleteStatementDialog(i)">Aussage löschen</button>
+      </mat-menu>
+        <mat-card class="event-info">
+          <button 
+          mat-icon-button
+          class="pin-right-upper-corner"
+          (click)="openEditEventDialog(getEventById(statement.event))"
+          >
+          <mat-icon >edit</mat-icon>
+        </button>
+      
+          <div>
+            <p>
+              {{ getEventById(statement.event).date }}
+              {{ getEventById(statement.event).time }}
+            </p>
+            <p>{{ getEventById(statement.event).place }}</p>
+            <p>{{ getWitnessListbyStatementId(statement.docId) }}</p>
+          </div>
+        </mat-card>
+    
+        <mat-form-field class="full-width mt-32">
+          <mat-label>Aussage selbst</mat-label>
+          <textarea
+            rows="5"
+            [disabled]="checked"
+            matInput
+            [(ngModel)]="statement.comment"
+            placeholder="Aussage selbst"
+          >
+       {{ statement.comment }}</textarea
+          >
+        </mat-form-field>
+    
+        <section class="example-section">
+          <mat-slide-toggle
+            class="example-margin"
+            [color]="color"
+            [checked]="checked"
+            (change)="checkStatement(i)"
+          >
+            Aussage von Zeugen bestätigt!
+          </mat-slide-toggle>
+        </section>
+    
+        <p>Querverweise</p>
+        <button mat-button [matMenuTriggerFor]="aboveMenu">Above</button>
+        <mat-menu #aboveMenu="matMenu" yPosition="above">
+          <button mat-menu-item>Item 1</button>
+          <button mat-menu-item>Item 2</button>
+        </mat-menu>
+    
+        <button mat-button [matMenuTriggerFor]="belowMenu">Below</button>
+        <mat-menu #belowMenu="matMenu" yPosition="below">
+          <button mat-menu-item>Item 1</button>
+          <button mat-menu-item>Item 2</button>
+        </mat-menu>
+    
+        <button mat-button [matMenuTriggerFor]="beforeMenu">Before</button>
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
+          <button mat-menu-item>Item 1</button>
+          <button mat-menu-item>Item 2</button>
+        </mat-menu>
+    
+        <button mat-button [matMenuTriggerFor]="afterMenu">After</button>
+        <mat-menu #afterMenu="matMenu" xPosition="after">
+          <button mat-menu-item>Item 1</button>
+          <button mat-menu-item>Item 2</button>
+        </mat-menu>
       </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            This is the expansion title
-          </mat-panel-title>
-          <mat-panel-description>
-            This is a summary of the content
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>This is the primary content of the panel.</p>
-      </mat-expansion-panel>
+      }@empty {
+      <li>There are no items.</li>
+      }
     </mat-accordion>
   </mat-tab>
 </mat-tab-group>
+
+<button (click)="this.getEventById(this.eventId)">Testing</button>

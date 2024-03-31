@@ -61,6 +61,7 @@ import { DialogEditEventComponent } from '../../event/dialogs/dialog-edit-event/
     MatFormFieldModule,
     MatButtonModule,
     MatCardModule,
+    MatIconButton,
     MatExpansionModule,
     MatMenuModule,
     MatProgressBarModule,
@@ -99,136 +100,136 @@ export class WitnessDetailComponent implements OnInit {
   checked = true;
   disabled = false;
 
-  dummyWitnesses: Witness[] = [
-    {
-      docId: 'Zeuge_id1',
-      name: 'John Doe',
-      address: 'Musterstraße 1, 30657 Hannover',
-      phone: '01234567890',
-      role: 'Opfer',
-      statements: [
-        'statement_id1',
-        'statement_id2',
-        'statement_id3',
-        'statement_id4',
-        'statement_id5',
-      ],
-    },
-    {
-      docId: 'Zeuge_id2',
-      name: 'Jane Doe',
-      address: 'Musterstraße 2, 30657 Hannover',
-      phone: '01234567891',
-      role: 'Beobachter',
-      statements: [
-        'statement_id5',
-        'statement_id6',
-        'statement_id7',
-        'statement_id8',
-      ],
-    },
-    {
-      docId: 'Zeuge_id3',
-      name: 'James Smith',
-      address: 'Musterstraße 10, 30657 Hannover',
-      phone: '01234567899',
-      role: 'Angeklagter',
-      statements: [
-        'statement_id37',
-        'statement_id38',
-        'statement_id39',
-        'statement_id40',
-      ],
-    },
-  ];
+  // dummyWitnesses: Witness[] = [
+  //   {
+  //     docId: 'Zeuge_id1',
+  //     name: 'John Doe',
+  //     address: 'Musterstraße 1, 30657 Hannover',
+  //     phone: '01234567890',
+  //     role: 'Opfer',
+  //     statements: [
+  //       'statement_id1',
+  //       'statement_id2',
+  //       'statement_id3',
+  //       'statement_id4',
+  //       'statement_id5',
+  //     ],
+  //   },
+  //   {
+  //     docId: 'Zeuge_id2',
+  //     name: 'Jane Doe',
+  //     address: 'Musterstraße 2, 30657 Hannover',
+  //     phone: '01234567891',
+  //     role: 'Beobachter',
+  //     statements: [
+  //       'statement_id5',
+  //       'statement_id6',
+  //       'statement_id7',
+  //       'statement_id8',
+  //     ],
+  //   },
+  //   {
+  //     docId: 'Zeuge_id3',
+  //     name: 'James Smith',
+  //     address: 'Musterstraße 10, 30657 Hannover',
+  //     phone: '01234567899',
+  //     role: 'Angeklagter',
+  //     statements: [
+  //       'statement_id37',
+  //       'statement_id38',
+  //       'statement_id39',
+  //       'statement_id40',
+  //     ],
+  //   },
+  // ];
 
-  dummyStatements: any[] = [
-    {
-      docId: 'statement_id1',
-      witness: 'Zeuge_id1',
-      event: 'event_id1',
-      date: '23.03.2022',
-      time: '08:15',
-      place: 'Polizei Dienststelle Hannover',
-      comment: 'Aussage 1: Ich habe meinen Nachbarn erkannt.',
-      status: 'austehend',
-    },
-    {
-      docId: 'statement_id2',
-      witness: 'Zeuge_id2',
-      event: 'event_id2',
-      date: '23.03.2023',
-      time: '10:15',
-      place: 'Polizei Dienststelle Hannover',
-      comment:
-        'Aussage 2:Hier steht ein längerer Text, das soll die Aussage selbst sein',
-      status: 'bestätigt',
-    },
-    {
-      docId: 'statement_id3',
-      witness: 'Zeuge_id2',
-      event: 'event_id3',
-      date: '23.03.2024',
-      time: '15:40',
-      place: 'Polizei Dienststelle Hannover',
-      comment:
-        'Aussage 3: Hier steht ein längerer Text, das soll die Aussage selbst sein',
-      status: 'im Prozess',
-    },
-    {
-      docId: 'statement_id4',
-      witness: 'Zeuge_id1',
-      event: 'event_id4',
-      date: '23.03.2025',
-      time: '10:15',
-      place: 'Polizei Dienststelle Hannover',
-      comment: 'Aussage 4: Ich verweigere die Aussage zu diesem Ereignis',
-      status: 'verweigert',
-    },
-  ];
+  // dummyStatements: any[] = [
+  //   {
+  //     docId: 'statement_id1',
+  //     witness: 'Zeuge_id1',
+  //     event: 'event_id1',
+  //     date: '23.03.2022',
+  //     time: '08:15',
+  //     place: 'Polizei Dienststelle Hannover',
+  //     comment: 'Aussage 1: Ich habe meinen Nachbarn erkannt.',
+  //     status: 'austehend',
+  //   },
+  //   {
+  //     docId: 'statement_id2',
+  //     witness: 'Zeuge_id2',
+  //     event: 'event_id2',
+  //     date: '23.03.2023',
+  //     time: '10:15',
+  //     place: 'Polizei Dienststelle Hannover',
+  //     comment:
+  //       'Aussage 2:Hier steht ein längerer Text, das soll die Aussage selbst sein',
+  //     status: 'bestätigt',
+  //   },
+  //   {
+  //     docId: 'statement_id3',
+  //     witness: 'Zeuge_id2',
+  //     event: 'event_id3',
+  //     date: '23.03.2024',
+  //     time: '15:40',
+  //     place: 'Polizei Dienststelle Hannover',
+  //     comment:
+  //       'Aussage 3: Hier steht ein längerer Text, das soll die Aussage selbst sein',
+  //     status: 'im Prozess',
+  //   },
+  //   {
+  //     docId: 'statement_id4',
+  //     witness: 'Zeuge_id1',
+  //     event: 'event_id4',
+  //     date: '23.03.2025',
+  //     time: '10:15',
+  //     place: 'Polizei Dienststelle Hannover',
+  //     comment: 'Aussage 4: Ich verweigere die Aussage zu diesem Ereignis',
+  //     status: 'verweigert',
+  //   },
+  // ];
 
-  dummyEvents: any[] = [
-    {
-      docId: 'event_id1',
-      date: '23.03.2022',
-      time: '15:25',
-      place: 'Hannover',
-      type: 'Unfall',
-      description:
-        'Event 1: Der verdächtige Mann hatte einen Unfall, während er zu fliehen versuchte.',
-      witnesses: ['Zeuge_id1', 'Zeuge_id3', 'Zeuge_id2'],
-    },
-    {
-      docId: 'event_id2',
-      date: '23.03.2022',
-      time: '14:45',
-      place: 'Hannover',
-      type: 'Verbrechen',
-      description:
-        'Event 2: Ein Raubüberfall fand in der Musterstraße 1 statt.',
-      witnesses: ['Zeuge_id1', 'Zeuge_id2', 'Zeuge_id3'],
-    },
-    {
-      docId: 'event_id3',
-      date: '23.03.2022',
-      time: '15:00',
-      place: 'Hannover',
-      type: 'Beobachtung',
-      description:
-        'Event 3: Ein verdächtiger Mann wurde in der Nähe des Tatorts gesehen.',
-      witnesses: ['Zeuge_id2'],
-    },
-    {
-      docId: 'event_id4',
-      date: '23.03.2022',
-      time: '15:00',
-      place: 'Hannover',
-      type: 'Beobachtung',
-      description:
-        'Event 4: Ein verdächtiger Mann wurde in der Nähe des Tatorts gesehen.',
-      witnesses: ['Zeuge_id1', 'Zeuge_id2', 'Zeuge_id1'],
-    },
-  ];
+  // dummyEvents: any[] = [
+  //   {
+  //     docId: 'event_id1',
+  //     date: '23.03.2022',
+  //     time: '15:25',
+  //     place: 'Hannover',
+  //     type: 'Unfall',
+  //     description:
+  //       'Event 1: Der verdächtige Mann hatte einen Unfall, während er zu fliehen versuchte.',
+  //     witnesses: ['Zeuge_id1', 'Zeuge_id3', 'Zeuge_id2'],
+  //   },
+  //   {
+  //     docId: 'event_id2',
+  //     date: '23.03.2022',
+  //     time: '14:45',
+  //     place: 'Hannover',
+  //     type: 'Verbrechen',
+  //     description:
+  //       'Event 2: Ein Raubüberfall fand in der Musterstraße 1 statt.',
+  //     witnesses: ['Zeuge_id1', 'Zeuge_id2', 'Zeuge_id3'],
+  //   },
+  //   {
+  //     docId: 'event_id3',
+  //     date: '23.03.2022',
+  //     time: '15:00',
+  //     place: 'Hannover',
+  //     type: 'Beobachtung',
+  //     description:
+  //       'Event 3: Ein verdächtiger Mann wurde in der Nähe des Tatorts gesehen.',
+  //     witnesses: ['Zeuge_id2'],
+  //   },
+  //   {
+  //     docId: 'event_id4',
+  //     date: '23.03.2022',
+  //     time: '15:00',
+  //     place: 'Hannover',
+  //     type: 'Beobachtung',
+  //     description:
+  //       'Event 4: Ein verdächtiger Mann wurde in der Nähe des Tatorts gesehen.',
+  //     witnesses: ['Zeuge_id1', 'Zeuge_id2', 'Zeuge_id1'],
+  //   },
+  // ];
 
   constructor(
     private route: ActivatedRoute,
@@ -237,33 +238,35 @@ export class WitnessDetailComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('id')!;
-    console.log('id: Init: ', this.id);
+    this.id = this.fireService.id = this.route.snapshot.paramMap.get('id')!;
+    console.log('id: Init: ', this.fireService.id);
 
     //be sure arrays are not empty
     // this.fireService.witnesses = this.dummyWitnesses;
     // this.fireService.statements = this.dummyStatements;
     // this.fireService.events = this.dummyEvents;
-
-    await this.fireService.subSingleWitness(this.id);
-    await this.fireService.subWitnessesList();
-    await this.fireService.subStatementsList();
-    await this.fireService.subEventsList();
-    //  this.witnesses = this.fireService.getWitnessesList();
-    // this.statements = this.fireService.getStatementsList();
-    // this.events = this.fireService.getEventsList();
+    this.fireService.subSingleWitness(this.id);
+    this.fireService.subWitnessesList();
+    this.fireService.subStatementsList();
+    this.fireService.subEventsList();
+    this.witnesses = this.fireService.getWitnessesList();
+    this.statements = this.fireService.getStatementsList();
+    this.events = this.fireService.getEventsList();
 
     //get Witness Data
-    this.witnessId = this.getWitnessId(this.id);
+    this.witnessId = this.getWitnessId(this.fireService.id);
     //  console.log('witnessId: Init: ', this.witnessId);
-    this.currentWitness = this.getWitnessById(this.witnessId);
+    this.currentWitness = this.getWitnessById(this.fireService.id);
     console.log('currentWitness: Init: ', this.currentWitness);
 
-    if (this.currentWitness.docId) {
-      this.filterStatementsByWitnessId(this.currentWitness.docId);
+    this.filteredStatements = this.filterStatementsByWitnessId(
+      this.fireService.id
+    );
 
-      console.log('filterStatementsByWitnessId filtered: ');
-    }
+    console.log(
+      'filterStatementsByWitnessId filtered: ',
+      this.filteredStatements
+    );
 
     //get Statement Data
     // this.currentStatement = this.getStatementById(
@@ -284,16 +287,13 @@ export class WitnessDetailComponent implements OnInit {
 
   getWitnessId(id: string): string {
     // else 'Zeuge_id1'
-    let temp!: Witness;
-    temp = this.getWitnessById(id);
-    if (id == temp.docId) {
+    if (id) {
       return id;
     } else {
-      return this.id;
+      return this.fireService.id;
     }
   }
 
-  
   getWitnessById(id: string): Witness {
     let currentWitness: Witness | undefined = undefined;
     //temp is first undefined, var for .find
@@ -307,34 +307,22 @@ export class WitnessDetailComponent implements OnInit {
       }
       return temp;
     });
-
     //if currentWitness is not undefined return it, else return dummy Data
     if (currentWitness != undefined) {
       return currentWitness;
     } else {
-      return this.dummyWitnesses[0];
+      return this.currentWitness;
     }
   }
 
   filterStatementsByWitnessId(witnessId: string): Statement[] {
     let filterStatements: Statement[] = [];
-    console.log(
-      'filterStatement: fireService.statements: ',
-      this.fireService.statements
-    );
-    console.log('filterStatement: witnessId: ', this.witnessId);
     this.fireService.statements.forEach((element) => {
       if (element.witness == witnessId) {
         filterStatements.push(element);
       }
     });
-
-    this.filteredStatements = this.fireService.filteredStatements =
-      filterStatements;
-    console.log(
-      'filterStatements: filtered: ',
-      this.fireService.filteredStatements
-    );
+    this.filteredStatements = this.fireService.filteredStatements = filterStatements;
     return filterStatements;
   }
 
@@ -355,7 +343,7 @@ export class WitnessDetailComponent implements OnInit {
     if (currentStatement != undefined) {
       return currentStatement;
     } else {
-      return this.dummyStatements[0];
+      return this.fireService.currentStatement;
     }
   }
 
@@ -385,7 +373,7 @@ export class WitnessDetailComponent implements OnInit {
     if (currentEvent != undefined) {
       return currentEvent;
     } else {
-      return this.dummyEvents[0];
+      return this.fireService.currentEvent;
     }
   }
 
@@ -418,10 +406,23 @@ export class WitnessDetailComponent implements OnInit {
     }
   }
 
+  filterEventsByWitnessId(id: string) {
+    let filterEvents: Event[] = [];
+    this.fireService.events.forEach((element) => {
+      element.witnesses.forEach((witnessId) => {
+        if (id == witnessId) {
+          filterEvents.push(element);
+        }
+      });
+    });
+    console.log('filterEvents: ', filterEvents);
+    return filterEvents;
+  }
+
   getAllEvents() {
     let allEvents: Event[] = [];
 
-    this.dummyEvents.forEach((eve) => {
+    this.fireService.events.forEach((eve) => {
       allEvents.push(eve);
     });
     return allEvents;
@@ -451,7 +452,9 @@ export class WitnessDetailComponent implements OnInit {
     dialog.componentInstance.witnessId = this.witnessId;
     dialog.componentInstance.statement = this.fireService.currentStatement;
     dialog.componentInstance.statementId = this.statementId;
-    dialog.componentInstance.allEvents = this.fireService.events;
+    dialog.componentInstance.allEvents = this.filterEventsByWitnessId(
+      this.witnessId
+    );
     dialog.componentInstance.filteredStatements = this.filteredStatements;
   }
 
@@ -476,7 +479,9 @@ export class WitnessDetailComponent implements OnInit {
     dialog.componentInstance.filteredStatementIndex = idx;
 
     dialog.componentInstance.event = this.currentEvent;
-    dialog.componentInstance.allEvents = this.fireService.events;
+    dialog.componentInstance.allEvents = this.filterEventsByWitnessId(
+      this.witnessId
+    );
     dialog.componentInstance.witnessId = this.witnessId;
   }
 
@@ -488,18 +493,27 @@ export class WitnessDetailComponent implements OnInit {
       this.statementId = this.getStatementId(this.currentStatement.docId);
     }
 
-    console.log( 'openDelete:Statement: ', this.currentStatement, this.statementId, idx);
-    console.log('openDelete:Witness: ', this.currentWitness, this.fireService.filteredStatements);
+    console.log(
+      'openDelete:Statement: ',
+      this.currentStatement,
+      this.statementId,
+      idx
+    );
+    console.log(
+      'openDelete:Witness: ',
+      this.currentWitness,
+      this.fireService.filteredStatements
+    );
 
     dialog.componentInstance.filteredStatementIndex = idx;
     dialog.componentInstance.statement = this.currentStatement;
     dialog.componentInstance.statementId = this.statementId;
     dialog.componentInstance.witness = this.currentWitness;
     dialog.componentInstance.witnessId = this.witnessId;
-    dialog.componentInstance.filteredStatements = this.fireService.filteredStatements;
+    dialog.componentInstance.filteredStatements =
+      this.fireService.filteredStatements;
   }
 
- 
   openEditEventDialog(event: Event) {
     const dialog = this.dialog.open(DialogEditEventComponent);
     dialog.componentInstance.event = new Event(event);
