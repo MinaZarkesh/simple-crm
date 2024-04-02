@@ -1,38 +1,31 @@
 import { Component, OnInit } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+//Material
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-//Firebase-Services
-import { FirestoreModule } from '@angular/fire/firestore';
-import { NgIf } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
+//eigene Components
 import { Witness } from '../../../../models/witness.class';
 import { firebaseService } from '../../../firebase-services/firebase.service';
-import { Statement } from '../../../../models/statement.class';
 
 @Component({
   selector: 'app-dialog-edit-witness',
   standalone: true,
   imports: [
-    MatDialogContent,
-    MatDialogActions,
-    MatInputModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    FormsModule,
-    FirestoreModule,
     MatProgressBarModule,
-    MatSlideToggleModule,
-    NgIf,
+    MatDialogContent,
+    MatFormFieldModule,
+    FormsModule,
     MatSelectModule,
+    MatDialogActions,
     ReactiveFormsModule,
-  ],
+    MatInputModule,
+    NgIf
+    ],
   templateUrl: './dialog-edit-witness.component.html',
   styleUrl: './dialog-edit-witness.component.scss',
 })
@@ -51,13 +44,12 @@ export class DialogEditWitnessComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log("'ngInit edit: ", this.witness);
   }
 
   async saveEdits() {
     this.loading = true;
+    this.witness.role = this.selected;
     await this.fireService.updateSingleWitness(this.witnessId, this.witness);
-    console.log('saveWitness: ', this.witness);
     this.loading = false;
     this.dialogRef.close();
   }

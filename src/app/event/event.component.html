@@ -1,4 +1,57 @@
-<mat-accordion>
+
+
+<h1>Sachverhalte</h1>
+<table class="user-table">
+  <tr>
+    <th>Zeit</th>
+    <th>Uhrzeit</th>
+    <th>Ort</th>
+    <th>Beteiligte</th>
+    <th>kurze Beschreibung</th>
+    <th></th>
+    <!-- Aussage bestätigt, Aussage ausstehend -->
+  </tr>
+  <tr
+    *ngFor="let ev of this.fireService.events"
+    [routerLink]="['/events/' + ev.docId]"
+  >
+    <!-- '/events/' + user.docId -->
+    <!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->
+    <td>{{ ev.date }}</td>
+    <td>{{ ev.time }}</td>
+    <td>{{ ev.place }}</td>
+    <!-- <td>{{user.docId}}</td> -->
+    <td>
+      <ul *ngFor="let item of ev.witnesses">
+        {{
+          getWitnessNamebyWitnessId(item)
+        }}
+      </ul>
+    </td>
+    <td>
+      {{ ev.description }}
+    </td>
+    <td class="table-button">
+      <button
+        (click)="stopEvent($event)"
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openEditEventDialog(ev)"> edit </button>
+        <button mat-menu-item (click)="openDeleteEventDialog(ev)"> delete </button>
+        <button mat-menu-item>
+          <span [routerLink]="['/events/' + event.docId]"> more Details</span>
+        </button>
+      </mat-menu>
+    </td>
+  </tr>
+</table>
+
+<!-- <mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> This is the expansion title </mat-panel-title>
@@ -6,64 +59,10 @@
         This is a summary of the content
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <h1>Sachverhalte</h1>
-
-    <mat-card class="mt-32">
-      <mat-card-content>
-        <table class="user-table">
-          <tr>
-            <th>Zeit</th>
-            <th>Ort</th>
-            <th>Art</th>
-            <th>Beteiligte</th>
-            <th>kurze Beschreibung</th>
-            <th></th>
-            <!-- Aussage bestätigt, Aussage ausstehend -->
-          </tr>
-          <tr
-            *ngFor="let ev of fireService.events"
-            [routerLink]="['/events/' + ev.docId]"
-          >
-            <!-- '/events/' + user.docId -->
-            <!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->
-            <td>{{ ev.date }}</td>
-            <td>{{ ev.time }}</td>
-            <td>{{ ev.place }}</td>
-            <!-- <td>{{user.docId}}</td> -->
-            <td>
-              <ul *ngFor="let item of ev.witnesses">
-                {{
-                  getWitnessNamebyWitnessId(item)
-                }}
-              </ul>
-            </td>
-            <td>
-              {{ ev.description }}
-            </td>
-            <td class="table-button">
-              <button
-                (click)="stopEvent($event)"
-                mat-icon-button
-                [matMenuTriggerFor]="menu"
-                aria-label="Example icon-button with a menu"
-              >
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="openEditEventDialog(ev)"> edit </button>
-                <button mat-menu-item (click)="openDeleteEventDialog(ev)"> delete </button>
-                <button mat-menu-item>
-                  <span [routerLink]="['/events/' + event.docId]"> more Details</span>
-                </button>
-              </mat-menu>
-            </td>
-          </tr>
-        </table>
-      </mat-card-content>
-    </mat-card>
+   
+ 
   </mat-expansion-panel>
-</mat-accordion>
-
+</mat-accordion> -->
 <!-- <mat-card>
   <mat-accordion>
     <mat-expansion-panel>

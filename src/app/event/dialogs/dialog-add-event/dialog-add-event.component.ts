@@ -1,94 +1,76 @@
-import { Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
-import { MatDialogRef, MatDialogActions } from '@angular/material/dialog';
+import { Component} from '@angular/core';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { NgIf} from '@angular/common';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+//Material
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogRef, MatDialogActions, MatDialogContent } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Validators } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Witness } from '../../../../models/witness.class';
-import { firebaseService } from '../../../firebase-services/firebase.service';
-import { NgIf, NgFor, NgForOf } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDialogContent } from '@angular/material/dialog';
-import { MatOption } from '@angular/material/core';
-import { ActivatedRoute } from '@angular/router';
+//eigenes
+import { Witness } from '../../../../models/witness.class';
 import { Event } from '../../../../models/event.class';
+import { firebaseService } from '../../../firebase-services/firebase.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dialog-add-event',
   standalone: true,
   imports: [
-    MatDialogActions,
-    MatOption,
-    NgFor,
-    NgForOf,
-    MatDatepickerModule,
-    MatInputModule,
-    MatFormFieldModule,
+    MatProgressBarModule,
     MatDialogContent,
+    MatDialogActions,
+    MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSlideToggleModule,
-    MatProgressBarModule,
-    NgIf,
     MatSelectModule,
+    MatDatepickerModule,
+    MatDialogActions,
+    MatInputModule,
+    NgIf
   ],
   providers: [provideNativeDateAdapter()],
-
   templateUrl: './dialog-add-event.component.html',
   styleUrl: './dialog-add-event.component.scss',
 })
 export class DialogAddEventComponent {
+ 
   witnessId: string | null = '';
-  eventId: string  ='temp';
-  witnesses: any = this.fireService.witnesses;
   witness = new Witness();
-
-  loading: boolean = false;
-  toppings = new FormControl('');
-  witnessesControl = new FormControl<Witness[] | null>(
-    null,
-    Validators.required
-  );
-
-  toppingList: string[] = [
-    'Extra cheese',
-    'Mushroom',
-    'Onion',
-    'Pepperoni',
-    'Sausage',
-    'Tomato',
-  ];
-  selected = 'Zeugen auswählen';
+  witnesses: any = this.fireService.witnesses;
+  witnessesControl = new FormControl<Witness[] | null>( null, Validators.required);
+  
+  eventId: string | null = '';
   event = new Event();
-  tempDate: any;
-  tempTime: any;
+  events:any =[];
+  
+  loading: boolean = false;
+  selected = 'Zeugen auswählen';
+  tempDate = new Date();
 
   constructor(
+    private route: ActivatedRoute,
     public dialogRef: MatDialogRef<DialogAddEventComponent>,
     public fireService: firebaseService
   ) {}
 
   async addEvent() {
     this.loading = true;
-    // this.witnesses = this.selected;
+
     let dateString = this.tempDate?.toLocaleString('de-DE', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
     });
-
-    let tempWitnessesId: any[] = [];
+    let tempWitnessesId: string[] = [];
     this.witnessesControl.value?.forEach((element) => {
-      tempWitnessesId.push(element.docId);
+      (element.docId) ? tempWitnessesId.push(element.docId):false
     });
-    console.log('add: 2', tempWitnessesId);
 
     let tempEvent: Event = {
-      docId: this.eventId,
+      docId: 'test',
       date: dateString,
       time: this.event.time,
       place: this.event.place,
@@ -96,15 +78,10 @@ export class DialogAddEventComponent {
       type: this.event.type,
       witnesses: tempWitnessesId,
     };
-    console.log('addEvent: ', tempEvent);
-    await this.fireService.addEvent(tempEvent);
-    // await this.fireService.updateSingleEvent(this.eventId, tempEvent);
-    await console.log(this.fireService.events);
-    this.loading = false;
-  }
 
-  getWitnessesList() {
-    let test: any;
+    await this.fireService.addEvent(tempEvent);
+    console.log("AddEvent: test: ", tempEvent, this.fireService.events);
+    this.loading = false;
+    this.dialogRef.close();
   }
-  
 }

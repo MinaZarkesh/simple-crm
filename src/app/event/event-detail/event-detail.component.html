@@ -47,119 +47,17 @@
     *ngFor="let item of this.getEventById(this.eventId).witnesses"
     label="{{ this.getWitnessById(item).name }}"
   >
+  <a mat-button [routerLink]="['/witnesses/' + item]">mehr Details zu {{ this.getWitnessById(item).name }}</a>
     <p>Aussagen von {{ this.getWitnessById(item).name }}</p>
 
-    <mat-accordion>
-      @for (statement of this.filterStatementsByWitnessId(item); track
-      statement; let i = $index ){
-      <mat-expansion-panel
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ statement.date }} {{ statement.time }} ,
-            {{ statement.place }}
-          </mat-panel-title>
-          <mat-panel-description>
-            Currently I am {{ panelOpenState ? "open" : "closed" }}
-            {{ getEventById(statement.event).description }}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <button
-          mat-icon-button
-          class="pin-right-corner-t48"
-          [matMenuTriggerFor]="statementMenu"
-          (click)="panelOpenState = true"
-        >
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #statementMenu="matMenu">
-          <button mat-menu-item (click)="openEditStatementDialog(i)">
-            Aussage bearbeiten
-          </button>
-          <button mat-menu-item (click)="openDeleteStatementDialog(i)">
-            Aussage löschen
-          </button>
-        </mat-menu>
-        <mat-card class="event-info">
-          
-
-          <div>
-            <p>
-              {{ getEventById(statement.event).date }}
-              {{ getEventById(statement.event).time }}
-            </p>
-            <p>{{ getEventById(statement.event).place }}</p>
-            <p>{{ getWitnessListbyStatementId(statement.docId) }}</p>
-          </div>
-        </mat-card>
-        <button
-        mat-icon-button
-        class="pin-right-upper-corner"
-        (click)="openEditEventDialog(getEventById(statement.event))"
-      >
-        <mat-icon>edit</mat-icon>
-      </button>
-      
-        <mat-form-field class="full-width mt-32">
-          <mat-label>Aussage selbst</mat-label>
-          <textarea
-            rows="5"
-            [disabled]="checked"
-            matInput
-            [(ngModel)]="statement.comment"
-            placeholder="Aussage selbst"
-          >
-       {{ statement.comment }}</textarea
-          >
-        </mat-form-field>
-
-        <section class="example-section">
-          <mat-slide-toggle
-            class="example-margin"
-            [color]="color"
-            [checked]="checked"
-            (change)="checkStatement(i)"
-          >
-            Aussage von Zeugen bestätigt!
-          </mat-slide-toggle>
-        </section>
-
-        <p>Querverweise</p>
-        <button mat-button [matMenuTriggerFor]="aboveMenu">Above</button>
-        <mat-menu #aboveMenu="matMenu" yPosition="above">
-          <button mat-menu-item>Item 1</button>
-          <button mat-menu-item>Item 2</button>
-        </mat-menu>
-
-        <button mat-button [matMenuTriggerFor]="belowMenu">Below</button>
-        <mat-menu #belowMenu="matMenu" yPosition="below">
-          <button mat-menu-item>Item 1</button>
-          <button mat-menu-item>Item 2</button>
-        </mat-menu>
-
-        <button mat-button [matMenuTriggerFor]="beforeMenu">Before</button>
-        <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <button mat-menu-item>Item 1</button>
-          <button mat-menu-item>Item 2</button>
-        </mat-menu>
-
-        <button mat-button [matMenuTriggerFor]="afterMenu">After</button>
-        <mat-menu #afterMenu="matMenu" xPosition="after">
-          <button mat-menu-item>Item 1</button>
-          <button mat-menu-item>Item 2</button>
-        </mat-menu>
-      </mat-expansion-panel>
-      }@empty {
-      <li>Keine Aussagen vorhanden</li>
-      }
-    </mat-accordion>
-    <!-- <a mat-button [routerLink]="['/witnesses/' + item]"
-    >mehr Details zu {{ this.getWitnessById(item).name }}</a
-  > -->
-  <br>
-  <a [routerLink]="['/witnesses/' + item]">mehr Details zu {{ this.getWitnessById(item).name }}</a>
+    @for (statement of this.filterStatementsByWitnessId(item); track
+    statement; let i = $index ){
+    <mat-card class="full-width">
+      <p> {{ statement.date }} {{ statement.time }}, {{ statement.place }}  <br>  {{ statement.comment }}</p>
+    </mat-card>
+  }@empty {
+    <li>Keine Aussagen vorhanden </li>
+    }
   </mat-tab>
 </mat-tab-group>
 

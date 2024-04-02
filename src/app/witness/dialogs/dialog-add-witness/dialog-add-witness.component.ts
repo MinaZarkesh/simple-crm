@@ -161,7 +161,6 @@ export class DialogAddWitnessComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    // public userService: UserListService,
     public fireService: firebaseService,
     public dialogRef: MatDialogRef<DialogAddWitnessComponent>
   ) {}
@@ -189,7 +188,6 @@ export class DialogAddWitnessComponent implements OnInit {
       statements: this.witness.statements,
     };
     
-    // console.log("addWitness: getList: ",this.witnesses, tempWitness);
     await this.fireService.addWitness(tempWitness);
     console.log("addWitness: test", tempWitness, this.fireService.witnesses);
     // debugger;
