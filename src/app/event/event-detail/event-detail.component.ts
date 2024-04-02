@@ -136,20 +136,6 @@ export class EventDetailComponent implements OnInit {
     
   }
 
-  // defaultUser(): User {
-  //   if (this.currentUser) {
-  //     return this.currentUser;
-  //   } else {
-  //     return {
-  //       docId: '1',
-  //       name: 'John Doe',
-  //       email: 'dfL0K@example.com',
-  //       capacity: true,
-  //       trails: [],
-  //     };
-  //   }
-  // }
-
   getEventId(id: string) {
     if (id) {
       return id;
@@ -185,12 +171,12 @@ export class EventDetailComponent implements OnInit {
     tempWitness = this.getWitnessById(witnessId);
     tempName = tempWitness.name;
     console.log('testen: ', tempName);
-    //   return tempWitnessList;
-    // } else {
-    //   return 'verkackt';
+      return tempName;
   }
 
+
   getWitnessById(witnessId: string): Witness {
+    
     let currentWitness: Witness | undefined = undefined;
     //temp is first undefined, var for .find
     let temp: Witness | undefined = undefined;
@@ -212,9 +198,10 @@ export class EventDetailComponent implements OnInit {
   }
 
   filterStatementsByWitnessId(witnessId: string): Statement[] {
+    
     let filterStatements: Statement[] = [];
     this.fireService.statements.forEach((element) => {
-      if (element.witness == witnessId) {
+      if (element.witness == witnessId && element.event == this.eventId) {
         filterStatements.push(element);
       }
     });
