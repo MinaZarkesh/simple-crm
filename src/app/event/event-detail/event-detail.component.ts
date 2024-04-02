@@ -359,7 +359,7 @@ export class EventDetailComponent implements OnInit {
     dialog.componentInstance.event = new Event(event);
     if (event.docId != undefined) {
       dialog.componentInstance.eventId = event.docId;
-      dialog.componentInstance.eventWitnessesIdList = event.witnesses;
+       dialog.componentInstance.eventWitnessesIdList = event.witnesses;
     }
   }
 

@@ -1,40 +1,34 @@
-import { Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
-import { MatDialogRef, MatDialogActions } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { NgIf} from '@angular/common';
+//Material
+import { provideNativeDateAdapter, MatOption } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
+import { MatDialogRef, MatDialogActions, MatDialogContent } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Validators } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Witness } from '../../../../models/witness.class';
-import { firebaseService } from '../../../firebase-services/firebase.service';
-import { NgIf, NgFor, NgForOf } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDialogContent } from '@angular/material/dialog';
-import { MatOption } from '@angular/material/core';
-import { ActivatedRoute } from '@angular/router';
+//eigenes
+import { firebaseService } from '../../../firebase-services/firebase.service';
+import { Witness } from '../../../../models/witness.class';
 import { Event } from '../../../../models/event.class';
 
 @Component({
   selector: 'app-dialog-edit-event',
   standalone: true,
   imports: [
-    MatDialogActions,
-    MatOption,
-    NgFor,
-    NgForOf,
-    MatDatepickerModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatDialogContent,
-    FormsModule,
-    ReactiveFormsModule,
-    MatSlideToggleModule,
     MatProgressBarModule,
+    MatDialogContent,
+    MatFormFieldModule,
+    FormsModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
+    MatOption,
+    MatDialogActions,
+    MatInputModule,
     NgIf,
-    MatSelectModule,
+    MatSelectModule
   ],
   providers: [provideNativeDateAdapter()],
 
@@ -42,23 +36,17 @@ import { Event } from '../../../../models/event.class';
   styleUrl: './dialog-edit-event.component.scss',
 })
 export class DialogEditEventComponent implements OnInit {
+
+  loading: boolean = false;
+  witness = new Witness();
   witnessId: string | null = '';
+  event!: Event;
   eventId = 'temp';
   eventWitnesses!: Witness[];
   eventWitnessesIdList!: string[];
-  witness = new Witness();
-
-  loading: boolean = false;
-  toppings = new FormControl('');
-  witnessesControl = new FormControl<Witness[] | null>(
-    null,
-    Validators.required
-  );
-
+  witnessesControl = new FormControl<Witness[] | null>( null, Validators.required);
   selected = 'Zeugen auswählen';
-  event!: Event;
-  tempDate: any;
-  tempTime: any;
+  tempDate!: Date;
 
   constructor(
     public dialogRef: MatDialogRef<DialogEditEventComponent>,
@@ -66,11 +54,7 @@ export class DialogEditEventComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    if (this.event.docId) {
-      this.eventId = this.event.docId;
-    }
+    if (this.event.docId)  this.eventId = this.event.docId;
     this.tempDate = this.changeDateformat();
     this.getWitnessesListbyEventId();
     this.witnessesControl.setValue(this.eventWitnesses);
@@ -78,19 +62,15 @@ export class DialogEditEventComponent implements OnInit {
 
   async editEvent() {
     this.loading = true;
-    // this.witnesses = this.selected;
     let dateString = this.tempDate?.toLocaleString('de-DE', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
     });
-
     let tempWitnessesId: any[] = [];
     this.witnessesControl.value?.forEach((element) => {
       tempWitnessesId.push(element.docId);
     });
-    console.log('add: 2', tempWitnessesId, this.eventId);
-
     let tempEvent: Event = {
       docId: this.eventId,
       date: dateString,
@@ -101,17 +81,13 @@ export class DialogEditEventComponent implements OnInit {
       witnesses: tempWitnessesId,
     };
 
-    // console.log('addEvent: ', tempEvent);
-    // await this.fireService.addEvent(tempEvent);
     await this.fireService.updateSingleEvent(this.eventId, tempEvent);
-    console.log(tempEvent);
     this.loading = false;
     this.dialogRef.close();
   }
 
   getWitnessesListbyEventId() {
     let tempWitnesses = this.event.witnesses;
-    console.log('getWitness: ', this.event.docId, tempWitnesses);
     this.eventWitnesses = [];
     tempWitnesses.forEach((id) => {
       this.fireService.witnesses.find((element) => {
