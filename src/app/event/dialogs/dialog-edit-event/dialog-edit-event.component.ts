@@ -48,11 +48,24 @@ export class DialogEditEventComponent implements OnInit {
   selected = 'Zeugen auswählen';
   tempDate!: Date;
 
+    /**
+   * Initializes a new instance of the DialogEditEventComponent class.
+   *
+   * @param {MatDialogRef<DialogEditEventComponent>} dialogRef - The reference to the dialog.
+   * @param {firebaseService} fireService - The service for interacting with Firebase.
+   */
   constructor(
     public dialogRef: MatDialogRef<DialogEditEventComponent>,
     public fireService: firebaseService
   ) {}
 
+    /**
+   * Initializes the component and performs necessary setup tasks.
+   *
+   * This function is called when the component is first created. It checks if the `event` object has a `docId` property and assigns its value to the `eventId` variable if it exists. It then calls the `changeDateformat` function to update the `tempDate` variable. Finally, it calls the `getWitnessesListbyEventId` function to fetch the list of event witnesses and sets the value of the `witnessesControl` form control to the `eventWitnesses` array.
+   *
+   * @return {void} This function does not return a value.
+   */
   ngOnInit(): void {
     if (this.event.docId)  this.eventId = this.event.docId;
     this.tempDate = this.changeDateformat();
@@ -60,6 +73,11 @@ export class DialogEditEventComponent implements OnInit {
     this.witnessesControl.setValue(this.eventWitnesses);
   }
 
+    /**
+   * Edits an event by updating its information in the database.
+   *
+   * @return {Promise<void>} A promise that resolves when the event is successfully updated.
+   */
   async editEvent() {
     this.loading = true;
     let dateString = this.tempDate?.toLocaleString('de-DE', {
@@ -86,6 +104,9 @@ export class DialogEditEventComponent implements OnInit {
     this.dialogRef.close();
   }
 
+    /**
+   * Get the list of witnesses by event ID.
+   */
   getWitnessesListbyEventId() {
     let tempWitnesses = this.event.witnesses;
     this.eventWitnesses = [];
@@ -98,6 +119,11 @@ export class DialogEditEventComponent implements OnInit {
     });
   }
 
+    /**
+   * Converts a date string in the format "dd.mm.yyyy" to a Date object.
+   *
+   * @return {Date} The converted Date object.
+   */
   changeDateformat() {
     let test = this.event.date;
     let getMonth = test.split('.')[1];

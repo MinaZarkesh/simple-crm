@@ -34,6 +34,11 @@ export class DialogDeleteEventComponent {
     private fireService: firebaseService
   ) {}
 
+    /**
+   * Deletes filtered statements asynchronously.
+   *
+   * @return {Promise<void>} A promise that resolves when the function completes.
+   */
   async deletefilteredStatement() {
     this.statements = this.fireService.statements;
     let tempStatements: any[] = [];
@@ -49,6 +54,15 @@ export class DialogDeleteEventComponent {
     });
   }
 
+  
+    /**
+   * Delete an event by performing the following steps:
+   * - Set loading to true
+   * - Delete filtered statement
+   * - If event has docId, set eventId to docId
+   * - Delete a single event using fireService
+   * - Set loading to false
+   */
   async deleteEvent() {
     this.loading = true;
 

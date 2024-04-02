@@ -46,10 +46,24 @@ export class DialogDeleteWitnessComponent {
     }
   }
 
+  async deleteWitnessfromEvent(witnessId: string) {
+    this.fireService.events.find((element) => {
+      element.witnesses.find((id, index) => {
+        if (id == witnessId && element.docId) {
+          console.log('id: ', id, index);
+          element.witnesses.splice(index, 1);
+          this.fireService.updateSingleEvent(element.docId, element);
+        }
+
+      });
+    });
+  }
+
   async deleteWitness() {
     await this.deletefilteredStatement();
     this.loading = true;
     await this.fireService.deleteSingleWitness(this.witnessId);
+    this.deleteWitnessfromEvent(this.witnessId);
     this.loading = false;
     this.dialogRef.close();
     window.location.href = '/witnesses';

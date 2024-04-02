@@ -1,11 +1,11 @@
 <div *ngIf="event">
-    <h1 mat-dialog-title>Zeugen löschen</h1>
+    <h1 mat-dialog-title>Ereignis löschen</h1>
     <div mat-dialog-content>
       Möchtest du wirklich das Ereignis <br>
       <b>{{event.description}}</b>  <br> löschen?
     </div>
     <div mat-dialog-actions>
-      <button mat-button mat-dialog-close cdkFocusInitial>No</button>
-      <button mat-button mat-dialog-close (click)="deleteEvent()">Yes</button>
+      <button mat-button mat-dialog-close cdkFocusInitial>Nein</button>
+      <button mat-button mat-dialog-close (click)="deleteEvent()">Ja</button>
     </div>
   </div>

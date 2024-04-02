@@ -50,12 +50,24 @@ export class DialogAddEventComponent {
   selected = 'Zeugen auswählen';
   tempDate = new Date();
 
+    /**
+   * Initializes a new instance of the DialogAddEventComponent class.
+   *
+   * @param {ActivatedRoute} route - The route that activated this component.
+   * @param {MatDialogRef<DialogAddEventComponent>} dialogRef - The reference to the dialog that contains this component.
+   * @param {firebaseService} fireService - The service for interacting with Firebase.
+   */
   constructor(
     private route: ActivatedRoute,
     public dialogRef: MatDialogRef<DialogAddEventComponent>,
     public fireService: firebaseService
   ) {}
 
+    /**
+   * Adds an event to the system asynchronously.
+   *
+   * @return {Promise<void>} - A promise that resolves when the event is added successfully.
+   */
   async addEvent() {
     this.loading = true;
 

@@ -47,17 +47,31 @@
     *ngFor="let item of this.getEventById(this.eventId).witnesses"
     label="{{ this.getWitnessById(item).name }}"
   >
-  <a mat-button [routerLink]="['/witnesses/' + item]">mehr Details zu {{ this.getWitnessById(item).name }}</a>
-    <p>Aussagen von {{ this.getWitnessById(item).name }}</p>
+    <h4 class="pl-16">Aussagedaten von {{ this.getWitnessById(item).name }}</h4>
 
-    @for (statement of this.filterStatementsByWitnessId(item); track
-    statement; let i = $index ){
-    <mat-card class="full-width">
-      <p> {{ statement.date }} {{ statement.time }}, {{ statement.place }}  <br>  {{ statement.comment }}</p>
+    @for (statement of this.filterStatementsByWitnessId(item); track statement;
+    let i = $index ){
+    <mat-card class="mt-32 pl-16">
+  
+          Zeitpunkt: {{ statement.date }} {{ statement.time }} <br>
+          Ort: {{ statement.place }}
+    
+      <p><i>{{ statement.comment }}</i></p>
     </mat-card>
-  }@empty {
-    <li>Keine Aussagen vorhanden </li>
+    }@empty {
+    <li>Keine Aussagen vorhanden</li>
     }
+
+    <p></p>
+    
+
+      <a mat-button style="position: inherit;" [routerLink]="['/witnesses/' + item]">
+        mehr Details zu {{ this.getWitnessById(item).name }}
+      </a>
+      <!-- <button mat-menu-item>Item 2</button> -->
+   
+
+  
   </mat-tab>
 </mat-tab-group>
 
