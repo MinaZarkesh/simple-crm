@@ -80,7 +80,6 @@ export class DialogAddEventComponent {
     };
 
     await this.fireService.addEvent(tempEvent);
-    console.log("AddEvent: test: ", tempEvent, this.fireService.events);
     this.loading = false;
     this.dialogRef.close();
   }
