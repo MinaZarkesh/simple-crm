@@ -2,15 +2,16 @@
   <mat-drawer #drawer class="sidenav" [opened]="false" mode="side">
     <div class="logo-container">PLATZ FÜR LOGO</div>
     <ul class="menu-items">
-      <li [routerLink]="['/dashboard']" routerLinkActive="router-link-active">
+      <a [routerLink]="[ '/dashboard' ]" routerLinkActive="active">
         <mat-icon>fact_check</mat-icon> Dashboard
-      </li>
-      <li routerLink="/witnesses" routerLinkActive="router-link-active">
+      </a>
+      <a class="routerLink" [routerLink]="[ '/witnesses' ]" routerLinkActive="active">
         <mat-icon>group</mat-icon> Zeugen
-      </li>
-      <li routerLink="/events" routerLinkActive="router-link-active">
+      </a>
+      <a class="routerLink" [routerLink]="[ '/events' ]" routerLinkActive="active">
+        
         <mat-icon>my_location</mat-icon> Ereignisse
-      </li>
+      </a>
     </ul>
     <!-- @if (showFiller) {
     <p **ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>

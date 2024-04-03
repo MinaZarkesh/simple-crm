@@ -40,6 +40,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   flex-direction: column;
 }
 
+.routerLink{
+  text-decoration: none;
+  color: unset;
+}
+
 app-witness{
   display: flex;
   flex-direction: column;

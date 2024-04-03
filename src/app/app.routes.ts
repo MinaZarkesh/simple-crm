@@ -7,6 +7,7 @@ import { WitnessDetailComponent } from './witness/witness-detail/witness-detail.
 
 export const routes: Routes = [
     // { path: '', component: UserComponent },
+    {path: '*', component: DashboardComponent},
      {  path: '', component: DashboardComponent },
     {  path: 'dashboard', component: DashboardComponent },
      {  path: 'witnesses', component: WitnessComponent },

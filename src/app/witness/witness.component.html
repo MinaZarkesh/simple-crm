@@ -13,7 +13,7 @@
         </tr>
         <tr
           *ngFor="let witness of this.fireService.witnesses"
-          [routerLink]="['/witnesses/' + witness.docId]"
+          [routerLink]="[ '/witnesses/' + witness.docId]" routerLinkActive="active"
         >
           <!-- [[routerLink]="['/user/' +{{ user.id}}]" ] -->
           <td>{{ witness.name }}</td>

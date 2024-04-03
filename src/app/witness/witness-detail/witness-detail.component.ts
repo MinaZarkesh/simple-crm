@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 //classes
@@ -42,6 +40,7 @@ import { firebaseService } from '../../firebase-services/firebase.service';
 import { DialogDeleteStatementComponent } from '../../statement/dialogs/dialog-delete-statement/dialog-delete-statement.component';
 import { DialogEditStatementComponent } from '../../statement/dialogs/dialog-edit-statement/dialog-edit-statement.component';
 import { DialogEditEventComponent } from '../../event/dialogs/dialog-edit-event/dialog-edit-event.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-witness-detail',
@@ -49,7 +48,6 @@ import { DialogEditEventComponent } from '../../event/dialogs/dialog-edit-event/
   imports: [
     NgIf,
     NgFor,
-    RouterLink,
     FormsModule,
     CommonModule,
     MatDialogModule,
