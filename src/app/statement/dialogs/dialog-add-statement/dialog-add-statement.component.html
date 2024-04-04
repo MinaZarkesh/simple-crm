@@ -18,12 +18,12 @@
           }
         </mat-select>
         @if (eventControl.hasError('required')) {
-        <mat-error>Please choose an event</mat-error>
+        <mat-error>Bitte wähle ein Ereignis</mat-error>
         }
         <mat-hint>{{eventControl.value?.docId}}</mat-hint>
       </mat-form-field>
     </div>
-    <h4>Statement</h4>
+    <h4>Aussagedaten</h4>
     <div>
       <mat-form-field class="mr-16 full-width">
         <mat-label>Ort</mat-label>
@@ -34,7 +34,7 @@
         />
       </mat-form-field>
       <mat-form-field appearance="outline" class="mr-16">
-        <mat-label>Aufnahmedatum</mat-label>
+        <mat-label>Datum</mat-label>
         <input [disabled]="loading" [(ngModel)]="tempDate" matInput placeholder="Aufnahmedatum" [matDatepicker]="picker1">
         <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
         <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -48,7 +48,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button (click)="this.dialogRef.close()">Cancel</button>
+    <button mat-button (click)="this.dialogRef.close()">Abbrechen</button>
     <button
       [disabled]="loading"
       id="save"
@@ -56,7 +56,7 @@
       (click)="addStatement()"
       cdkFocusInitial
     >
-      Save
+      Speichern
     </button>
   </mat-dialog-actions>
 </div>

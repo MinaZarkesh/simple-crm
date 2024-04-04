@@ -9,8 +9,8 @@
       <mat-icon class="more-vert">more_vert</mat-icon>
     </button>
     <mat-menu #witnessMenu="matMenu">
-      <button mat-menu-item (click)="openEditWitnessDialog()">edit</button>
-      <button mat-menu-item (click)="openDeleteWitnessDialog()">delete</button>
+      <button mat-menu-item (click)="openEditWitnessDialog()">Zeuge bearbeiten</button>
+      <button mat-menu-item (click)="openDeleteWitnessDialog()">Zeuge löschen</button>
     </mat-menu>
     <img src="assets/img/person.png" alt="" />
     <div class="user-info-header">
@@ -28,7 +28,7 @@
     class="add-statement-btn"
     mat-fab
     matTooltipPosition="above"
-    matTooltip="Add statement"
+    matTooltip="Aussage hinzufügen"
     color="primary"
     (click)="openAddStatementDialog()"
   >
@@ -39,7 +39,8 @@
 <mat-accordion>
   <!-- hideToggle -->
 
-  @for (statement of this.filterStatementsByWitnessId(this.fireService.id); track statement; let i = $index ){
+  @for (statement of this.filterStatementsByWitnessId(this.fireService.id);
+  track statement; let i = $index ){
   <mat-expansion-panel
     (opened)="panelOpenState = true"
     (closed)="panelOpenState = false"
@@ -54,31 +55,40 @@
         {{ getEventById(statement.event).description }}
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <button 
-    mat-icon-button
-    class="pin-right-corner-t48"
-    [matMenuTriggerFor]="statementMenu"
-    (click)="panelOpenState = true"
-  >
-    <mat-icon >more_vert</mat-icon>
-  </button>
-  <mat-menu #statementMenu="matMenu">
-    <button mat-menu-item (click)="openEditStatementDialog(i)">Aussage bearbeiten</button>
-    <button mat-menu-item (click)="openDeleteStatementDialog(i)">Aussage löschen</button>
-  </mat-menu>
-    <mat-card class="event-info">
-      <button 
+    <button
       mat-icon-button
-      class="pin-right-upper-corner"
-      (click)="openEditEventDialog(getEventById(statement.event))"
-      >
-      <!-- [matMenuTriggerFor]="eventMenu" -->
-      <mat-icon >edit</mat-icon>
+      class="pin-right-corner-t48"
+      [matMenuTriggerFor]="statementMenu"
+      (click)="panelOpenState = true"
+    >
+      <mat-icon>more_vert</mat-icon>
     </button>
-    <mat-menu #eventMenu="matMenu">
-      <!-- <button mat-menu-item (click)="openEditDialog()">Ereignis bearbeiten</button> -->
-      <!-- <button mat-menu-item (click)="openDeleteDialog()">Aussage löschen</button> -->
+    <mat-menu #statementMenu="matMenu">
+      <button mat-menu-item (click)="openEditStatementDialog(i)">
+        Aussage bearbeiten
+      </button>
+      <button mat-menu-item (click)="openDeleteStatementDialog(i)">
+        Aussage löschen
+      </button>
     </mat-menu>
+    <mat-card class="event-info">
+      <button
+        mat-icon-button
+        class="pin-right-upper-corner"
+        (click)="stopEvent($event)"
+        [matMenuTriggerFor]="eventMenu"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #eventMenu="matMenu">
+        <button mat-menu-item (click)="openEditEventDialog(getEventById(statement.event))">Ereignis bearbeiten</button>
+        <button mat-menu-item (click)="openDeleteEventDialog(getEventById(statement.event))">
+          Ereignis löschen
+        </button>
+        <button mat-menu-item>
+          <a class="routerLink" [routerLink]="['/events/' + getEventById(statement.event).docId]" routerLinkActive="active">mehr Infos</a>
+        </button>
+      </mat-menu>
       <div>
         <p>
           {{ getEventById(statement.event).date }}
@@ -92,13 +102,13 @@
     </mat-card>
 
     <mat-form-field class="full-width mt-32">
-      <mat-label>Aussage selbst</mat-label>
+      <mat-label>Aussage</mat-label>
       <textarea
         rows="5"
         [disabled]="checked"
         matInput
         [(ngModel)]="statement.comment"
-        placeholder="Aussage selbst"
+        placeholder="Aussage hier eingeben..."
       >
    {{ statement.comment }}</textarea
       >
@@ -115,33 +125,27 @@
       </mat-slide-toggle>
     </section>
 
-    <p>Querverweise</p>
-    <button mat-button [matMenuTriggerFor]="aboveMenu">Above</button>
-    <mat-menu #aboveMenu="matMenu" yPosition="above">
-      <button mat-menu-item>Item 1</button>
-      <button mat-menu-item>Item 2</button>
+    <p>Querverweise Demo</p>
+    <button mat-button [matMenuTriggerFor]="firstMenu">weitere Beteiligte</button>
+    <mat-menu #firstMenu="matMenu" yPosition="above">
+      <button *ngFor="let wit of getEventById(statement.event).witnesses"
+      mat-menu-item>    
+              <a>{{ getWitnessById(wit).name }} </a>
+      </button>
     </mat-menu>
-
-    <button mat-button [matMenuTriggerFor]="belowMenu">Below</button>
-    <mat-menu #belowMenu="matMenu" yPosition="below">
-      <button mat-menu-item>Item 1</button>
-      <button mat-menu-item>Item 2</button>
+    <button mat-button [matMenuTriggerFor]="secondMenu">Beweise</button>
+    <mat-menu #secondMenu="matMenu" yPosition="above">
+      <button mat-menu-item>Beweis 1 </button>
+      <button mat-menu-item>Beweis 2 </button>
     </mat-menu>
-
-    <button mat-button [matMenuTriggerFor]="beforeMenu">Before</button>
-    <mat-menu #beforeMenu="matMenu" xPosition="before">
-      <button mat-menu-item>Item 1</button>
-      <button mat-menu-item>Item 2</button>
-    </mat-menu>
-
-    <button mat-button [matMenuTriggerFor]="afterMenu">After</button>
-    <mat-menu #afterMenu="matMenu" xPosition="after">
-      <button mat-menu-item>Item 1</button>
-      <button mat-menu-item>Item 2</button>
+    <button mat-button [matMenuTriggerFor]="thirdMenu">Verbindungen zu anderen Fällen</button>
+    <mat-menu #thirdMenu="matMenu" yPosition="above">
+      <button mat-menu-item>Fall 1 </button>
+      <button mat-menu-item>Fall 2 </button>
     </mat-menu>
   </mat-expansion-panel>
   }@empty {
-  <li>There are no items.</li>
+  <li>Keine Aussagen vorhanden</li>
   }
 </mat-accordion>
 

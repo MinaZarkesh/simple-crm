@@ -27,13 +27,13 @@
         
           <td class="table-phone">{{ witness.phone }}</td>
           <td class="table-button">
-            <button (click)="stopEvent($event)" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <button (click)="stopEvent($event)" mat-icon-button [matMenuTriggerFor]="menu">
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <a mat-menu-item href="tel:{{ witness.phone }}">call</a>
+              <a mat-menu-item href="tel:{{ witness.phone }}">anrufen</a>
               <button mat-menu-item>
-                <span  [routerLink]="['/witnesses/' + witness.docId]" >more Details</span>
+                <span  [routerLink]="['/witnesses/' + witness.docId]" >mehr Infos</span>
               </button>
             </mat-menu>
           </td>

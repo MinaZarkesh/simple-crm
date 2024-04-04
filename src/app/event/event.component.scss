@@ -1,4 +1,3 @@
-
 :root {
   --primary-color: #4000ff;
 }
@@ -8,6 +7,11 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "poppins", sans-serif;
+}
+
+mat-menu-item {
+  padding-left: var(--mat-menu-item-leading-spacing);
+  padding-right: var(--mat-menu-item-trailing-spacing);
 }
 
 .add-event-btn {
@@ -34,10 +38,40 @@ h1 {
   }
 }
 
-table {
+h1 {
+  font-size: 2rem;
+  margin-block-start: 0.67rem;
+  margin-block-end: 0.67rem;
+  @media screen and (max-width: 767px) {
+    font-size: 1.5rem;
+    margin-block-start: 0.5rem;
+    margin-block-end: 0.5rem;
+  }
+}
+
+mat-card-content {
+  padding-left: 0;
+  padding-right: 0;
   width: 100%;
+  overflow: auto;
+}
+
+.add-witness-btn {
+  position: sticky;
+  margin: 16px;
+  // top: 56px;
+  bottom: 16px;
+  left: 100%;
+  z-index: 2;
+}
+
+.table {
+  min-width: 400px;
+  width: 100%;
+  z-index: 1;
   border-collapse: collapse;
   tr {
+    position: relative;
     border-bottom: 1px solid rgba($color: #000000, $alpha: 0.4);
     &:first-child {
       cursor: unset;
@@ -47,16 +81,35 @@ table {
     }
     &:last-child {
       border-bottom: 0;
+      padding-right: 16px;
+      width: fit-content;
     }
-
     cursor: pointer;
 
     td,
     th {
       height: 48px;
+      max-width: 120px;
+      padding-right: 8px;
       &:first-child {
         padding-left: 16px;
+        @media screen and (max-width: 767px) {
+          padding-left: 8px;
+          min-height: 48px;
+          max-width: 80px;
+        }
       }
+      @media screen and (max-width: 767px) {
+        padding-left: 8px;
+        max-width: 72px;
+      }
+    }
+
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 2;
     }
 
     &:hover {
@@ -72,7 +125,30 @@ table {
   }
 }
 
+.table-phone {
+  display: table-cell;
+  width: fit-content;
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
 
+.table-address {
+  display: table-cell;
+  width: fit-content;
+  @media (max-width: 599px) {
+    display: none;
+  }
+}
+
+.table-button {
+  display: table-cell;
+  min-width: 48px;
+}
+
+.mat-mdc-card-content:first-child {
+  padding-top: 0px;
+}
 
 .mat-tab-group {
   margin-bottom: 48px;
@@ -250,7 +326,7 @@ mark {
 
 .mat-mdc-card-content:first-child {
   padding-top: 0px;
-  }
+}
 
 mat-icon {
   font-family: "Material Icons";

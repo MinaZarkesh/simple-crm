@@ -40,8 +40,9 @@ import { firebaseService } from '../../firebase-services/firebase.service';
 import { DialogDeleteStatementComponent } from '../../statement/dialogs/dialog-delete-statement/dialog-delete-statement.component';
 import { DialogEditStatementComponent } from '../../statement/dialogs/dialog-edit-statement/dialog-edit-statement.component';
 import { DialogEditEventComponent } from '../../event/dialogs/dialog-edit-event/dialog-edit-event.component';
+import { DialogDeleteEventComponent } from '../../event/dialogs/dialog-delete-event/dialog-delete-event.component';
 import { ActivatedRoute } from '@angular/router';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-witness-detail',
   standalone: true,
@@ -67,6 +68,7 @@ import { ActivatedRoute } from '@angular/router';
     MatRadioModule,
     MatSlideToggleModule,
     MatCheckboxModule,
+    RouterLink,
   ],
   templateUrl: './witness-detail.component.html',
   styleUrl: './witness-detail.component.scss',
@@ -275,6 +277,12 @@ export class WitnessDetailComponent implements OnInit {
     console.log('Init: currentEvent: ', this.currentEvent);
 
     // console.log("Init: currentEventWitnessList: ", this.getWitnessListbyStatementId('statement_id1'))
+  }
+  
+
+  stopEvent(e: { stopPropagation: () => void; preventDefault: () => void }) {
+    e.stopPropagation();
+    e.preventDefault();
   }
 
   getWitnessesList(): Witness[] {
@@ -518,6 +526,14 @@ export class WitnessDetailComponent implements OnInit {
     if (event.docId != undefined) {
       dialog.componentInstance.eventId = event.docId;
       dialog.componentInstance.eventWitnessesIdList = event.witnesses;
+    }
+  }
+
+  openDeleteEventDialog(event: Event) {
+    const dialog = this.dialog.open(DialogDeleteEventComponent);
+    dialog.componentInstance.event = new Event(event);
+    if (event.docId != undefined) {
+      dialog.componentInstance.eventId = event.docId;
     }
   }
 

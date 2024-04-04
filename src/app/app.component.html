@@ -1,16 +1,18 @@
 <mat-drawer-container class="mat-drawer-container" autosize>
   <mat-drawer #drawer class="sidenav" [opened]="false" mode="side">
-    <div class="logo-container">PLATZ FÜR LOGO</div>
+    <div class="logo-container">Simple CRM</div>
     <ul class="menu-items">
-      <a [routerLink]="[ '/dashboard' ]" routerLinkActive="active">
-        <mat-icon>fact_check</mat-icon> Dashboard
-      </a>
       <a class="routerLink" [routerLink]="[ '/witnesses' ]" routerLinkActive="active">
         <mat-icon>group</mat-icon> Zeugen
       </a>
       <a class="routerLink" [routerLink]="[ '/events' ]" routerLinkActive="active">
-        
         <mat-icon>my_location</mat-icon> Ereignisse
+      </a>
+      <!-- <a [routerLink]="[ '/dashboard' ]" routerLinkActive="active">
+        <mat-icon>help_outline</mat-icon> Hilfe
+      </a> -->
+      <a href="https://www.mina-zarkesh.de" class="routerLink">
+        <mat-icon>web</mat-icon> Portfolio
       </a>
     </ul>
     <!-- @if (showFiller) {
@@ -25,7 +27,7 @@
     <mat-toolbar color="primary">
       <mat-toolbar-row>
         <mat-icon class="menu-icon" (click)="drawer.toggle()">menu</mat-icon>
-        <span class="header-name">Investigation Center Management</span>
+        <span class="header-name">Simple CRM Demoversion Polizei</span>
       </mat-toolbar-row>
     </mat-toolbar>
 

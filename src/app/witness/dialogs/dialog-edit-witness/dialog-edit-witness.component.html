@@ -39,7 +39,7 @@
     </div>
     <div>
       <mat-form-field>
-        <mat-label>Select an option</mat-label>
+        <mat-label>Wähle eine Rolle</mat-label>
         <mat-select [(value)]="selected">
           @for (role of roles; track role) {
           <mat-option [value]="role.value">{{ role.viewValue }}</mat-option>
@@ -49,7 +49,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button (click)="this.dialogRef.close()">Cancel</button>
+    <button mat-button (click)="this.dialogRef.close()">Abbrechen</button>
     <button
       [disabled]="loading"
       id="save"
@@ -57,7 +57,7 @@
       (click)="saveEdits()"
       cdkFocusInitial
     >
-      Save
+      Speichern
     </button>
   </mat-dialog-actions>
 </div>
