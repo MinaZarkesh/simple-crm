@@ -1,7 +1,19 @@
+
+:root {
+  --primary-color: #4000ff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "poppins", sans-serif;
+}
+
 .add-event-btn {
   position: sticky;
   margin: 16px;
-  bottom: 0px;
+  bottom: 16px;
   left: 100%;
   z-index: 2;
 }
@@ -9,6 +21,17 @@
 mat-card-content {
   padding-left: 8px;
   padding-right: 8px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-block-start: 0.67rem;
+  margin-block-end: 0.67rem;
+  @media screen and (max-width: 767px) {
+    font-size: 1.5rem;
+    margin-block-start: 0.5rem;
+    margin-block-end: 0.5rem;
+  }
 }
 
 table {
@@ -56,18 +79,6 @@ table {
 }
 .example-card {
   max-width: 400px;
-}
-
-:root {
-  --primary-color: #4000ff;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-
-  box-sizing: border-box;
-  font-family: "poppins", sans-serif;
 }
 
 .hints {
@@ -236,6 +247,10 @@ mark {
 
   font-size: 1rem;
 }
+
+.mat-mdc-card-content:first-child {
+  padding-top: 0px;
+  }
 
 mat-icon {
   font-family: "Material Icons";

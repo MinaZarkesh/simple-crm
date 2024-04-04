@@ -24,6 +24,10 @@ body {
   margin-top: 16px;
 }
 
+.mb-16 {
+  margin-bottom: 16px;
+}
+
 .mb-32 {
   margin-bottom: 32px;
 }
@@ -49,6 +53,4 @@ app-witness{
   display: flex;
   flex-direction: column;
   position: relative;
-  // margin-bottom: 56px;
-  // height: calc(100% + 56px);
 }

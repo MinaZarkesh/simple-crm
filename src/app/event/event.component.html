@@ -10,7 +10,7 @@
   </tr>
   <tr
     *ngFor="let ev of this.fireService.events"
-     [routerLink]="['/events/' + event.docId]" routerLinkActive="active"
+     [routerLink]="['/events/' + ev.docId]" routerLinkActive="active"
   >
     <td>{{ ev.date }}</td>
     <td>{{ ev.time }}</td>
